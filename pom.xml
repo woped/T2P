@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.0.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>de.dhbw</groupId>
+	<artifactId>WoPeD-Text2Process</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>WoPeD-Text2Process</name>
+	<description>project to perform nlp text to process translation</description>
+
+	<properties>
+		<java.version>11</java.version>
+		<stanford.version>3.9.2</stanford.version>
+		<framenet.version>1.0.0</framenet.version>
+		<dom4j.version>2.1.1</dom4j.version>
+		<jaxen.version>1.1.6</jaxen.version>
+		<jaxmeapi.version>0.5.2</jaxmeapi.version>
+		<jwi.version>2.2.3</jwi.version>
+		<xpp3.version>1.1.4c</xpp3.version>
+		<pullparser.version>2.1.10</pullparser.version>
+		<msv.version>2013.6.1</msv.version>
+		<junit.version>4.13</junit.version>
+		<gson.version>2.8.6</gson.version>
+		<apache.commons.version>3.10</apache.commons.version>
+	</properties>
+
+	<dependencies>
+		<!-- SpringBoot-DEPENDENCIES -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- NLP-DEPENDENCIES -->
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>${stanford.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>${stanford.version}</version>
+			<classifier>models</classifier>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>${stanford.version}</version>
+			<classifier>models-german</classifier>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commons.version}</version>
+		</dependency>
+
+		<!-- XML-FRAMEWORKS -->
+		<dependency>
+			<groupId>org.dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>${jaxen.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.jaxme</groupId>
+			<artifactId>jaxmeapi</artifactId>
+			<version>${jaxmeapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>xpp3</groupId>
+			<artifactId>xpp3</artifactId>
+			<version>${xpp3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>pull-parser</groupId>
+			<artifactId>pull-parser</artifactId>
+			<version>${pullparser.version}</version>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>net.java.dev.msv</groupId>
+			<artifactId>msv-core</artifactId>
+			<version>${msv.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.msv</groupId>
+			<artifactId>xsdlib</artifactId>
+			<version>${msv.version}</version>
+		</dependency>
+		-->
+		<!-- JSON -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<!-- TEST DEPENDENCIES -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
