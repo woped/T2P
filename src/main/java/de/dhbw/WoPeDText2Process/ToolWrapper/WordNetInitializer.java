@@ -16,8 +16,7 @@ public class WordNetInitializer {
 
     // Initialize log4j to log information into the console
     Logger logger = LoggerFactory.getLogger(WordNetInitializer.class);
-    //wordnet source directory
-    private File wnDir;
+
     //wordnet initializer instance
     private static WordNetInitializer wni;
     //dictionary instance
@@ -35,7 +34,9 @@ public class WordNetInitializer {
         URL wordNetUrl = WordNetInitializer.class.getResource("/NLPTools/WordNet/dict/");
         logger.debug("Reading WordNet Path as: " + wordNetUrl.getPath());
 
-        dict = new RAMDictionary (wordNetUrl , ILoadPolicy.NO_LOAD );
+        logger.info("Loading Wordnet into memory ... ");
+        dict = new RAMDictionary (wordNetUrl , ILoadPolicy.IMMEDIATE_LOAD );
+
     }
 
     /**
@@ -75,16 +76,13 @@ public class WordNetInitializer {
 
             long t = System.currentTimeMillis();
             //loading into memory
-            logger.info("Loading Wordnet into memory ... ");
-            dict.load(true);
+
+            //dict.load(true);
             logger.info("done (" + (System.currentTimeMillis() - t) + " msec )");
 
         } catch (IOException ioe) {
             logger.error("Exception occured while opening the dictionary: ");
             ioe.printStackTrace();
-        } catch (InterruptedException ire) {
-            logger.error("Exception occured while loading the dictionary: ");
-            ire.printStackTrace();
         }
     }
 }

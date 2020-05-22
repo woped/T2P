@@ -27,7 +27,7 @@ public class PetrinetBuilder {
     private PetriNet petriNet;
 
     public PetrinetBuilder(WorldModel processWM) {
-        logger.debug("Contructor called with processWM as input");
+        logger.debug("Constructor called with processWM as input");
         this.processWM = processWM;
         logger.debug("Instantiating a new PetriNet object");
         petriNet= new PetriNet();
