@@ -18,9 +18,12 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElementsBuilder {
 
+	static Logger logger = LoggerFactory.getLogger(ElementsBuilder.class);
     /**
      * Creates an Actor object out of the extracted subject
      * @param f_root Tree structure of the whole sentence with the root node included
@@ -31,10 +34,14 @@ public class ElementsBuilder {
      * @return created Actor _a
      */
 	public static Actor createActor(Tree f_root, T2PSentence origin, List<Tree> fullSentence, IndexedWord determinedActor, Collection<TypedDependency> dependencies) {
+		logger.info("Creating an actor for: " + determinedActor.value());
 		Actor _a = null;
+		logger.debug("");
 		Tree node = fullSentence.get(determinedActor.index()-1);
+		logger.debug("Extract the noun and its dependecies");
 		String _fullNoun = getFullNoun(determinedActor, dependencies);
 		WordNetFunctionality wnf = new WordNetFunctionality();
+		logger.debug("Check whether noun is a person or a system ...");
 		if(!wnf.canBePersonOrSystem(_fullNoun, node.value().toLowerCase())) {
 			//try to extract the real actor here?
 			if(node.parent(f_root).value().equals("CD") || wnf.canBeGroupAction(node.value())) { //one of the physicians
@@ -55,6 +62,7 @@ public class ElementsBuilder {
 				_a.setUnreal(true);
 			}
 		}else {
+			logger.debug("Noun represents a person or system, start creating an internal Actor");
 			_a = createActorInternal(f_root, origin, fullSentence, determinedActor, dependencies);
 		}
 		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified actor: "+_a);
@@ -72,8 +80,11 @@ public class ElementsBuilder {
      */
 	private static Actor createActorInternal(Tree f_root, T2PSentence origin, List<Tree> fullSentence, IndexedWord determinedActor,
 			Collection<TypedDependency> dependencies) {
+		logger.info("Creating an actor for: " + determinedActor.value());
 		Actor _a = new Actor(origin,determinedActor.index(),determinedActor.value().toLowerCase());
+		logger.debug("Instantiate WordNetFunctionality ...");
 		WordNetFunctionality wnf = new WordNetFunctionality();
+		logger.debug("Determine noun specifiers ...");
 		determineNounSpecifiers(f_root, origin, fullSentence, determinedActor, dependencies, _a);
 		if(wnf.isMetaActor(getFullNoun(determinedActor, dependencies),determinedActor.value())) {
 			_a.setMetaActor(true);

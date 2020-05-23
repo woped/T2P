@@ -13,9 +13,12 @@ import de.dhbw.WoPeDText2Process.worldModel.*;
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AnalyzedSentence {
-		
+
+	Logger logger = LoggerFactory.getLogger(AnalyzedSentence.class);
 	private T2PSentence f_sentence;
 	private int f_sentenceNumber;
 	

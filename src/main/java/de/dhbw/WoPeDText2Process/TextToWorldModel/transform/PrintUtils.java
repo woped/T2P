@@ -18,7 +18,7 @@ import edu.stanford.nlp.trees.Tree;
 public class PrintUtils {
 	
 	/**
-	 * @param nods
+	 * @param nodes
 	 * @return
 	 */
 	public static String toString(List<Tree> nodes) {

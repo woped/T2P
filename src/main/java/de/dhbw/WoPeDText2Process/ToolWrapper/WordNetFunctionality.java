@@ -21,7 +21,9 @@ public class WordNetFunctionality {
     private WordNetInitializer wni;
 
     public WordNetFunctionality (){
+        logger.debug("Instantiate WordNetInitializer as wni ...");
         wni = WordNetInitializer.getInstance();
+        logger.debug("Fill dict variable from wni.");
         dict = wni.getDict();
     }
 
