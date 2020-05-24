@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpHeaders;
 
 @RestController()
 public class T2PController {
@@ -44,8 +46,8 @@ public class T2PController {
      * @return A generic Response Object with the PNML-String in the response attribute.
      */
     @PostMapping(value = "/generatePNML", consumes = "application/json", produces = "application/json")
-    public String generatePetriNetFromText(@RequestBody String param, HttpServletRequest request) {
-
+    public String generatePetriNetFromText(@RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_OK);
         Response<String> pnmlResponse;
         logger.info("Trying to generate a PetriNet with the given String parameter");
         try {
@@ -57,19 +59,19 @@ public class T2PController {
         } catch (InvalidInputException e) {
             logger.error("The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");
             logger.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             pnmlResponse = new Response<String>(true, e.getCause(), e.getMessage(), e.getStackTrace());
         } catch (PetrinetGenerationException e) {
             logger.error("The PetriNet was not properly built. Please contact the development department. <a href=mailto:woped-service@dhbw-karlsruhe.de>WoPeD-Service<a>");
             logger.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
             pnmlResponse = new Response<String>(true, e.getCause(), e.getMessage(), e.getStackTrace());
         } catch (Exception e){
             logger.error("An unexpected error interrupted the process. Exception information is given to the return json");
             logger.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             pnmlResponse = new Response<String>(true, e.getCause(), e.getMessage(), e.getStackTrace());
-        } finally {
-            logger.info("Resetting the NLP-Tools ...");
-            //t2PControllerHelper.resetNLPTools();
         }
 
         logger.info("Returning the Response-Object");
