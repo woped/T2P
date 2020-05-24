@@ -1,10 +1,10 @@
 package de.dhbw.WoPeDText2Process.UTWorldModelToPetriNet;
 
 import de.dhbw.WoPeDText2Process.T2PUnitTest;
-import de.dhbw.WoPeDText2Process.petrinet.PetriNet;
+import de.dhbw.WoPeDText2Process.models.petrinet.PetriNet;
 import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
-import de.dhbw.WoPeDText2Process.petrinet.Place;
-import de.dhbw.WoPeDText2Process.petrinet.Transition;
+import de.dhbw.WoPeDText2Process.models.petrinet.Place;
+import de.dhbw.WoPeDText2Process.models.petrinet.Transition;
 import org.junit.Test;
 
 import java.util.Iterator;

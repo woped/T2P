@@ -1,7 +1,7 @@
 package de.dhbw.WoPeDText2Process.UTWorldModelToPetriNet;
 
-import de.dhbw.WoPeDText2Process.TextToWorldModel.WorldModelBuilder;
-import de.dhbw.WoPeDText2Process.petrinet.processors.PetrinetBuilder;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.WorldModelBuilder;
+import de.dhbw.WoPeDText2Process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
 
 public class PetrinetBuilderTest {

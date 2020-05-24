@@ -1,7 +1,7 @@
 package de.dhbw.WoPeDText2Process.UTToolwrapper;
 
-import de.dhbw.WoPeDText2Process.ToolWrapper.FrameNetFunctionality;
-import de.dhbw.WoPeDText2Process.ToolWrapper.FrameNetInitializer;
+import de.dhbw.WoPeDText2Process.wrapper.FrameNetFunctionality;
+import de.dhbw.WoPeDText2Process.wrapper.FrameNetInitializer;
 import org.junit.Test;
 
 import java.io.IOException;

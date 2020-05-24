@@ -1,12 +1,12 @@
 package de.dhbw.WoPeDText2Process;
 
-import de.dhbw.WoPeDText2Process.TextToWorldModel.WorldModelBuilder;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.WoPeDText2Process.helper.T2PControllerHelper;
-import de.dhbw.WoPeDText2Process.petrinet.*;
+import de.dhbw.WoPeDText2Process.models.petrinet.*;
 import de.dhbw.WoPeDText2Process.exceptions.InvalidInputException;
 import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
-import de.dhbw.WoPeDText2Process.petrinet.processors.PetrinetBuilder;
-import de.dhbw.WoPeDText2Process.worldModel.WorldModel;
+import de.dhbw.WoPeDText2Process.processors.petrinet.PetrinetBuilder;
+import de.dhbw.WoPeDText2Process.models.worldModel.WorldModel;
 import org.junit.Test;
 import org.w3c.dom.NodeList;
 

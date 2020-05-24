@@ -1,6 +1,6 @@
 package de.dhbw.WoPeDText2Process.nlpTest;
 
-import de.dhbw.WoPeDText2Process.ToolWrapper.WordNetInitializer;
+import de.dhbw.WoPeDText2Process.wrapper.WordNetInitializer;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.IRAMDictionary;
@@ -13,7 +13,6 @@ import edu.mit.jwi.item.POS;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;

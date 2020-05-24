@@ -1,8 +1,8 @@
 package de.dhbw.WoPeDText2Process.UTWorldModelToPetriNet;
 
 import de.dhbw.WoPeDText2Process.T2PUnitTest;
-import de.dhbw.WoPeDText2Process.petrinet.processors.IDHandler;
-import de.dhbw.WoPeDText2Process.petrinet.Transition;
+import de.dhbw.WoPeDText2Process.processors.petrinet.IDHandler;
+import de.dhbw.WoPeDText2Process.models.petrinet.Transition;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

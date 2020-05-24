@@ -1,9 +1,9 @@
 package de.dhbw.WoPeDText2Process;
 
-import de.dhbw.WoPeDText2Process.TextToWorldModel.WorldModelBuilder;
-import de.dhbw.WoPeDText2Process.petrinet.processors.PetrinetBuilder;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.WorldModelBuilder;
+import de.dhbw.WoPeDText2Process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
-import de.dhbw.WoPeDText2Process.worldModel.WorldModel;
+import de.dhbw.WoPeDText2Process.models.worldModel.WorldModel;
 import org.junit.Test;
 
 import javax.xml.transform.stream.StreamSource;

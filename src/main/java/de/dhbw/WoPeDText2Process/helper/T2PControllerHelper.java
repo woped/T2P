@@ -1,7 +1,7 @@
 package de.dhbw.WoPeDText2Process.helper;
 
-import de.dhbw.WoPeDText2Process.TextToWorldModel.WorldModelBuilder;
-import de.dhbw.WoPeDText2Process.petrinet.processors.PetrinetBuilder;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.WorldModelBuilder;
+import de.dhbw.WoPeDText2Process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.WoPeDText2Process.exceptions.InvalidInputException;
 import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
 import org.slf4j.Logger;

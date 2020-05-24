@@ -2,14 +2,6 @@ package de.dhbw.WoPeDText2Process.UTToolwrapper;
 
 import static org.junit.Assert.assertEquals;
 
-import de.dhbw.WoPeDText2Process.ToolWrapper.StanfordParserFunctionality;
-import de.dhbw.WoPeDText2Process.ToolWrapper.StanfordParserInitializer;
-import de.dhbw.WoPeDText2Process.worldModel.Text;
-import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
-import edu.stanford.nlp.process.DocumentPreprocessor;
-import edu.stanford.nlp.trees.GrammaticalStructure;
-import edu.stanford.nlp.trees.GrammaticalStructureFactory;
-import edu.stanford.nlp.trees.TreebankLanguagePack;
 import org.junit.Test;
 
 public class UTStanfordParser {
