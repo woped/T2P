@@ -47,8 +47,9 @@ public class T2PController {
      */
     @PostMapping(value = "/generatePNML", consumes = "application/json", produces = "application/json")
     public String generatePetriNetFromText(@RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_OK);
+
         Response<String> pnmlResponse;
+
         logger.info("Trying to generate a PetriNet with the given String parameter");
         try {
             logger.info("Validating the String information, scanning for incompatible characters");
@@ -74,7 +75,8 @@ public class T2PController {
             pnmlResponse = new Response<String>(true, e.getCause(), e.getMessage(), e.getStackTrace());
         }
 
-        logger.info("Returning the Response-Object");
+        response.setStatus(HttpServletResponse.SC_OK);
+        logger.info("Returning the pnmlString");
         return pnmlResponse.getResponse();
     }
 
