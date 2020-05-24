@@ -15,6 +15,8 @@ import edu.stanford.nlp.ling.IndexedWord;
 
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -23,7 +25,7 @@ import edu.stanford.nlp.trees.TypedDependency;
  */
 public class SearchUtils {
 	
-
+	static Logger logger = LoggerFactory.getLogger(SearchUtils.class);
 	/**
 	 * 
 	 * Counts how many of the children Trees given in the list match one of the provided terms
@@ -98,11 +100,14 @@ public class SearchUtils {
 	 */
 	public static List<TypedDependency> findDependency(List<String> relNames,
 			Collection<TypedDependency> dependencies) {
-		List<TypedDependency> _result = new ArrayList<TypedDependency>();
-		for(String rn: relNames) {
-			_result.addAll(findDependency(rn, dependencies));
+		logger.debug("Instantiate typedDependencies as ArrayList");
+		List<TypedDependency> typedDependencies = new ArrayList<TypedDependency>();
+		logger.debug("Iterating over relNames");
+		for(String relName: relNames) {
+			logger.debug("\tFind typedDependencies by relName " + relName + " in dependencies parameter");
+			typedDependencies.addAll(findDependency(relName, dependencies));
 		}
-		return _result;
+		return typedDependencies;
 	}
 
 	

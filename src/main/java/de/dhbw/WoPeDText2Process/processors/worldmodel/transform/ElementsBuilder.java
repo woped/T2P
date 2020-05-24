@@ -86,9 +86,12 @@ public class ElementsBuilder {
 		WordNetFunctionality wnf = new WordNetFunctionality();
 		logger.debug("Determine noun specifiers ...");
 		determineNounSpecifiers(f_root, origin, fullSentence, determinedActor, dependencies, _a);
+		logger.debug("whether it is a meta actor or not ...");
 		if(wnf.isMetaActor(getFullNoun(determinedActor, dependencies),determinedActor.value())) {
+			logger.debug("Set metaActor attribute on Actor instance = true");
 			_a.setMetaActor(true);
-		}	
+		}
+		logger.debug("Returning internal actor: " + _a);
 		return _a;
 	}
 
@@ -103,62 +106,109 @@ public class ElementsBuilder {
      * @return created Action _result
      */
 	public static Action createAction(T2PSentence origin, List<Tree> fullSentence, Tree node, Collection<TypedDependency> dependencies, boolean active, Tree f_root) {
-	    CoreLabel VerbLabel = (CoreLabel) node.label();
-	    node.setValue(VerbLabel.lemma());
-	    Action _result = new Action(origin,VerbLabel.index(),node.value());
-		//search for an auxiliary verb
-		String _aux = getAuxiliaries(node, dependencies);
-		if(_aux.length() > 0)
-			_result.setAux(_aux);
-		IndexedWord _mod = getModifiers(node, dependencies);
-		if(_mod != null) {
-			_result.setMod(_mod.value());
-			_result.setModPos(_mod.index());			
+	    logger.info("Creating an BPMN action object ...");
+	    logger.debug("Instantiating a CoreLabel for the verb");
+		CoreLabel verbLabel = (CoreLabel) node.label();
+		logger.debug("Setting the node value for the verb lemma");
+	    node.setValue(verbLabel.lemma());
+	    logger.debug("Instantiating an action object ...");
+	    Action result = new Action(origin,verbLabel.index(),node.value());
+
+		logger.debug("Searching for an auxiliary verb ...");
+		String auxiliaries = getAuxiliaries(node, dependencies);
+
+		logger.debug("Check if auxiliary verbs are found");
+		if(auxiliaries.length() > 0) {
+			logger.debug("\t-> true: Setting auxiliaries on result action");
+			result.setAux(auxiliaries);
 		}
-		_result.setNegated(isNegated(node,dependencies));	
-		IndexedWord _cop = getCop(node, dependencies);
-		if(_cop != null) {
-			_result.setCop(_cop.value(),_cop.index());
-		}	
-		String _prt = getPrt(node, dependencies);
-		if(_prt.length() > 0) {
-			_result.setPrt(_prt);
-		}	
-		IndexedWord _iobj = getIObj(node, dependencies);
-		if(_iobj != null) {
-            Tree _iobjNode = fullSentence.get(_iobj.index()-1);
-			Specifier _sp = new Specifier(origin,_iobj.index(),PrintUtils.toString(_iobjNode.getLeaves()));
-			_sp.setSpecifierType(SpecifierType.IOBJ);
-			_result.addSpecifiers(_sp);
-		}	
+
+		logger.debug("Instantiating an IndexedWord object for modifiers");
+		IndexedWord modifiers = getModifiers(node, dependencies);
+		logger.debug("Check if modifiers are not null");
+		if(modifiers != null) {
+			logger.debug("\t-> true: Setting modifiers on result action");
+			result.setMod(modifiers.value());
+			result.setModPos(modifiers.index());
+		}
+
+		logger.debug("Setting negated state on result action");
+		result.setNegated(isNegated(node,dependencies));
+
+		logger.debug("Instantiating IndexedWord for cop");
+		IndexedWord cop = getCop(node, dependencies);
+		logger.debug("Checking if cop is not null");
+		if(cop != null) {
+			logger.debug("\t-> true: Setting cop on result action");
+			result.setCop(cop.value(),cop.index());
+		}
+
+		logger.debug("Instantiating a string for prt");
+		String prt = getPrt(node, dependencies);
+		logger.debug("Checking if prt string is longer than 0");
+		if(prt.length() > 0) {
+			logger.debug("\t-> true: Setting prt on result action");
+			result.setPrt(prt);
+		}
+
+		logger.debug("Instantiating a IndexedWord object for indexObjects");
+		IndexedWord iObj = getIObj(node, dependencies);
+		logger.debug("Checking if iObj is not null");
+		if(iObj != null) {
+			logger.debug("\t-> true: Instantiating a Tree object and filling it with information from fullSentence");
+            Tree iobjNode = fullSentence.get(iObj.index()-1);
+            logger.debug("\tInstatiating a Specifier object based on origin, iObj and iobjNodes leaves");
+			Specifier specifier = new Specifier(origin, iObj.index(), PrintUtils.toString(iobjNode.getLeaves()));
+			logger.debug("\tSetting specifier type to IOBJ");
+			specifier.setSpecifierType(SpecifierType.IOBJ);
+			logger.debug("\tAdding specifier to result action");
+			result.addSpecifiers(specifier);
+		}
+
+		logger.debug("Checking if active parameter is false");
 		if(!active) {
-			checkDobj(node,dependencies,_result,origin,fullSentence);
+			logger.debug("\t-> true: calling checkDobj(node, dependencies, result, origin, fullSentence)");
+			checkDobj(node, dependencies, result, origin, fullSentence);
 		}
-		//search for xcomp		
-		List<TypedDependency> _toCheck = SearchUtils.findDependency(ListUtils.getList("xcomp","dep"),dependencies);
-		for(TypedDependency td:_toCheck) {
-			if(td.gov().equals(node)) {
-				Tree _xcompNode = null;
-				if(td.reln().getShortName().equals("dep")) {
+
+		logger.debug("Instantiating a list object and filling it with TypedDependency");
+		List<TypedDependency> typedDependencies = SearchUtils.findDependency(ListUtils.getList("xcomp","dep"), dependencies);
+		// TODO: typedDependencies are empty, loop does not do anything.
+		logger.debug("Iterating over the typedDependencies");
+		for(TypedDependency typedDependency:typedDependencies) {
+			logger.debug("\tFound typedDependency: " + typedDependencies.toString());
+			logger.debug("\tCheck if the typedDependency.gov() equals the node parameter");
+			if(typedDependency.gov().equals(node)) {
+				logger.debug("\t\t-> true: Intantiating a Tree object for a xcompNode");
+				Tree xcompNode = null;
+				logger.debug("\t\tCheck if ()");
+				if(typedDependency.reln().getShortName().equals("dep")) {
+					logger.debug("\t\t\t-> true: extracting xcompNode from fullSentence parameter");
 					//only consider verbs and forwards dependencies
-					_xcompNode = fullSentence.get(td.dep().index()-1);
-					if(!_xcompNode.parent(f_root).value().startsWith("V") || (td.dep().index()<td.gov().index())) {
+					xcompNode = fullSentence.get(typedDependency.dep().index()-1);
+					logger.debug("\t\t\tCheck if the parent entry does not start with the character V or the typedDependenxy dep index is smaller than the gov index");
+					if(!xcompNode.parent(f_root).value().startsWith("V") || (typedDependency.dep().index()<typedDependency.gov().index())) {
+						logger.debug("\t\t\t\t-> true: continue with next typedDependency");
 						continue;
 					}
 				}
-					Action _xcomp = createAction(origin, fullSentence, _xcompNode, dependencies, true, f_root);
-					_result.setXcomp(_xcomp);
+				logger.debug("\tInstantiate a new action object for the xcomp using origin, fullSentence, xcompNode, dependencies, true, f_root");
+				Action xcomp = createAction(origin, fullSentence, xcompNode, dependencies, true, f_root);
+				logger.debug("\tSetting the xcomp on the result action");
+				result.setXcomp(xcomp);
+				logger.debug("\tLeaving the loop over the typedDependencies, now");
 				break;
 			}
 		}
+
 		//extracting further information and specifiers
-		Tree _vpHead = SearchUtils.getFullPhraseTree("VP", node, f_root);
-		extractSBARSpecifier(origin, fullSentence, _result, _vpHead,node);
-		extractPPSpecifier(origin, fullSentence, _result, node, dependencies, f_root);
-		extractRCMODSpecifier(origin, _result, node, dependencies, fullSentence, f_root);
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
-		_result.setBaseForm(node.value());
-		return _result;
+		Tree fullPhraseTree = SearchUtils.getFullPhraseTree("VP", node, f_root);
+		extractSBARSpecifier(origin, fullSentence, result, fullPhraseTree,node);
+		extractPPSpecifier(origin, fullSentence, result, node, dependencies, f_root);
+		extractRCMODSpecifier(origin, result, node, dependencies, fullSentence, f_root);
+		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+result);
+		result.setBaseForm(node.value());
+		return result;
 	}
 
     /**

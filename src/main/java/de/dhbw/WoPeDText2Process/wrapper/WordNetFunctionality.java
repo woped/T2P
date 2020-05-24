@@ -156,12 +156,22 @@ public class WordNetFunctionality {
     }
     //???
     public boolean isMetaActor(String fullNoun, String noun) {
+        logger.debug("Check if " + fullNoun + " is listed in the Constant attribute f_personCorrectorList ...");
         if (!Constants.f_personCorrectorList.contains(fullNoun)) {
+            logger.debug("\t" + fullNoun + " not found");
             try {
-                IIndexWord _idw = dict.getIndexWord(fullNoun, POS.NOUN);
-                if (_idw == null || (!_idw.getLemma().contains(noun)))
-                    _idw = dict.getIndexWord(noun, POS.NOUN);
-                return checkHypernymTree(_idw, Constants.f_metaActorsDeterminers);
+                logger.debug("\tCreate a IndexWord based on " + fullNoun);
+                IIndexWord indexWord = dict.getIndexWord(fullNoun, POS.NOUN);
+                logger.debug("\tCheck if indexWord is null or not part of its lemmas");
+                if (indexWord == null || (!indexWord.getLemma().contains(noun))) {
+                    logger.debug("\t\t Fill indexWord with information of the WordNet dictionary");
+                    indexWord = dict.getIndexWord(noun, POS.NOUN);
+                }
+                boolean isHypernymTree = false;
+                logger.debug("Checking if " + indexWord + " has a hypernym tree.");
+                isHypernymTree = checkHypernymTree(indexWord, Constants.f_metaActorsDeterminers);
+                logger.debug("Returning the value of isHypernymTree: " + isHypernymTree);
+                return isHypernymTree;
             } catch (Exception e) {
                 e.printStackTrace();
             }
