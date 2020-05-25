@@ -35,38 +35,38 @@ public class ElementsBuilder {
      */
 	public static Actor createActor(Tree f_root, T2PSentence origin, List<Tree> fullSentence, IndexedWord determinedActor, Collection<TypedDependency> dependencies) {
 		logger.info("Creating an actor for: " + determinedActor.value());
-		Actor _a = null;
+		Actor actor = null;
 		logger.debug("");
 		Tree node = fullSentence.get(determinedActor.index()-1);
 		logger.debug("Extract the noun and its dependecies");
-		String _fullNoun = getFullNoun(determinedActor, dependencies);
+		String fullNoun = getFullNoun(determinedActor, dependencies);
 		WordNetFunctionality wnf = new WordNetFunctionality();
 		logger.debug("Check whether noun is a person or a system ...");
-		if(!wnf.canBePersonOrSystem(_fullNoun, node.value().toLowerCase())) {
+		if(!wnf.canBePersonOrSystem(fullNoun, node.value().toLowerCase())) {
 			//try to extract the real actor here?
 			if(node.parent(f_root).value().equals("CD") || wnf.canBeGroupAction(node.value())) { //one of the physicians
 				List<TypedDependency> _preps = SearchUtils.findDependency("prep", dependencies);
 				for(TypedDependency spec: _preps) {
 					if(Constants.f_realActorPPIndicators.contains(spec.reln().getSpecific()) && spec.gov().equals(node)) {
 						//possible candidate of the real actor
-						_fullNoun = getFullNoun(spec.dep(), dependencies);
-						if(wnf.canBePersonOrSystem(_fullNoun,spec.dep().value())) {
-							_a = createActorInternal(f_root, origin, fullSentence, spec.dep(),dependencies);
+						fullNoun = getFullNoun(spec.dep(), dependencies);
+						if(wnf.canBePersonOrSystem(fullNoun,spec.dep().value())) {
+							actor = createActorInternal(f_root, origin, fullSentence, spec.dep(),dependencies);
 							break;
-						}					
+						}
 					}							
 				}
 			}
-			if(_a == null) {
-				_a = createActorInternal(f_root, origin, fullSentence, determinedActor,dependencies);
-				_a.setUnreal(true);
+			if(actor == null) {
+				actor = createActorInternal(f_root, origin, fullSentence, determinedActor,dependencies);
+				actor.setUnreal(true);
 			}
 		}else {
 			logger.debug("Noun represents a person or system, start creating an internal Actor");
-			_a = createActorInternal(f_root, origin, fullSentence, determinedActor, dependencies);
+			actor = createActorInternal(f_root, origin, fullSentence, determinedActor, dependencies);
 		}
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified actor: "+_a);
-		return _a;
+		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified actor: "+actor);
+		return actor;
 	}
 
     /**
@@ -181,7 +181,7 @@ public class ElementsBuilder {
 			if(typedDependency.gov().equals(node)) {
 				logger.debug("\t\t-> true: Intantiating a Tree object for a xcompNode");
 				Tree xcompNode = null;
-				logger.debug("\t\tCheck if ()");
+				logger.debug("\t\tCheck if relName of typedDependency is dep");
 				if(typedDependency.reln().getShortName().equals("dep")) {
 					logger.debug("\t\t\t-> true: extracting xcompNode from fullSentence parameter");
 					//only consider verbs and forwards dependencies
