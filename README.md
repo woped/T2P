@@ -12,13 +12,13 @@
 
 <p>Preset:
 <ul>
-<li>Install OpenJDK 11 or higher</li>
-<li>Install Apache Maven</li>
-<li>Install Git</li>
-<li>Install IntelliJ IDEA</li>
-<li>Activate you JetBrains student account</li>
-<li>Install SoapUI (or another tool for to test Rest-APIs)</li>
-<li>Clone this repository to your local machine</li>
+<li>Install <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher</li>
+<li>Install <a href="https://maven.apache.org/">Apache Maven</a></li>
+<li>Install <a href="https://git-scm.com/">Git</a></li>
+<li>Install <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a></li>
+<li>Activate your <a href="https://www.jetbrains.com/de-de/">JetBrains</a> educational account</li>
+<li>Install <a href="https://www.soapui.org/downloads/soapui/">SoapUI Open Source</a> (or another tool for to test Rest-APIs)</li>
+<li>Clone this repository to your local machine in a new workspace</li>
 </ul></p>
 
 <h3>Resolving all the dependencies</h3>
