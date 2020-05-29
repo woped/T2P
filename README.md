@@ -12,13 +12,13 @@
 
 <p>Preset:
 <ul>
-<li>Install OpenJDK 11 or higher</li>
-<li>Install Apache Maven</li>
-<li>Install Git</li>
-<li>Install IntelliJ IDEA</li>
-<li>Activate you JetBrains student account</li>
-<li>Install SoapUI (or another tool for to test Rest-APIs)</li>
-<li>Clone this repository to your local machine</li>
+<li>Install <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher</li>
+<li>Install <a href="https://maven.apache.org/">Apache Maven</a></li>
+<li>Install <a href="https://git-scm.com/">Git</a></li>
+<li>Install <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a></li>
+<li>Activate your <a href="https://www.jetbrains.com/de-de/">JetBrains</a> educational account</li>
+<li>Install <a href="https://www.soapui.org/downloads/soapui/">SoapUI Open Source</a> (or another tool for to test Rest-APIs)</li>
+<li>Clone this repository to your local machine in a new workspace</li>
 </ul></p>
 
 <h3>Resolving all the dependencies</h3>
@@ -28,13 +28,22 @@ The next step is resolving the missing dependencies of the project. There three 
 First of all you need to ad the projects lib folder as library.
 This is done by clicking it with the right mouse button and choosing "Add as Library".
 It will open a new dialogue in which you need to ensure that the library is just included into the project not on a global level.<br>
+</p>
+<img src="./img/adding_libraries_intellij.PNG">
+<img src="./img/create_library.PNG">
+<p>
 The second step is to ensure, that all the third party libraries a imported by Maven.
 Therefore you need to perform a right click on the project and then do a mouseover on Maven and choose reimport from the opening submenu.
+</p>
+<img src="./img/project_maven_reimport.PNG">
+<p>
 This could take some time to finish, because the stanford models are quite large.<br>
 The third and last step is checking whether the proper jdk is used or not.
 File -> Project structure will open a new dialogue.
 Now go to the project view and check the SDK and language settings.
 </p> 
+<img src="./img/file_project_structure_intellij.PNG">
+<img src="./img/project_structure_intellij.PNG">
 
 <h3>Starting the Application</h3>
 <p>
@@ -43,6 +52,8 @@ You can find the main file in the source package.
 The are two ways to start the application.
 On the one hand you can click on the play button at the upper right connor in your IDE or on the other it is possible to run it by clicking right on the WoPeDText2ProcessApplication-Class.
 </p>
+<img src="./img/start_server_1.PNG">
+<img src="./img/start_server_2.PNG">
 <p>
 Maven will automatically compile the source code to a runnable application. After that the SpringBootServer will start and load the configuration given by the application.properties file.
 After a short time of loading the server will listen to the port and root path you configured.
