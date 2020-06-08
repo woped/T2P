@@ -19,53 +19,51 @@ import org.slf4j.LoggerFactory;
 public class AnalyzedSentence {
 
 	Logger logger = LoggerFactory.getLogger(AnalyzedSentence.class);
-	private T2PSentence f_sentence;
-	private int f_sentenceNumber;
-	
-	private Tree f_root;
-	private List<Tree> f_fullSentence;
-	private Collection<TypedDependency> f_dependencies;
-	private WorldModel f_world;
 
-	private ArrayList<String> f_sentenceTags = new ArrayList<String>(3);
+	private T2PSentence t2PSentence;
+	private int sentenceNumber;
+	
+	private Tree root;
+	private List<Tree> fullSentence;
+	private Collection<TypedDependency> typedDependencies;
+	private WorldModel worldModel;
 
+	private ArrayList<String> sentenceTags = new ArrayList<String>(3);
 
-	private ArrayList<ConjunctionElement> f_conjs = new ArrayList<ConjunctionElement>();
-	private ArrayList<Action> f_actions = new ArrayList<Action>();
-	private final boolean f_ignoreNPSubSentences = "1".equals(Configuration.getInstance().getProperty(Constants.CONF_GENERATE_IGNORE_SBAR_ON_NP));
-	
-	
-	
+	private ArrayList<ConjunctionElement> conjunctionElements = new ArrayList<ConjunctionElement>();
+	private ArrayList<Action> actions = new ArrayList<Action>();
+	private final boolean ignoreNPSubSentences = "1".equals(Configuration.getInstance().getProperty(Constants.CONF_GENERATE_IGNORE_SBAR_ON_NP));
+
 	/**
 	 * Constructor of a new AnalyzedSentence
 	 * @param sentence current T2P-Sentence, that is to be analyzed
 	 * @param sentenceNumber number of the sentence in the whole analyzed text
 	 */
 	public AnalyzedSentence(T2PSentence sentence, int sentenceNumber) {
-		f_sentence = sentence;
+		t2PSentence = sentence;
 		setSentenceNumber(sentenceNumber);
-		f_sentenceTags.add("S");
-		f_sentenceTags.add("SBAR");
-		f_sentenceTags.add("SINV");
+		sentenceTags.add("S");
+		sentenceTags.add("SBAR");
+		sentenceTags.add("SINV");
 	}
 
 	/**
 	 * Analyze every sentence of the input text and add extracted Objects to the WorldModel
-	 * @param world WorldModel that should result from the analysis
+	 * @param worldModel WorldModel that should result from the analysis
 	 */
-	public void analyze(WorldModel world) {
-		f_world = world;
-		f_root = f_sentence.getTree();
-		f_fullSentence = f_root.getLeaves();
-		f_dependencies = f_sentence.getGrammaticalStructure().typedDependenciesEnhancedPlusPlus();
+	public void analyze(WorldModel worldModel) {
+		this.worldModel = worldModel;
+		root = t2PSentence.getTree();
+		fullSentence = root.getLeaves();
+		typedDependencies = t2PSentence.getGrammaticalStructure().typedDependenciesEnhancedPlusPlus();
 				
-		Tree _mainSentence = f_root.getChild(0); //this is always the case
-		analyzeSentence(f_root, _mainSentence,f_dependencies);
+		Tree mainSentence = root.getChild(0); //this is always the case
+		analyzeSentence(root, mainSentence, typedDependencies);
 		checkGlobalConjunctions();		
-		Collections.sort(f_actions);	
+		Collections.sort(actions);
 		//add all actions to the world
-		for(Action a:f_actions) {
-			f_world.addAction(a);
+		for(Action a: actions) {
+			this.worldModel.addAction(a);
 		}
 		if(Constants.DEBUG_EXTRACTION_FINAL) {
 			PrintUtils.printExtractedActions(this);
@@ -78,13 +76,13 @@ public class AnalyzedSentence {
 	 */
 	private void checkGlobalConjunctions() {
 		//checking global sentence conjunctions
-		List<TypedDependency> _conj = SearchUtils.findDependency("conj", f_dependencies);
-		if(_conj.size() > 0) {
-			for(TypedDependency td:_conj) {
-				Action _a = getActionContaining(td.gov().index());
-				Action _b = getActionContaining(td.dep().index());
-				if(_a != null && _b != null) {				
-					buildLink(_a, td, _b);				
+		List<TypedDependency> conjunctions = SearchUtils.findDependency("conj", typedDependencies);
+		if(conjunctions.size() > 0) {
+			for(TypedDependency typedDependency : conjunctions) {
+				Action a = getActionContaining(typedDependency.gov().index());
+				Action b = getActionContaining(typedDependency.dep().index());
+				if(a != null && b != null) {
+					buildLink(a, typedDependency, b);
 				}
 			}				
 		}
@@ -96,7 +94,7 @@ public class AnalyzedSentence {
 	 * @return Action a which relates to the dependency
 	 */
 	private Action getActionContaining(int index) {
-		for(Action a:f_actions) {
+		for(Action a: actions) {
 			if(a.getWordIndex() == index
 					|| (a.getXcomp() != null && a.getXcomp().getWordIndex() == index)
 					|| (a.getCopIndex() == index)
@@ -138,14 +136,14 @@ public class AnalyzedSentence {
 		}else {
 			//we have to deal with a complex sentence
 			//splitting it up and process each part individually
-			List<Tree> _sentencesParts = SearchUtils.findChildren(f_sentenceTags,_mainSentence);
+			List<Tree> _sentencesParts = SearchUtils.findChildren(sentenceTags,_mainSentence);
 			int _startIndex = 0;
 			int _endIndex = 0;
 			for(Tree sentP:_sentencesParts) {
 				List<Tree> _partSentence = sentP.getLeaves();
-				_startIndex = indexOf(_partSentence.get(0),f_fullSentence,_endIndex)+1;
+				_startIndex = indexOf(_partSentence.get(0), fullSentence,_endIndex)+1;
 				_endIndex = _startIndex +_partSentence.size();
-				List<TypedDependency> _dependenciesFiltered = SearchUtils.filter(f_dependencies,_startIndex,_endIndex);
+				List<TypedDependency> _dependenciesFiltered = SearchUtils.filter(typedDependencies,_startIndex,_endIndex);
 				analyzeSentence(f_root, sentP, _dependenciesFiltered); //analyzing this new, smaller chunk
 			}
 		}
@@ -191,13 +189,13 @@ public class AnalyzedSentence {
 	 * @return List<Tree> of subsentences that the sentence contains
 	 */
 	private List<Tree> findSubSentences(Tree sentence) {
-		List<Tree> _result = SearchUtils.findChildren(f_sentenceTags, sentence);
+		List<Tree> _result = SearchUtils.findChildren(sentenceTags, sentence);
 		for(Tree t:sentence.children()) {
 			if(t.value().equals("PP") || t.value().equals("ADVP")) {
-				_result.addAll(SearchUtils.findChildren(f_sentenceTags, t));
+				_result.addAll(SearchUtils.findChildren(sentenceTags, t));
 				for(Tree t2:t.children()) {
 					if(t2.value().equals("NP")) {
-						_result.addAll(SearchUtils.findChildren(f_sentenceTags, t2));
+						_result.addAll(SearchUtils.findChildren(sentenceTags, t2));
 					}					
 				}
 			}			
@@ -211,17 +209,17 @@ public class AnalyzedSentence {
 	 * @return int SubSentenceCount
 	 */
 	private int determineSubSentenceCount(Tree sentence) {
-		int _result = SearchUtils.count(f_sentenceTags,sentence.getChildrenAsList());
+		int _result = SearchUtils.count(sentenceTags,sentence.getChildrenAsList());
 		//ignore it if the root is the only node (e.g. for relative sentence TextToWorldModel.processing)
 		if(_result == 1 && sentence.getChild(0).value().equals("WHNP")){
 			_result --;
 		}
 		for(Tree t:sentence.children()) {
 			if(t.value().equals("PP") || t.value().equals("ADVP")) {
-				_result += SearchUtils.count(f_sentenceTags,t.getChildrenAsList());
+				_result += SearchUtils.count(sentenceTags,t.getChildrenAsList());
 				for(Tree t2:t.children()) {
 					if(t2.value().equals("NP")) {
-						_result += SearchUtils.count(f_sentenceTags,t2.getChildrenAsList());
+						_result += SearchUtils.count(sentenceTags,t2.getChildrenAsList());
 					}					
 				}
 			}			
@@ -252,9 +250,9 @@ public class AnalyzedSentence {
 	 */
 	private List<TypedDependency> filterDependencies(Tree sentP,Collection<TypedDependency> dependencies) {
 		List<Tree> _partSentence = sentP.getLeaves();
-		int _startIndex = SearchUtils.getIndex(f_fullSentence,_partSentence);
+		int _startIndex = SearchUtils.getIndex(fullSentence,_partSentence);
 		int _endIndex = _startIndex + _partSentence.size();
-		List<TypedDependency> _dependenciesFiltered = SearchUtils.filter(f_dependencies,_startIndex,_endIndex);
+		List<TypedDependency> _dependenciesFiltered = SearchUtils.filter(typedDependencies,_startIndex,_endIndex);
 		return _dependenciesFiltered;
 		
 	}
@@ -307,26 +305,26 @@ public class AnalyzedSentence {
 		}
 		*/
 		//adding everything to the worldModel
-		for(Actor a:_actors) {
-			f_world.addActor(a);
+		for(Actor a : _actors) {
+			worldModel.addActor(a);
 		}
 		for(SpecifiedElement se:_allObjects) {
 			if(se instanceof Actor) {
-				f_world.addActor((Actor) se);
+				worldModel.addActor((Actor) se);
 			}else {
-				f_world.addResource((Resource) se);
+				worldModel.addResource((Resource) se);
 			}
 		}
-		for(Action a:_actions) {
-			f_actions.add(a);
+		for(Action a : _actions) {
+			actions.add(a);
 			if(a.getXcomp() != null) {
 				if(a.getXcomp().getActorFrom() != null)
-					f_world.addActor(a.getXcomp().getActorFrom());
+					worldModel.addActor(a.getXcomp().getActorFrom());
 				if(a.getXcomp().getObject() != null) {
 					if(a.getXcomp().getObject() instanceof Actor) {
-						f_world.addActor((Actor) a.getXcomp().getObject());
+						worldModel.addActor((Actor) a.getXcomp().getObject());
 					}else {
-						f_world.addResource((Resource) a.getXcomp().getObject());
+						worldModel.addResource((Resource) a.getXcomp().getObject());
 					}
 				}
 			}
@@ -390,7 +388,7 @@ public class AnalyzedSentence {
 		_specToCheck.clear();
 		_specToCheck.addAll(verb.getSpecifiers(SpecifierType.SBAR));
 		_toCheck.clear();
-		_toCheck.addAll(f_actions);
+		_toCheck.addAll(actions);
 			
 		for(Specifier sp :_specToCheck) {
 			int _start = sp.getWordIndex();
@@ -458,7 +456,7 @@ public class AnalyzedSentence {
 					for(TypedDependency TDsubj : _nsubj){
 						for(TypedDependency TDdet : _det){
 							if(TDsubj.dep().value().equals(TDdet.gov().value())){
-								Tree helpNode = f_fullSentence.get(TDsubj.dep().index()-1);
+								Tree helpNode = fullSentence.get(TDsubj.dep().index()-1);
 								if (!helpNode.parent(f_root).label().value().equals("NNP")){
                                     allActors.add(TDsubj.dep());
                                 }
@@ -479,7 +477,7 @@ public class AnalyzedSentence {
 					System.out.println("Sentence has more than one subject");
 					if (Constants.DEBUG_EXTRACTION) printToConsole(_nsubj);
 					for(IndexedWord mainActor: allActors){
-						Actor actor = ElementsBuilder.createActor(f_root, f_sentence, f_fullSentence, mainActor, dependencies);
+						Actor actor = ElementsBuilder.createActor(f_root, t2PSentence, fullSentence, mainActor, dependencies);
 						_result.add(actor);
 					}
 				}
@@ -503,7 +501,7 @@ public class AnalyzedSentence {
 			}
 		}		
 		if(_mainActor != null) {
-			Actor _actor = ElementsBuilder.createActor(f_root, f_sentence, f_fullSentence, _mainActor, dependencies);
+			Actor _actor = ElementsBuilder.createActor(f_root, t2PSentence, fullSentence, _mainActor, dependencies);
 			_actor.setSubjectRole(true);
 			_actor.setPassive(!active);
 			_result.add(_actor);
@@ -554,22 +552,22 @@ public class AnalyzedSentence {
 						&& (SearchUtils.filterByGov(td.gov(), _cop)).size()==0) 
 						|| _xcompHit) {
 					IndexedWord _otherNode = td.dep();
-					Tree _otherNodeTGN = f_fullSentence.get(_otherNode.index()-1);
+					Tree _otherNodeTGN = fullSentence.get(_otherNode.index()-1);
 					SpecifiedElement _newEle = null;
 					if(object) {
 						if(actor) {
-							_newEle = ElementsBuilder.createActor(f_root, f_sentence, f_fullSentence, _otherNode, dependencies);
+							_newEle = ElementsBuilder.createActor(root, t2PSentence, fullSentence, _otherNode, dependencies);
 						}else {
-							_newEle = ElementsBuilder.createObject(f_root, f_sentence, f_fullSentence, _otherNode, dependencies);
+							_newEle = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _otherNode, dependencies);
 							checkNPForSubsentence(_otherNodeTGN,dependencies,(ExtractedObject)_newEle);
 						}
 					}else {
 						if(_xcompHit) {
 							//copy full action and only replace xcomp
 							_newEle = a.clone();
-								((Action) _newEle).setXcomp(ElementsBuilder.createAction(f_sentence, f_fullSentence, _otherNodeTGN, dependencies, true, f_root));
+								((Action) _newEle).setXcomp(ElementsBuilder.createAction(t2PSentence, fullSentence, _otherNodeTGN, dependencies, true, root));
 						}else {
-								_newEle = ElementsBuilder.createAction(f_sentence, f_fullSentence, _otherNodeTGN, dependencies, active, f_root);
+								_newEle = ElementsBuilder.createAction(t2PSentence, fullSentence, _otherNodeTGN, dependencies, active, root);
 						}
 					}
 					if(td.gov().index() != td.dep().index()) {
@@ -603,7 +601,7 @@ public class AnalyzedSentence {
 			}
 		}
 		if(_conj != null) {
-			f_conjs.add(_conj);
+			conjunctionElements.add(_conj);
 		}
 	}
 
@@ -633,7 +631,7 @@ public class AnalyzedSentence {
 				for (TypedDependency tdNsubj : _nsubj){
 				    for(TypedDependency tdDobj: _dobj){
 				        if(tdNsubj.gov().value() == tdDobj.gov().value()){
-				        	Tree treeNode = f_fullSentence.get(tdNsubj.gov().index()-1);
+				        	Tree treeNode = fullSentence.get(tdNsubj.gov().index()-1);
 				        	if(!treeNode.parent(f_root).label().value().equals("VBP")){
 								_allPredicates.add(tdNsubj.gov());
 							}
@@ -641,9 +639,9 @@ public class AnalyzedSentence {
                     }
                 }
                 for(IndexedWord verb: _allPredicates) {
-                    Tree _PredicatesNode = f_fullSentence.get(verb.index() - 1);
+                    Tree _PredicatesNode = fullSentence.get(verb.index() - 1);
                     Tree _vpHead = SearchUtils.getFullPhraseTree("VP", _PredicatesNode, f_root);
-                    Action _a = ElementsBuilder.createAction(f_sentence, f_fullSentence, _PredicatesNode, dependencies, active, f_root);
+                    Action _a = ElementsBuilder.createAction(t2PSentence, fullSentence, _PredicatesNode, dependencies, active, f_root);
                     checkForSubSentences(_vpHead, dependencies, _a, false);
                     _result.add(_a);
                     foundVerb = true;
@@ -654,7 +652,7 @@ public class AnalyzedSentence {
 				for (TypedDependency tdNsubj : _nsubj) {
 					for (TypedDependency tdDobj : _dobj) {
 						if (tdNsubj.gov().value() == tdDobj.gov().value()) {
-							Tree treeNode = f_fullSentence.get(tdNsubj.gov().index()-1);
+							Tree treeNode = fullSentence.get(tdNsubj.gov().index()-1);
 							if(!treeNode.parent(f_root).label().value().equals("VBP")) {
 								_mainPredicate = tdNsubj.gov();
 								foundVerb = true;
@@ -679,7 +677,7 @@ public class AnalyzedSentence {
                     for (TypedDependency tdNmod : _nmod) {
                         for (TypedDependency tdDobj : _dobj) {
                             if (tdNmod.gov().value() == tdDobj.gov().value()) {
-                                Tree treeNode = f_fullSentence.get(tdNmod.gov().index() - 1);
+                                Tree treeNode = fullSentence.get(tdNmod.gov().index() - 1);
                                 if (!treeNode.parent(f_root).label().value().equals("VBP")) {
                                     _allPredicates.add(tdNmod.gov());
                                     foundVerb = true;
@@ -697,9 +695,9 @@ public class AnalyzedSentence {
                          }
                 }
                 for(IndexedWord verb: _allPredicates) {
-                    Tree _PredicatesNode = f_fullSentence.get(verb.index() - 1);
+                    Tree _PredicatesNode = fullSentence.get(verb.index() - 1);
                     Tree _vpHead = SearchUtils.getFullPhraseTree("VP", _PredicatesNode, f_root);
-                    Action _a = ElementsBuilder.createAction(f_sentence, f_fullSentence, _PredicatesNode, dependencies, active, f_root);
+                    Action _a = ElementsBuilder.createAction(t2PSentence, fullSentence, _PredicatesNode, dependencies, active, f_root);
                     checkForSubSentences(_vpHead, dependencies, _a, false);
                     _result.add(_a);
                     foundVerb = true;
@@ -726,9 +724,9 @@ public class AnalyzedSentence {
 				System.out.println("Sentence has more than one verb phrase!");
 			}
 		}else if(_mainPredicate !=null){
-			Tree _mainPredicateNode = f_fullSentence.get(_mainPredicate.index()-1);
+			Tree _mainPredicateNode = fullSentence.get(_mainPredicate.index()-1);
                 Tree _vpHead = SearchUtils.getFullPhraseTree("VP", _mainPredicateNode, f_root);
-				Action _a = ElementsBuilder.createAction(f_sentence, f_fullSentence, _mainPredicateNode, dependencies, active, f_root);
+				Action _a = ElementsBuilder.createAction(t2PSentence, fullSentence, _mainPredicateNode, dependencies, active, f_root);
 				checkForSubSentences(_vpHead, dependencies, _a, false);
 				_result.add(_a);
 		}
@@ -747,9 +745,9 @@ public class AnalyzedSentence {
 	 * @param isNP
 	 */
 	private void checkForSubSentences(Tree head, Collection<TypedDependency> dependencies,SpecifiedElement object,boolean isNP) {
-		if(f_sentenceTags.contains(head.value())) {
+		if(sentenceTags.contains(head.value())) {
 			List<Tree> _leaves = head.getLeaves();
-			int _start = SearchUtils.getIndex(f_fullSentence, _leaves);
+			int _start = SearchUtils.getIndex(fullSentence, _leaves);
 			int _end = _start + _leaves.size();
 			//exclude sentences which are already captured in a ccomp relationship
 			for(TypedDependency td:SearchUtils.findDependency("ccomp", dependencies)) {
@@ -768,7 +766,7 @@ public class AnalyzedSentence {
 				mainAction = (Action)object;
 			}
 			if(mainAction == null || mainAction.getXcomp()== null || ((_start > mainAction.getXcomp().getWordIndex()) || (_end < mainAction.getXcomp().getWordIndex()))) {
-				analyzeSentence(f_root, head, filterDependencies(head, dependencies));
+				analyzeSentence(root, head, filterDependencies(head, dependencies));
 			}
 		}else {
 			if(head.value().equals("PP") || head.value().equals("VP") || (isNP && head.value().equals("NP"))) {
@@ -802,7 +800,7 @@ public class AnalyzedSentence {
 		if(!_active) {
 			//passive sentence -  the beauty of an nsubjpass relation			
 			List<TypedDependency> _nsubjpass = SearchUtils.findDependency("nsubjpass", dependencies);
-			excludeRelativeClauses(f_root, sentence,_nsubjpass);
+			excludeRelativeClauses(root, sentence,_nsubjpass);
 			if(_nsubjpass.size() == 0) {
 				//use dobj if available instead
 				determineObjectFromDOBJ(verb, dependencies, _result);	
@@ -810,17 +808,17 @@ public class AnalyzedSentence {
 				System.out.println("Passive sentence with more than one subject!?!?");
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_nsubjpass);
 				IndexedWord _object = _nsubjpass.get(0).dep();
-				ExtractedObject _obj = ElementsBuilder.createObject(f_root, f_sentence, f_fullSentence, _object,dependencies);
+				ExtractedObject _obj = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _object,dependencies);
 				_obj.setSubjectRole(true); //although it is an object it is the syntactic subject of the sentence
 				_result.add(_obj);
-				Tree _objectTGN = f_fullSentence.get(_object.index()-1);
+				Tree _objectTGN = fullSentence.get(_object.index()-1);
 				checkNPForSubsentence(_objectTGN,dependencies,_obj);
 			}else {				
 				IndexedWord _object = _nsubjpass.get(0).dep();
-				ExtractedObject _obj = ElementsBuilder.createObject(f_root, f_sentence, f_fullSentence, _object,dependencies);
+				ExtractedObject _obj = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _object,dependencies);
 				_obj.setSubjectRole(true); //although it is an object it is the syntactic subject of the sentence
 				_result.add(_obj);
-				Tree _objectNode = f_fullSentence.get(_object.index()-1);
+				Tree _objectNode = fullSentence.get(_object.index()-1);
 				checkNPForSubsentence(_objectNode,dependencies,_obj);
 			}			
 		}else {			
@@ -851,7 +849,7 @@ public class AnalyzedSentence {
 		if(_myDobj.size() == 0) {
 			if(!(verb.getXcomp()!= null && verb.getXcomp().getObject() != null)) {
 				//if we already have an xcomp object, we do not have to check ands (incident management - BPMN standard)
-				for(ConjunctionElement l:f_conjs) {
+				for(ConjunctionElement l: conjunctionElements) {
 					if(l.getTo().equals(verb)) {
 						_myDobj = SearchUtils.filterByGov((Action) l.getFrom(), _dobj);
 						_myDobj = SearchUtils.filterByIndex((Action) l.getTo(), _dobj,true);
@@ -881,9 +879,9 @@ public class AnalyzedSentence {
 					System.out.println("Sentence with more than one copluar object!?!?");
 					if(Constants.DEBUG_EXTRACTION) printToConsole(_cop);
 				}else {
-					Tree _object = f_fullSentence.get(_cop.get(0).gov().index()-1);
-					if(_object.parent(f_root).parent(f_root).value().equals("NP")) { //only if it is directly part of a noun phrase
-						ExtractedObject _obj = ElementsBuilder.createObject(f_root, f_sentence, f_fullSentence, _cop.get(0).gov(),dependencies);
+					Tree _object = fullSentence.get(_cop.get(0).gov().index()-1);
+					if(_object.parent(root).parent(root).value().equals("NP")) { //only if it is directly part of a noun phrase
+						ExtractedObject _obj = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _cop.get(0).gov(),dependencies);
 						_result.add(_obj);
 						checkNPForSubsentence(_object,dependencies,_obj);
 					}else {
@@ -895,9 +893,9 @@ public class AnalyzedSentence {
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_myPrep);
 			}else {
 				//this is our relation
-				Tree _object = f_fullSentence.get(_myPrep.get(0).dep().index()-1);
-				if(_object.parent(f_root).parent(f_root).value().equals("NP")) { //only if it is directly part of a noun phrase
-					ExtractedObject _obj = ElementsBuilder.createObject(f_root ,f_sentence, f_fullSentence, _myPrep.get(0).dep(),dependencies);
+				Tree _object = fullSentence.get(_myPrep.get(0).dep().index()-1);
+				if(_object.parent(root).parent(root).value().equals("NP")) { //only if it is directly part of a noun phrase
+					ExtractedObject _obj = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _myPrep.get(0).dep(),dependencies);
 					_result.add(_obj);
 					checkNPForSubsentence(_object,dependencies,_obj);	
 				}else {
@@ -905,8 +903,8 @@ public class AnalyzedSentence {
 				}
 			}
 		}else {
-			Tree _object = f_fullSentence.get(_myDobj.get(0).dep().index()-1);
-			ExtractedObject _obj = ElementsBuilder.createObject(f_root, f_sentence, f_fullSentence, _myDobj.get(0).dep(),dependencies);
+			Tree _object = fullSentence.get(_myDobj.get(0).dep().index()-1);
+			ExtractedObject _obj = ElementsBuilder.createObject(root, t2PSentence, fullSentence, _myDobj.get(0).dep(),dependencies);
 			checkNPForSubsentence(_object,dependencies,_obj);			
 			_result.add(_obj);
 		}
@@ -923,8 +921,8 @@ public class AnalyzedSentence {
 	 * @param obj
 	 */
 	private void checkNPForSubsentence(Tree node,Collection<TypedDependency> dependencies,ExtractedObject obj) {
-		if(!f_ignoreNPSubSentences) {
-			Tree _head = SearchUtils.getFullPhraseTree("NP",node, f_root);
+		if(!ignoreNPSubSentences) {
+			Tree _head = SearchUtils.getFullPhraseTree("NP",node, root);
 			checkForSubSentences(_head, dependencies, obj,true);
 		}
 	}
@@ -940,12 +938,12 @@ public class AnalyzedSentence {
 			if(_td.reln().getShortName().equals("rcmod")) {
 				continue;
 			}
-			Tree _dep = f_fullSentence.get(_td.gov().index()-1);
-			int _sentenceIndex = SearchUtils.getIndex(f_fullSentence, sentence.getLeaves());
+			Tree _dep = fullSentence.get(_td.gov().index()-1);
+			int _sentenceIndex = SearchUtils.getIndex(fullSentence, sentence.getLeaves());
             //get the top most sentence node
 			while(!(_dep = _dep.parent(f_root)).value().equals("ROOT")) {
 				if(sentence.value().equals(_dep.parent(f_root).value())) {
-					int _partIndex = SearchUtils.getIndex(f_fullSentence, _dep.parent(f_root).getLeaves());
+					int _partIndex = SearchUtils.getIndex(fullSentence, _dep.parent(f_root).getLeaves());
 					if(_sentenceIndex >= _partIndex) {
 						break;
 					}
@@ -967,8 +965,8 @@ public class AnalyzedSentence {
 	 */
 	private void printToConsole(List<TypedDependency> list) {
 		for(TypedDependency td:list) {
-			Tree dep = f_fullSentence.get(td.dep().index()-1);
-			System.out.println(td+" - "+SearchUtils.getFullNounPhrase(dep, f_root));
+			Tree dep = fullSentence.get(td.dep().index()-1);
+			System.out.println(td+" - "+SearchUtils.getFullNounPhrase(dep, root));
 		}
 	}
 
@@ -976,28 +974,28 @@ public class AnalyzedSentence {
 	 * @param f_sentenceNumber
 	 */
 	public void setSentenceNumber(int f_sentenceNumber) {
-		this.f_sentenceNumber = f_sentenceNumber;
+		this.sentenceNumber = f_sentenceNumber;
 	}
 
 	/**
 	 * @return int SentenceNumber of the currently analyzed sentence
 	 */
 	public int getSentenceNumber() {
-		return f_sentenceNumber;
+		return sentenceNumber;
 	}
 
 	/**
 	 * @return T2PSentence, return the currently analyzed sentence
 	 */
 	public T2PSentence getBaseSentence() {
-		return f_sentence;
+		return t2PSentence;
 	}
 
 	/**
 	 * @return a list of all the actions that could get extracted from the text
 	 */
 	public List<Action> getExtractedActions(){
-		return f_actions;
+		return actions;
 	}
 
 
@@ -1005,7 +1003,7 @@ public class AnalyzedSentence {
 	 * @return the Conjunction elements in a list that were extracted from the text
 	 */
 	public List<ConjunctionElement> getExtractedConjunctions() {
-		return f_conjs;
+		return conjunctionElements;
 	}
 
 
@@ -1013,12 +1011,12 @@ public class AnalyzedSentence {
 	 * @param me Action that should be removed
 	 */
 	public void removeAction(Action me) {
-		f_actions.remove(me);
+		actions.remove(me);
 	}
 	
 	@Override
 	public String toString() {
-		return f_sentence.toString();
+		return t2PSentence.toString();
 	}
 	
 	}

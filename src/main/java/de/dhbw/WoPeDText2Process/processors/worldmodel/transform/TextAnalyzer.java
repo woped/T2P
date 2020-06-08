@@ -85,8 +85,8 @@ public class TextAnalyzer {
 					System.out.println(f);
 				}	
 			}					
-		}catch(Exception ex) {
-			ex.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 	}	
 
