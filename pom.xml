@@ -16,7 +16,6 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<stanford.version>3.9.2</stanford.version>
 		<framenet.version>1.0.0</framenet.version>
 		<dom4j.version>2.1.1</dom4j.version>
 		<jaxen.version>1.1.6</jaxen.version>
@@ -37,18 +36,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- NLP-DEPENDENCIES -->
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-			<version>${stanford.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-			<version>${stanford.version}</version>
-			<classifier>models</classifier>
-		</dependency>
 		<!--
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>

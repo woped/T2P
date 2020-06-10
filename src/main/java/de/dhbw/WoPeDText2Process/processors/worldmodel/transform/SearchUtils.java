@@ -11,25 +11,23 @@ import java.util.List;
 import de.dhbw.WoPeDText2Process.models.worldModel.Action;
 import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
 import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
-import edu.stanford.nlp.ling.IndexedWord;
 
 import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * provides utility methods for searching syntax trees and dependency relations
  *
  */
 public class SearchUtils {
-	
-	static Logger logger = LoggerFactory.getLogger(SearchUtils.class);
+
+
 	/**
-	 * 
+	 *
 	 * Counts how many of the children Trees given in the list match one of the provided terms
-	 * @param terms ArrayList of Strings which should be searched in the tree
+	 * @param terms
 	 * @param childrenAsList
 	 * @return
 	 */
@@ -45,20 +43,21 @@ public class SearchUtils {
 		}
 		return _result;
 	}
-	
-	/**Remove all dependencies from the dependency list, that do not belong to the determined
-     * subsentence
-	 * @param _dependencies collection of all dependencies of the sentence
-	 * @param start startindex of the subsentence
-	 * @param end endindex of the subsentence
-	 * @return list of dependencies without the ones that do not belong to the subsentence
+
+	/**
+	 * @param _dependencies
+	 * @param index
+	 * @param index2
+	 * @return
 	 */
-	public static List<TypedDependency> filter(	Collection<TypedDependency> _dependencies, int start, int end) {
+	public static List<TypedDependency> filter(
+			Collection<TypedDependency> _dependencies, int start, int end) {
 		ArrayList<TypedDependency> _result = new ArrayList<TypedDependency>();
 		for(TypedDependency td:_dependencies) {
-			if(td.reln().getShortName().equals("rcmod") || (( start <= td.gov().index() && (end >= td.gov().index()))
-					&&
-			   ( start <= td.dep().index() && (end >= td.dep().index())))) {
+			if(td.reln().getShortName().equals("rcmod") ||
+					(( start <= td.gov().label().index() && (end >= td.gov().label().index()))
+							&&
+							( start <= td.dep().label().index() && (end >= td.dep().label().index())))) {
 				_result.add(td);
 			}
 		}
@@ -66,12 +65,12 @@ public class SearchUtils {
 	}
 
 	/**
-	 * @param relName
-	 * @param dependencies
+	 * @param string
+	 * @param typedDependenciesCollapsed
 	 * @return
 	 */
 	public static List<TypedDependency> findDependency(String relName,
-			Collection<TypedDependency> dependencies) {
+													   Collection<TypedDependency> dependencies) {
 		List<TypedDependency> _result = new ArrayList<TypedDependency>();
 		for(TypedDependency td: dependencies) {
 			if(td.reln().getShortName().equals(relName)) {
@@ -80,38 +79,36 @@ public class SearchUtils {
 		}
 		return _result;
 	}
-	
-	
-	public static List<TypedDependency> filterByGov(Action verb, List<TypedDependency> dep) {
-		List<TypedDependency> _result = new ArrayList<TypedDependency>(); 
+
+
+	public static List<TypedDependency> filterByGov(Action verb,List<TypedDependency> dep) {
+		List<TypedDependency> _result = new ArrayList<TypedDependency>();
 		for(TypedDependency td:dep) {
-			if(verb.getWordIndex() == td.gov().index() || verb.getCopIndex() == td.gov().index()) {
+			if(verb.getWordIndex() == td.gov().index() ||
+					verb.getCopIndex() == td.gov().index()
+				/*|| (verb.getXcomp() != null && verb.getXcomp().getWordIndex() == td.gov().index())*/) {
 				_result.add(td);
 			}
 		}
 		return _result;
 	}
-	
-	/**Returns all dependencies in the sentence with the specific dependency type
-     *
-	 * @param relNames
-	 * @param dependencies
-	 * @return List of dependencies with the dependency types of in the relNames List
+
+	/**
+	 * @param string
+	 * @param typedDependenciesCollapsed
+	 * @return
 	 */
 	public static List<TypedDependency> findDependency(List<String> relNames,
-			Collection<TypedDependency> dependencies) {
-		logger.debug("Instantiate typedDependencies as ArrayList");
-		List<TypedDependency> typedDependencies = new ArrayList<TypedDependency>();
-		logger.debug("Iterating over relNames");
-		for(String relName: relNames) {
-			logger.debug("\tFind typedDependencies by relName " + relName + " in dependencies parameter");
-			typedDependencies.addAll(findDependency(relName, dependencies));
+													   Collection<TypedDependency> dependencies) {
+		List<TypedDependency> _result = new ArrayList<TypedDependency>();
+		for(String rn: relNames) {
+			_result.addAll(findDependency(rn, dependencies));
 		}
-		return typedDependencies;
+		return _result;
 	}
 
-	
-	
+
+
 	/**
 	 * find the first occurrence of the given tag in a tree.
 	 * depth-first search from left to right
@@ -122,7 +119,7 @@ public class SearchUtils {
 	public static Tree findFirst(String lookFor, Tree t) {
 		return findFirst(lookFor, t, null);
 	}
-	
+
 	public static Tree findFirst(String lookFor, Tree t,List<String> excludeTags) {
 		if(t.value().equals(lookFor)) {
 			return t;
@@ -140,8 +137,8 @@ public class SearchUtils {
 	}
 
 	/**
-	 * @param lookFor
-	 * @param t
+	 * @param string
+	 * @param _syntax
 	 * @return
 	 */
 	public static List<Tree> find(String lookFor, Tree t) {
@@ -149,56 +146,56 @@ public class SearchUtils {
 		_lf.add(lookFor);
 		return find(_lf,t);
 	}
-	
+
 	/**
-	 * @param lookFor
-	 * @param t
-	 * @param excludeTags
+	 * @param string
+	 * @param _syntax
+	 * @return
 	 */
 	public static List<Tree> find(String lookFor, Tree t,List<String> excludeTags) {
 		ArrayList<String> _lf = new ArrayList<String>(1);
 		_lf.add(lookFor);
 		return find(_lf,t,excludeTags);
 	}
-	
+
 	/**
-	 * @param lookFor
-	 * @param t
-	 * @return List<Tree>
+	 * @param string
+	 * @param _syntax
+	 * @return
 	 */
 	public static List<Tree> find(List<String> lookFor, Tree t) {
 		return find(lookFor, t,null);
 	}
-	
+
 	/**
-	 * @param lookFor
-	 * @param t
-	 * @return List<Tree>
+	 * @param string
+	 * @param _syntax
+	 * @return
 	 */
 	public static List<Tree> find(List<String> lookFor, Tree t,List<String> excludeTags) {
 		List<Tree> _result = new ArrayList<Tree>();
 		boolean _found = false;
-		for(String l:lookFor) {			
+		for(String l:lookFor) {
 			if(t.value().equals(l)) {
 				_result.add(t);
 				_found = true;
 				break;
-			}
+			}//else
 		}
 		if(!_found) {
 			for(Tree child:t.children()) {
 				if(excludeTags != null && excludeTags.contains(child.value())) continue;
 				_result.addAll(find(lookFor,child,excludeTags));
 			}
-		}		
+		}
 		return _result;
 	}
-	
+
 	/**
 	 * does not take the root node which is provided into account
-	 * @param lookFor
-	 * @param t
-	 * @return List<Tree>
+	 * @param string
+	 * @param _syntax
+	 * @return
 	 */
 	public static List<Tree> findChildren(List<String> lookFor, Tree t) {
 		List<Tree> _result = new ArrayList<Tree>();
@@ -207,20 +204,20 @@ public class SearchUtils {
 		}
 		return _result;
 	}
-	
+
 	/**
 	 * returns the actions from the list of actions which
 	 * contains the specified element in some way (actor, resource, xcomp...)
-	 * 
+	 *
 	 * @param to
-	 * @param actions 
-	 * @return Action
+	 * @param actions
+	 * @return
 	 */
 	public static Action getAction(SpecifiedElement to, List<Action> actions) {
 		if(to instanceof Action) {
 			return (Action)to;
 		}
-		
+
 		for(Action a:actions) {
 			if(specifiersContain(a.getSpecifiers(), to)) {
 				return a;
@@ -234,7 +231,7 @@ public class SearchUtils {
 			if(a.getXcomp() != null) {
 				if(specifiersContain(a.getXcomp().getSpecifiers(),to)) {
 					return a;
-				}else if(a.getXcomp().getObject() != null && 
+				}else if(a.getXcomp().getObject() != null &&
 						(to.equals(a.getXcomp().getObject()) || specifiersContain(a.getXcomp().getObject().getSpecifiers(),to) )) {
 					return a;
 				}
@@ -242,38 +239,39 @@ public class SearchUtils {
 		}
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * @param specifiers
 	 * @param to
 	 * @return
 	 */
 	private static boolean specifiersContain(ArrayList<Specifier> specifiers,
-			SpecifiedElement to) {
+											 SpecifiedElement to) {
 		for(Specifier spec: specifiers) {
 			if(spec.getObject() != null) {
 				if(spec.getObject().equals(to) || specifiersContain(spec.getObject().getSpecifiers(), to)) {
 					return true;
 				}
-			}				
+			}
 		}
 		return false;
 	}
 
-	public static String getFullNounPhrase(Tree node, Tree f_root) {
-		return getFullPhrase("NP", node, f_root);
+	public static String getFullNounPhrase(TreeGraphNode node) {
+		return getFullPhrase("NP", node);
 	}
-	
-	public static String getFullPhrase(String type, Tree node, Tree f_root) {
-		Tree _subject = getFullPhraseTree(type, node, f_root);
+
+	public static String getFullPhrase(String type, TreeGraphNode node) {
+		Tree _subject = getFullPhraseTree(type, node);
 		return PrintUtils.toString(_subject.getLeaves());
 	}
 
-	public static Tree getFullPhraseTree(String type, Tree _subject, Tree f_root) {
+	public static Tree getFullPhraseTree(String type, TreeGraphNode node) {
+		TreeGraphNode _subject = node;
 		boolean going_up = true;
-		while((going_up) || _subject.parent(f_root).label().value().equals(type)) {
-			_subject = _subject.parent(f_root);
+		while((going_up) || _subject.parent().label().value().equals(type)) {
+			_subject = (TreeGraphNode)_subject.parent();
 			if(_subject == null) {
 				return null;
 			}
@@ -283,7 +281,7 @@ public class SearchUtils {
 		}
 		return _subject;
 	}
-	
+
 	/**
 	 * @param fullSentence
 	 * @param list
@@ -327,7 +325,7 @@ public class SearchUtils {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * returns the object of the keySet which has the highest associated count
 	 * if the map is empty, null will be returned
@@ -341,20 +339,19 @@ public class SearchUtils {
 			if(_countMap.get(obj) > _bestCount) {
 				_best = obj;
 				_bestCount = _countMap.get(obj);
-			}			
+			}
 		}
 		return _best;
 	}
 
 	/**
-	 * @param verb
-	 * @param dep
-	 * @param smaller
-	 * @return List<TypedDependency>
+	 * @param from
+	 * @param _dobj
+	 * @return
 	 */
 	public static List<TypedDependency> filterByIndex(Action verb,List<TypedDependency> dep,boolean smaller) {
-		List<TypedDependency> _result = new ArrayList<TypedDependency>(); 
-		for(TypedDependency td:dep) {				
+		List<TypedDependency> _result = new ArrayList<TypedDependency>();
+		for(TypedDependency td:dep) {
 			if((verb.getWordIndex() < td.dep().index()) == smaller ) {
 				_result.add(td);
 			}
@@ -364,17 +361,17 @@ public class SearchUtils {
 
 	/**
 	 * @param gov
-	 * @param dep
+	 * @param dependencies
 	 * @return
 	 */
-	public static List<TypedDependency> filterByGov(IndexedWord gov,Collection<TypedDependency> dep) {
-		List<TypedDependency> _result = new ArrayList<TypedDependency>(); 
-		for(TypedDependency td:dep) {				
+	public static List<TypedDependency> filterByGov(TreeGraphNode gov,Collection<TypedDependency> dep) {
+		List<TypedDependency> _result = new ArrayList<TypedDependency>();
+		for(TypedDependency td:dep) {
 			if(gov.index() == td.gov().index()) {
 				_result.add(td);
 			}
 		}
 		return _result;
 	}
-	
+
 }

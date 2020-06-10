@@ -1,18 +1,19 @@
 package de.dhbw.WoPeDText2Process.models.worldModel;
 
-import edu.stanford.nlp.ling.CoreLabel;
+import java.util.Collection;
+
+import edu.stanford.nlp.ling.Sentence;
+import edu.stanford.nlp.ling.Word;
+import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.Tree;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Simple Data structure, based on the Stanford sentence.
  * Adds a unique ID to enable tracing
  *
  */
-public class T2PSentence extends ArrayList {
+public class T2PSentence extends Sentence<Word> {
 
 	/**
 	 *
@@ -23,25 +24,21 @@ public class T2PSentence extends ArrayList {
 	private GrammaticalStructure f_gramStruc; //dependencies
 	private int f_offset;
 
-	public T2PSentence() {
-		super();
-	}
-
 	/**
 	 * Constructs an empty sentence.
 	 */
-	//public T2PSentence() {
-	//super();
-	//}
+	public T2PSentence() {
+		super();
+	}
 
 	/**
 	 * Constructs an empty list with the specified initial capacity.
 	 *
 	 * @param initialCapacity The initial sentence allocation size
 	 */
-	//public T2PSentence(int initialCapacity) {
-	//super(initialCapacity);
-	//}
+	public T2PSentence(int initialCapacity) {
+		super(initialCapacity);
+	}
 
 
 	/**
@@ -50,13 +47,10 @@ public class T2PSentence extends ArrayList {
 	 * @param w A Collection (interpreted as ordered) to make the sentence
 	 *          out of.
 	 */
-	public T2PSentence(Collection<CoreLabel> w) {
+	public T2PSentence(Collection<Word> w) {
 		super(w);
 	}
 
-	public int length() {
-		return this.size();
-	}
 
 
 	public int getID(){
@@ -67,36 +61,36 @@ public class T2PSentence extends ArrayList {
 	 * gets the length of the sentence (in characters)
 	 * @return
 	 */
-	/*public int getCharLength() {
+	public int getCharLength() {
 		return getEndPosition() - getBeginPosition();
 
-	}*/
+	}
 
 	/**
 	 * return the position of the first letter of the first word in the original text.
 	 * @return
 	 */
-	/*public int getBeginPosition() {
+	public int getBeginPosition() {
 		if(size() > 0) {
 			return this.get(0).beginPosition()-f_offset;
 		}
 		return -1;
-	}*/
+	}
 
 	/**
 	 * returns the position of the last letter of the last word in the original text.
 	 * @return
 	 */
-	/*public int getEndPosition() {
+	public int getEndPosition() {
 		if(size() > 0) {
 			return this.get(this.size()-1).endPosition()-f_offset;
 		}
 		return -1;
-	}*/
+	}
 
-	/*public String toStringFormated() {
+	public String toStringFormated() {
 		return PTBTokenizer.ptb2Text(toString(true));
-	}*/
+	}
 
 	/**
 	 * returns the Stanford dependency tree
@@ -116,9 +110,9 @@ public class T2PSentence extends ArrayList {
 
 
 	/**
-	 * sets the grammatical structure containing the stanford 
+	 * sets the grammatical structure containing the stanford
 	 * dependencies
-	 * @param gs
+	 * @param _gs
 	 */
 	public void setGrammaticalStructure(GrammaticalStructure gs) {
 		gs.toString();
@@ -128,7 +122,7 @@ public class T2PSentence extends ArrayList {
 
 	/**
 	 * Here the stanford syntax tree is set
-	 * @param tree
+	 * @param _parse
 	 */
 	public void setTree(Tree tree) {
 		f_tree = tree;

@@ -209,6 +209,7 @@ public class PetrinetBuilder {
                 t.setRoleName(a.getActorFrom().getName());
             }
         }
+        t.generateXmlString();
         return t;
     }
 
