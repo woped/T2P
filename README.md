@@ -12,7 +12,7 @@
 
 <p>Preset:
 <ul>
-<li>Install <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher</li>
+<li>Install <a href="https://aws.amazon.com/de/corretto/">JDK 11</a> or higher</li>
 <li>Install <a href="https://maven.apache.org/">Apache Maven</a></li>
 <li>Install <a href="https://git-scm.com/">Git</a></li>
 <li>Install <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a></li>
