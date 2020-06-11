@@ -40,7 +40,6 @@ public class T2PController {
     public T2PController() {
         StanfordParserInitializer.getInstance();
         WordNetInitializer.getInstance();
-        StanfordParserInitializer.getInstance();
         FrameNetInitializer.getInstance();
     }
     /**

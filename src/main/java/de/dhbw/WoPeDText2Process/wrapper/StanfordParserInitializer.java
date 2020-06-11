@@ -13,7 +13,7 @@ public class StanfordParserInitializer {
 
     Logger logger = LoggerFactory.getLogger(StanfordParserInitializer.class);
 
-    private static StanfordParserInitializer SPinitializer;
+    private static StanfordParserInitializer stanfordParserInitializer;
     private static StanfordCoreNLP pipeline;
     TreebankLanguagePack tlp;
     GrammaticalStructureFactory gsf;
@@ -21,19 +21,19 @@ public class StanfordParserInitializer {
     private StanfordParserInitializer(){}
 
     public synchronized  static StanfordParserInitializer getInstance(){
-        if(SPinitializer == null){
+        if(stanfordParserInitializer == null){
             synchronized (StanfordParserInitializer.class){
-                if(SPinitializer == null){
-                    SPinitializer = new StanfordParserInitializer();
-                    SPinitializer.init();
+                if(stanfordParserInitializer == null){
+                    stanfordParserInitializer = new StanfordParserInitializer();
+                    stanfordParserInitializer.init();
                 }
             }
         }
-        return SPinitializer;
+        return stanfordParserInitializer;
     }
 
     public static synchronized void resetInstance(){
-        SPinitializer=null;
+        stanfordParserInitializer =null;
     }
 
     public synchronized StanfordCoreNLP getPipeline() {return pipeline;};
@@ -42,10 +42,12 @@ public class StanfordParserInitializer {
     private void init(){
         try{
             Properties props = new Properties();
-            props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse");
+            //props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse");
+            props.setProperty("annotators", "tokenize,ssplit,parse,lemma,ner,dcoref");
             //props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse,depparse,dcoref");
             props.setProperty("parse.model", "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz");
-            //props.setProperty("depparse.model", "edu/stanford/nlp/models/parser/nndep/english_UD.gz");
+            //props.setProperty("parse.model", "edu/stanford/nlp/models/srparser/englishSR.ser.gz");
+            props.setProperty("depparse.model", "/edu/stanford/nlp/models/parser/nndep/english_UD.gz");
             pipeline = new StanfordCoreNLP(props);
             tlp = new PennTreebankLanguagePack();
             gsf = tlp.grammaticalStructureFactory();
