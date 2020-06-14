@@ -33,7 +33,10 @@ public abstract class PetriNetElement {
         return ID;
     }
 
+    public abstract void generateXmlString();
+
     public String getXmlString() {
+        this.generateXmlString();
         return xmlString;
     }
 
