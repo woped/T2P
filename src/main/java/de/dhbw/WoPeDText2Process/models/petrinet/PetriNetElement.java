@@ -34,8 +34,11 @@ public abstract class PetriNetElement {
     }
 
     public String getXmlString() {
+        this.generateXmlString();
         return xmlString;
     }
+
+    public abstract void generateXmlString();
 
     public void setXmlString(String xmlString) {
         this.xmlString = xmlString;

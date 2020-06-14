@@ -98,13 +98,13 @@ public class Place extends PetriNetElement implements IPertiNetElement {
             transformer.transform(new DOMSource(doc), new StreamResult(writer));
 
             // Get the String value of final xml document
-            setXmlString(writer.getBuffer().toString());
-
             logger.debug("Remove the xml meta node");
-            setXmlString(getXmlString().replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim());
+            String xmlString = writer.getBuffer().toString().replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim();
 
             //TODO Bad Design -> improve
-            setXmlString(getXmlString().substring(getXmlString().indexOf('\n')+1));
+            xmlString = xmlString.substring(xmlString.indexOf('\n')+1);
+
+            setXmlString(xmlString);
 
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
