@@ -109,14 +109,12 @@ public class Arc extends PetriNetElement implements IPertiNetElement {
             logger.debug("Transforming the doc into a String using the transformer object.");
             transformer.transform(new DOMSource(doc), new StreamResult(writer));
 
-
             // Get the String value of final xml document
             logger.debug("Remove the xml meta node");
             String xmlString = writer.getBuffer().toString().replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim();
 
             //TODO Bad Design -> improve
             xmlString = xmlString.substring(xmlString.indexOf('\n')+1);
-
             setXmlString(xmlString);
 
         } catch (TransformerConfigurationException e) {

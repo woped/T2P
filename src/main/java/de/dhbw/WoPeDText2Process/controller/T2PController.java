@@ -14,6 +14,9 @@ import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
 import de.dhbw.WoPeDText2Process.exceptions.InvalidInputException;
 import de.dhbw.WoPeDText2Process.helper.Response;
 import de.dhbw.WoPeDText2Process.helper.T2PControllerHelper;
+import de.dhbw.WoPeDText2Process.wrapper.FrameNetInitializer;
+import de.dhbw.WoPeDText2Process.wrapper.StanfordParserInitializer;
+import de.dhbw.WoPeDText2Process.wrapper.WordNetInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +37,12 @@ public class T2PController {
      */
     T2PControllerHelper t2PControllerHelper = new T2PControllerHelper();
 
+    public T2PController() {
+        StanfordParserInitializer.getInstance();
+        WordNetInitializer.getInstance();
+        StanfordParserInitializer.getInstance();
+        FrameNetInitializer.getInstance();
+    }
     /**
      * <h1>generatePetriNetFromText</h1>
      *

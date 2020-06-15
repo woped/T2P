@@ -845,11 +845,9 @@ public class AnalyzedSentence {
 			List<Tree> _leaves = _np.getLeaves();
 			int _npStart = f_fullSentence.indexOf(_leaves.get(0))+1;
 			int _npEnd = f_fullSentence.indexOf(_leaves.get(_leaves.size()-1))+1;
-
 			_leaves = verbPhrase.getLeaves();
 			int _vpStart = f_fullSentence.indexOf(_leaves.get(0))+1;
 			int _vpEnd = f_fullSentence.indexOf(_leaves.get(_leaves.size()-1))+1;
-
 			//checking with dependencies
 			List<TypedDependency> _dep = SearchUtils.findDependency("dep", dependencies);
 			for(TypedDependency td:_dep) {
@@ -860,7 +858,6 @@ public class AnalyzedSentence {
 						_r =
 							ElementsBuilder.createResource(f_sentence, f_world, f_fullSentence, td.dep(),dependencies);
 						break;
-
 					}
 			}		*/
 //		}else if(_myDobj.size() > 1) {
@@ -894,7 +891,6 @@ public class AnalyzedSentence {
 	 * @param start
 	 * @param end
 	 * @return
-
 	private boolean inBetween(int index, int start, int end) {
 		return index >= start && index <= end;
 	}*/
@@ -982,4 +978,3 @@ public class AnalyzedSentence {
 	}
 
 }
-

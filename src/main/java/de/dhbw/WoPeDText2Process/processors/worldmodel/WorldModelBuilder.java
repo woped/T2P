@@ -16,7 +16,7 @@ public class WorldModelBuilder {
 
     private String processText;
     private Text parsedText;
-    private TextAnalyzer analyzer = new TextAnalyzer();
+    private TextAnalyzer textAnalyzer = new TextAnalyzer();
     private StanfordParserFunctionality stanford = StanfordParserFunctionality.getInstance();
 
     public WorldModelBuilder(String processText){
@@ -26,8 +26,6 @@ public class WorldModelBuilder {
 
     public WorldModel buildWorldModel(boolean mockBuild){
         logger.debug("Entered buildWorldModel method");
-        logger.debug("Instantiating a new WorldModel object");
-        WorldModel processWM;
         logger.debug("Check whether mockBuild is true or false");
         if(mockBuild){
             logger.debug("\ttrue - for test purpose only");
@@ -46,12 +44,12 @@ public class WorldModelBuilder {
     }
 
     public TextStatistics getTextStatistics() {
-        TextStatistics _result = new TextStatistics();
-        _result.setNumberOfSentences(parsedText.getSize());
-        _result.setAvgSentenceLength(parsedText.getAvgSentenceLength());
-        _result.setNumOfReferences(analyzer.getNumberOfReferences());
-        _result.setNumOfLinks(analyzer.getNumberOfLinks());
-        return _result;
+        TextStatistics textStatistics = new TextStatistics();
+        textStatistics.setNumberOfSentences(parsedText.getSize());
+        textStatistics.setAvgSentenceLength(parsedText.getAvgSentenceLength());
+        textStatistics.setNumOfReferences(textAnalyzer.getNumberOfReferences());
+        textStatistics.setNumOfLinks(textAnalyzer.getNumberOfLinks());
+        return textStatistics;
     }
 
     private WorldModel buildWorldModel(){
@@ -59,12 +57,12 @@ public class WorldModelBuilder {
         logger.debug("Parsing the Text through the Stanford CoreNLP ...");
         parsedText = stanford.createText(processText);
         logger.debug("Clear the analyzer ...");
-        analyzer.clear();
+        textAnalyzer.clear();
         logger.debug("Analyzing the parsed text to get a worldModel ...");
-        analyzer.analyze(parsedText);
+        textAnalyzer.analyze(parsedText);
         logger.debug("WorldModel created based on the given input text");
-        WorldModel processWM= analyzer.getWorld();
-        return processWM;
+        WorldModel worldModel= textAnalyzer.getWorld();
+        return worldModel;
     }
 
     private WorldModel buildWorldModelMock(){

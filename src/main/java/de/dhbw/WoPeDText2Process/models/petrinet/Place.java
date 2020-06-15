@@ -103,7 +103,6 @@ public class Place extends PetriNetElement implements IPertiNetElement {
 
             //TODO Bad Design -> improve
             xmlString = xmlString.substring(xmlString.indexOf('\n')+1);
-
             setXmlString(xmlString);
 
         } catch (TransformerConfigurationException e) {
