@@ -8,6 +8,8 @@ import de.dhbw.WoPeDText2Process.enums.SpecifierType;
 import de.saar.coli.salsa.reiter.framenet.FrameElement;
 
 public class Specifier extends SpecifiedElement {
+
+
 	
 	private SpecifierType f_type = SpecifierType.DIRECT; //how this was found,
 	private String f_headWord = null;

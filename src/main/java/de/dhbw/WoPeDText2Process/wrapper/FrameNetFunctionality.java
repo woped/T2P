@@ -20,6 +20,8 @@ public class FrameNetFunctionality {
     private static AnnotationCorpus f_corpus;
     private FrameNetInitializer fni;
 
+
+
     public FrameNetFunctionality (){
         fni = FrameNetInitializer.getInstance();
         f_frameNet = fni.getFN();

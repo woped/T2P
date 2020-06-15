@@ -112,6 +112,7 @@ public class Arc extends PetriNetElement implements IPertiNetElement {
             // Get the String value of final xml document
             logger.debug("Remove the xml meta node");
             String xmlString = writer.getBuffer().toString().replaceAll("\\<\\?xml(.+?)\\?\\>", "").trim();
+
             //TODO Bad Design -> improve
             xmlString = xmlString.substring(xmlString.indexOf('\n')+1);
             setXmlString(xmlString);

@@ -40,6 +40,8 @@ public abstract class PetriNetElement {
         return xmlString;
     }
 
+    public abstract void generateXmlString();
+
     public void setXmlString(String xmlString) {
         this.xmlString = xmlString;
     }

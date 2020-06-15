@@ -1,21 +1,19 @@
 package de.dhbw.WoPeDText2Process.processors.worldmodel;
 
-import de.dhbw.WoPeDText2Process.processors.worldmodel.transform.DummyAction;
-import de.dhbw.WoPeDText2Process.processors.petrinet.IDHandler;
 import de.dhbw.WoPeDText2Process.enums.FlowDirection;
 import de.dhbw.WoPeDText2Process.enums.FlowType;
 import de.dhbw.WoPeDText2Process.enums.PhraseType;
 import de.dhbw.WoPeDText2Process.enums.SpecifierType;
 import de.dhbw.WoPeDText2Process.models.worldModel.*;
-import edu.stanford.nlp.ling.CoreLabel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.transform.DummyAction;
+import de.dhbw.WoPeDText2Process.wrapper.FrameNetFunctionality;
+import de.dhbw.WoPeDText2Process.processors.petrinet.IDHandler;
+import edu.stanford.nlp.ling.Word;
 
 import java.util.ArrayList;
 
 public class MockWorldModel {
 
-    Logger logger = LoggerFactory.getLogger(MockWorldModel.class);
     /*This class solely serves test purposes*/
 
     private WorldModel mockWM;
@@ -36,11 +34,9 @@ public class MockWorldModel {
                 {"Otherwise", "he", "throws", "it", "in", "the", "bin", "."}};
         Text mockTextT2P = new Text();
         for (int i = 0; i < mockText.length; i++) {
-            ArrayList<CoreLabel> WordList = new ArrayList<CoreLabel>();
+            ArrayList<Word> WordList = new ArrayList<Word>();
             for (int j = 0; j < mockText[i].length; j++) {
-                CoreLabel label = new CoreLabel();
-                label.setValue(mockText[i][j]);
-                WordList.add(label);
+                WordList.add(new Word(mockText[i][j]));
             }
             mockTextT2P.addSentence(new T2PSentence(WordList));
         }
