@@ -60,7 +60,7 @@ After a short time of loading the server will listen to the port and root path y
 </p>
 
 <h2>Testing the WebServices</h2>
-
+<h3>With SoapUI</h3>
 <p>
 The server is exposing different webservices, which can be called.
 To test the functionality WoPeD-UI is using we need a proper tool to send POST requests to the ReSTController.
@@ -69,3 +69,11 @@ New it is time to set it up the right way.
 </p>
 <img src="./img/soapui_configuring_rest.png">
 <img src="./img/soapui_configuring_rest_2.png">
+
+<h3>With WoPeD itself</h3>
+<p>
+If you want to give it a try with WoPeD, you simply have to check if you are running a release >= 4.0.0. Start you application and navigate to the settings. Configre your WoPeD as shown below.
+</p>
+<img src="./img/settings.png">
+<img src="./img/nlp_settings.png">
+<p>Now you can start analysing text information as you are used to do.</p>
