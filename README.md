@@ -72,8 +72,10 @@ New it is time to set it up the right way.
 
 <h3>With WoPeD itself</h3>
 <p>
-If you want to give it a try with WoPeD, you simply have to check if you are running a release >= 4.0.0. Start you application and navigate to the settings. Configre your WoPeD as shown below.
+If you want to give it a try with WoPeD, you simply have to check if you are running a release >= 4.0.0. Start your application and navigate to the settings. Configure your WoPeD as shown below.
 </p>
 <img src="./img/settings.png">
 <img src="./img/nlp_settings.png">
-<p>Now you can start analysing text information as you are used to do.</p>
+<p>
+Now you can start analysing text information as you are used to do.
+</p>
