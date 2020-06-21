@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 import de.dhbw.WoPeDText2Process.processors.petrinet.IDHandler;
 import de.dhbw.WoPeDText2Process.processors.petrinet.IPertiNetElement;
 import org.slf4j.Logger;
@@ -37,23 +38,50 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
     private int actorPositionY = 0;
     private int dimensionX = 40;
     private int dimensionY = 40;
-    private int triggerType = 200;
+    private int triggerType;
     private int triggerDimensionX = 24;
     private int triggerDimensionY = 22;
     private int resourceDimensionX = 60;
     private int resourceDimensionY = 22;
     private int operatorType;
     private int orientationCode=1;
-    private boolean hasResource = false, isGateway = false; //hasResource bezieht sich auf die Rolle, nicht auf die Ressource
+    private boolean hasResource = false, isGateway = false, isTimeTriggered = false, isMessageTriggered = false; //hasResource bezieht sich auf die Rolle, nicht auf die Ressource
 
-    public Transition(String text, boolean hasResource, boolean isGateway, String originID, IDHandler idHandler) {
+    public boolean isTimeTriggered() {
+        return isTimeTriggered;
+    }
+
+    public void setTimeTriggered(boolean timeTriggered) {
+        isTimeTriggered = timeTriggered;
+    }
+
+    public boolean isMessageTriggered() {
+        return isMessageTriggered;
+    }
+
+    public void setMessageTriggered(boolean messageTriggered) {
+        isMessageTriggered = messageTriggered;
+    }
+
+    public Transition(String text, boolean hasResource, boolean isGateway, boolean isTimeTriggered, boolean isMessageTriggered, String originID, IDHandler idHandler) {
         super(originID, idHandler);
         this.text = text;
         this.hasResource = hasResource;
         this.isGateway = isGateway;
+        this.isMessageTriggered = isMessageTriggered;
+        this.isTimeTriggered = isTimeTriggered;
 
         // Set Id of transition
         this.ID = "t" + IDCounter;
+    }
+
+    /**
+    * Please use new constructor with isTimeTriggered and isMessageTriggered. This constructor is deprecated since woped release 4.0.0.
+    *
+    */
+    @Deprecated
+    public Transition(String text, boolean hasResource, boolean isGateway, String originID, IDHandler idHandler) {
+        this(text, hasResource, isGateway, false, false, originID, idHandler);
     }
 
     public void setOrientationCode(int orientationCode) {
@@ -170,50 +198,7 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
 
             logger.debug("Check wether there is a Resource or not");
             if (hasResource == true) {
-                logger.debug("\tResource detected");
-                logger.debug("\tCreate a trigger node for toolspecific ...");
-                Element trigger = doc.createElement("trigger");
-                trigger.setAttribute("id", "");
-                trigger.setAttribute("type", "" + triggerType);
-                toolSpecific.appendChild(trigger);
-
-                logger.debug("\tCreate a graphics node for toolspecific trigger ...");
-                Element graphicsOfTrigger = doc.createElement("graphics");
-                trigger.appendChild(graphicsOfTrigger);
-
-                logger.debug("\tCreate a position node for toolspecific trigger graphics...");
-                Element positionOfTrigger = doc.createElement("position");
-                positionOfTrigger.setAttribute("x", "" + triggerPositionX);
-                positionOfTrigger.setAttribute("y", "" + triggerPositionY);
-                graphicsOfTrigger.appendChild(positionOfTrigger);
-
-                logger.debug("\tCreate a dimension node for toolspecific trigger graphics...");
-                Element dimensionOfTrigger = doc.createElement("dimension");
-                dimensionOfTrigger.setAttribute("x", "" + triggerDimensionX);
-                dimensionOfTrigger.setAttribute("y", "" + triggerDimensionY);
-                graphicsOfTrigger.appendChild(dimensionOfTrigger);
-
-                logger.debug("\tCreate a transitionResource node for toolspecific ...");
-                Element transResource = doc.createElement("transitionResource");
-                transResource.setAttribute("roleName", roleName);
-                transResource.setAttribute("organizationalUnitName", organizationalUnitName);
-                toolSpecific.appendChild(transResource);
-
-                logger.debug("\tCreate a graphics node for toolspecific transitionResource ...");
-                Element graphicsOfResource = doc.createElement("graphics");
-                transResource.appendChild(graphicsOfResource);
-
-                logger.debug("\tCreate a position node for toolspecific transitionResource graphics ...");
-                Element positionOfResource = doc.createElement("position");
-                positionOfResource.setAttribute("x", "" + resourcePositionX);
-                positionOfResource.setAttribute("y", "" + resourcePositionY);
-                graphicsOfResource.appendChild(positionOfResource);
-
-                logger.debug("\tCreate a dimension node for toolspecific transitionResource graphics ...");
-                Element dimensionOfResource = doc.createElement("dimension");
-                dimensionOfResource.setAttribute("x", "" + resourceDimensionX);
-                dimensionOfResource.setAttribute("y", "" + resourceDimensionY);
-                graphicsOfResource.appendChild(dimensionOfResource);
+                generateResourcePNML(doc, toolSpecific);
 
             }
 
@@ -257,6 +242,54 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
 
     }
 
+    private void generateResourcePNML(Document doc, Element toolSpecific) {
+        this.triggerType = TriggerType.TRIGGER_TYPE_RESOURCE.getType();
+        logger.debug("\tResource detected");
+        logger.debug("\tCreate a trigger node for toolspecific ...");
+        Element trigger = doc.createElement("trigger");
+        trigger.setAttribute("id", "");
+        trigger.setAttribute("type", "" + triggerType);
+        toolSpecific.appendChild(trigger);
+
+        logger.debug("\tCreate a graphics node for toolspecific trigger ...");
+        Element graphicsOfTrigger = doc.createElement("graphics");
+        trigger.appendChild(graphicsOfTrigger);
+
+        logger.debug("\tCreate a position node for toolspecific trigger graphics...");
+        Element positionOfTrigger = doc.createElement("position");
+        positionOfTrigger.setAttribute("x", "" + triggerPositionX);
+        positionOfTrigger.setAttribute("y", "" + triggerPositionY);
+        graphicsOfTrigger.appendChild(positionOfTrigger);
+
+        logger.debug("\tCreate a dimension node for toolspecific trigger graphics...");
+        Element dimensionOfTrigger = doc.createElement("dimension");
+        dimensionOfTrigger.setAttribute("x", "" + triggerDimensionX);
+        dimensionOfTrigger.setAttribute("y", "" + triggerDimensionY);
+        graphicsOfTrigger.appendChild(dimensionOfTrigger);
+
+        logger.debug("\tCreate a transitionResource node for toolspecific ...");
+        Element transResource = doc.createElement("transitionResource");
+        transResource.setAttribute("roleName", roleName);
+        transResource.setAttribute("organizationalUnitName", organizationalUnitName);
+        toolSpecific.appendChild(transResource);
+
+        logger.debug("\tCreate a graphics node for toolspecific transitionResource ...");
+        Element graphicsOfResource = doc.createElement("graphics");
+        transResource.appendChild(graphicsOfResource);
+
+        logger.debug("\tCreate a position node for toolspecific transitionResource graphics ...");
+        Element positionOfResource = doc.createElement("position");
+        positionOfResource.setAttribute("x", "" + resourcePositionX);
+        positionOfResource.setAttribute("y", "" + resourcePositionY);
+        graphicsOfResource.appendChild(positionOfResource);
+
+        logger.debug("\tCreate a dimension node for toolspecific transitionResource graphics ...");
+        Element dimensionOfResource = doc.createElement("dimension");
+        dimensionOfResource.setAttribute("x", "" + resourceDimensionX);
+        dimensionOfResource.setAttribute("y", "" + resourceDimensionY);
+        graphicsOfResource.appendChild(dimensionOfResource);
+    }
+
     public int getOperatorType() {
         return operatorType;
     }
@@ -297,6 +330,8 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
                 ", orientationCode=" + orientationCode +
                 ", hasResource=" + hasResource +
                 ", isGateway=" + isGateway +
+                ", isTimeTriggered=" + isTimeTriggered +
+                ", isMessageTriggered=" + isMessageTriggered +
                 "} " + super.toString();
     }
 }

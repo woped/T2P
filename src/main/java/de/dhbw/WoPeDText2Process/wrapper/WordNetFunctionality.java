@@ -243,12 +243,13 @@ public class WordNetFunctionality {
                 }
             }
 
+            //Wieso werden Hypernyme durchsucht? Resourcen Zuweisung funktioniert ohne diese Suche.
             List<ISynsetID> _pts = s.getRelatedSynsets(Pointer.HYPERNYM);
-            for (ISynsetID p : _pts) {
+            /*for (ISynsetID p : _pts) {
                 if (canBe(dict.getSynset(p), lookFor, checked)) {
                     return true;
                 }
-            }
+            }*/
         }
         return false;
     }
