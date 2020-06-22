@@ -4,12 +4,15 @@ import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.transform.ListUtils;
 import de.dhbw.WoPeDText2Process.models.worldModel.Action;
+import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.IRAMDictionary;
 import edu.mit.jwi.item.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -253,6 +256,27 @@ public class WordNetFunctionality {
         }
         return false;
     }
+
+    public List<ISynsetID> getListHypernym(ISynsetID sid_pa) throws IOException {
+        dict.open(); //Open the dictionary to start looking for LEMMA
+        List<ISynsetID> hypernym_list = new ArrayList<>();
+
+        boolean end = false;
+
+        while (!end) {
+            hypernym_list.add(sid_pa);
+            List<ISynsetID> hypernym_tmp = dict.getSynset(sid_pa).getRelatedSynsets(Pointer.HYPERNYM);
+            if (hypernym_tmp.isEmpty()) {
+                end = true;
+            } else {
+                sid_pa = hypernym_tmp.get(0);//we will stick with the first hypernym
+            }
+
+        }
+
+        return hypernym_list;
+    }
+
     //???
     public  String getBaseForm(String verb) {
         return getBaseForm(verb, true, POS.VERB);

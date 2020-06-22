@@ -19,11 +19,16 @@ import de.dhbw.WoPeDText2Process.models.worldModel.Resource;
 import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
 import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
 import de.dhbw.WoPeDText2Process.enums.SpecifierType;
+import edu.mit.jwi.item.IWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElementsBuilder {
+
+	private static final Logger logger = LoggerFactory.getLogger(ElementsBuilder.class);
 
 	public static Actor createActor(T2PSentence origin, List<Tree> fullSentence, TreeGraphNode node,Collection<TypedDependency> dependencies) {
 		Actor _a = null;
@@ -68,6 +73,7 @@ public class ElementsBuilder {
 	}
 
 	public static Action createAction(T2PSentence origin, List<Tree> fullSentence, TreeGraphNode node,Collection<TypedDependency> dependencies,boolean active) {
+
 		Action _result = new Action(origin,node.index(),node.value());
 		WordNetFunctionality wnf = new WordNetFunctionality();
 		_result.setBaseForm(wnf.getBaseForm(node.value()));
@@ -122,6 +128,12 @@ public class ElementsBuilder {
 		extractRCMODSpecifier(origin, _result, node,dependencies);
 		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
 		return _result;
+	}
+
+
+	private boolean checkIsMessageTriggered(Collection<TypedDependency> dependencies, WordNetFunctionality wnf, TreeGraphNode node){
+		//wnf.getListHypernym()
+		return true;
 	}
 
 	/**

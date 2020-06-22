@@ -190,27 +190,32 @@ public class PetrinetBuilder {
         if(a.getObject()!=null)
             t.setResourceName(a.getObject().getName());
 
-        //Org Text: auskommentiert, da nicht verlässlich
-        //TODO Refactor
+        extractOrgnaizationalUnits(a, t);
+        return t;
+    }
+
+    /**
+     * This method extracts the organizational units from the sentence objects.
+     *
+     * @param a Action
+     * @param t Transition
+     */
+    private void extractOrgnaizationalUnits(Action a, Transition t) {
         if(a.getActorFrom()!= null){
             if(a.getActorFrom().getReference()!=null){
                 if(a.getActorFrom().getReference().getSpecifiers(SpecifierType.NN).size()>0){
-                    //t.setOrganizationalUnitName(a.getActorFrom().getReference().getSpecifiers(Specifier.SpecifierType.NN).get(0).getName());
+                    t.setOrganizationalUnitName(a.getActorFrom().getReference().getSpecifiers(SpecifierType.NN).get(0).getName());
                 }else{
-                    //t.setOrganizationalUnitName(a.getActorFrom().getReference().getName());
+                    t.setOrganizationalUnitName(a.getActorFrom().getReference().getName());
                 }
                 t.setRoleName(a.getActorFrom().getReference().getName());
             }else if(a.getActorFrom()!=null){
                 if(a.getActorFrom().getSpecifiers(SpecifierType.NN).size()>0){
-                    //t.setOrganizationalUnitName(a.getActorFrom().getSpecifiers(Specifier.SpecifierType.NN).get(0).getName());
-                }else{
-                    //t.setOrganizationalUnitName(a.getActorFrom().getName());
+                    t.setOrganizationalUnitName(a.getActorFrom().getSpecifiers(SpecifierType.NN).get(0).getName());
                 }
                 t.setRoleName(a.getActorFrom().getName());
             }
         }
-        //t.generateXmlString();
-        return t;
     }
 
     /**

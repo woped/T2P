@@ -23,6 +23,8 @@ import de.dhbw.WoPeDText2Process.enums.SpecifierType;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AnalyzedSentence {
 
@@ -40,6 +42,8 @@ public class AnalyzedSentence {
 	private ArrayList<ConjunctionElement> f_conjs = new ArrayList<ConjunctionElement>();
 	private ArrayList<Action> f_actions = new ArrayList<Action>();
 	private final boolean f_ignoreNPSubSentences = "1".equals(Configuration.getInstance().getProperty(Constants.CONF_GENERATE_IGNORE_SBAR_ON_NP));
+
+	private final Logger logger = LoggerFactory.getLogger(AnalyzedSentence.class);
 
 
 
@@ -689,6 +693,7 @@ public class AnalyzedSentence {
 	 * @param dependencies
 	 */
 	private void checkForSubSentences(Tree head, Collection<TypedDependency> dependencies,SpecifiedElement object,boolean isNP) {
+		logger.debug("Tree head: "+head.value());
 		if(f_sentenceTags.contains(head.value())) {
 			List<Tree> _leaves = head.getLeaves();
 			int _start = SearchUtils.getIndex(f_fullSentence, _leaves);

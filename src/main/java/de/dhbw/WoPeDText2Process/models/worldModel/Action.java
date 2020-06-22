@@ -4,6 +4,7 @@
 package de.dhbw.WoPeDText2Process.models.worldModel;
 
 import de.dhbw.WoPeDText2Process.enums.ActionLinkType;
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 
 public class Action extends SpecifiedElement{
 	
@@ -33,6 +34,16 @@ public class Action extends SpecifiedElement{
 	private Action f_link = null;
 	private ActionLinkType f_linkType = null;
 	private boolean f_transient;
+
+	public TriggerType getTriggerType() {
+		return triggerType;
+	}
+
+	public void setTriggerType(TriggerType triggerType) {
+		this.triggerType = triggerType;
+	}
+
+	private TriggerType triggerType;
 
 
 	private String finalLabel;
