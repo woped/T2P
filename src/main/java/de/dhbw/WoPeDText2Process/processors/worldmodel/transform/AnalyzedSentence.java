@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import de.dhbw.WoPeDText2Process.enums.PersonalPronouns;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
 import de.dhbw.WoPeDText2Process.models.worldModel.T2PSentence;
@@ -138,7 +139,7 @@ public class AnalyzedSentence {
 	}
 
 
-	private void analyzseSentence(Tree _mainSentence,Collection<TypedDependency> dependencies ) {
+	private void analyzseSentence(Tree _mainSentence,Collection<TypedDependency> dependencies) {
 		//checking if the sentence contains several sub-sentences
 		int _sCount = determineSubSentenceCount(_mainSentence);
 		if(_sCount == 0) {
@@ -289,6 +290,7 @@ public class AnalyzedSentence {
 		if(Constants.DEBUG_EXTRACTION) System.out.println("extracting from:" +PrintUtils.toString(sentence.getLeaves()));
 		boolean _active = isActive(sentence,dependencies);
 		List<Actor> _actors = determineSubjects(sentence,dependencies,_active);
+		checkPersonalPronoun(_actors);
 		List<Action> _verbs = determineVerb(sentence,_active,dependencies);
 		removeExamples(_verbs);
 		List<Action> _actions = new ArrayList<Action>();
@@ -346,6 +348,23 @@ public class AnalyzedSentence {
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * This method checks, if the actor is a personal pronoun and replaces the personal pronoun with the previous actor.
+	 *
+	 * @param actors
+	 */
+	private void checkPersonalPronoun(List<Actor> actors){
+		for (int i = 0; i < actors.size(); i++) {
+			for (PersonalPronouns pronoun: PersonalPronouns.values()) {
+				if(actors.get(i).getName().equals(pronoun.getDescriptor())){
+					actors.remove(i);
+					actors.add(f_world.getActors().get(f_world.getActors().size()-1));
+				}
+			}
+
 		}
 	}
 
