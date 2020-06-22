@@ -347,7 +347,7 @@ public class ProcessLabelGenerator {
             }
             StringBuilder _b = new StringBuilder();
             if(addDet && Constants.f_wantedDeterminers.contains(a.getDeterminer())) {
-                _b.append(a.getDeterminer());
+                _b.append(" "); // dont need determine like "a" in the Label. Replaced -> a.getDeterminer()
                 _b.append(' ');
             }
             for(Specifier s:a.getSpecifiers(SpecifierType.AMOD)) {

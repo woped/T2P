@@ -21,6 +21,7 @@ import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
 import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
 import de.dhbw.WoPeDText2Process.models.worldModel.WorldModel;
 import de.dhbw.WoPeDText2Process.enums.SpecifierType;
+import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
@@ -286,6 +287,7 @@ public class AnalyzedSentence {
 	 * @param filterRC
 	 */
 	private void extractElements(Tree sentence,Collection<TypedDependency> dependencies) {
+		WordNetFunctionality wnf = new WordNetFunctionality();
 		if(Constants.DEBUG_EXTRACTION) System.out.println("-----------------------------------");
 		if(Constants.DEBUG_EXTRACTION) System.out.println("extracting from:" +PrintUtils.toString(sentence.getLeaves()));
 		boolean _active = isActive(sentence,dependencies);
@@ -303,6 +305,7 @@ public class AnalyzedSentence {
 			if(_objects.size() > 0) {
 				for(ExtractedObject el:_objects) {
 					Action _ac = verb.clone();
+					_ac.setName(wnf.deriveVerbStem(_ac.getName()).replace("[","").replace("]", ""));
 					_ac.setObject(el);
 					_actions.add(_ac);
 				}

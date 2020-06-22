@@ -7,6 +7,7 @@ import de.dhbw.WoPeDText2Process.models.worldModel.Action;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.IRAMDictionary;
 import edu.mit.jwi.item.*;
+import edu.mit.jwi.morph.WordnetStemmer;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,6 +145,18 @@ public class WordNetFunctionality {
             return null;
         }
     }
+
+    public  String deriveVerbStem(String verb) {
+        String verbstem;
+        try {
+            WordnetStemmer stemmer = new WordnetStemmer(dict);
+            verbstem = stemmer.findStems(verb, POS.VERB).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; }
+        return verbstem;
+    }
+
     //???
     public  boolean isWeakAction(Action a) {
         if (isWeakVerb(a.getName())) {
