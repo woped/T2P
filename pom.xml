@@ -147,6 +147,49 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 			Workspace Dependencies 				-->
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>edu.mit.jwi</artifactId>
+			<version>2.4.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/edu.mit.jwi_2.4.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>FrameNetReader</artifactId>
+			<version>0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/FrameNetReader.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>jsr173</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jsr173_1.0_api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>msv</artifactId>
+			<version>200030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/msv-20030807.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>relaxngDatatype</artifactId>
+			<version>20030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/relaxngDatatype-20030807.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>xsdlib</artifactId>
+			<version>20030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
