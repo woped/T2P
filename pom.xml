@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.dhbw</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>3.7.1</version>
+	<version>3.7.1-Snapshot</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
@@ -25,6 +25,17 @@
 			<url>http://cogcomp.org/m2repo/</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://vesta.dh-karlsruhe.de/nexus/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://vesta.dh-karlsruhe.de/nexus/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<properties>
 		<java.version>11</java.version>
