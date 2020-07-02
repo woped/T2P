@@ -17,7 +17,7 @@ public class FrameNetInitializer {
     // Initialize log4j to log information into the console
     Logger logger = LoggerFactory.getLogger(FrameNetInitializer.class);
     //framenet source directory
-    private String f_frameNetHome = "/classes/NLPTools/FrameNet/fndata-1.5/";
+    private String f_frameNetHome = "target" + File.separator + "classes" + File.separator + "NLPTools" + File.separator + "FrameNet" + File.separator + "fndata-1.5";
     //framenet initializer instance
     private static FrameNetInitializer fni;
     //framenet instance (dictionary)
@@ -30,18 +30,18 @@ public class FrameNetInitializer {
     private FrameNetInitializer (){
         f_frameNet = new FrameNet();
 
-        String path = FrameNetInitializer.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        path = (new File(path)).getParentFile().getPath();
-        logger.info("Reading FrameNet Path as: " + path + f_frameNetHome);
+        //String path = FrameNetInitializer.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        //path = (new File(path)).getParentFile().getPath();
+        //logger.info("Reading FrameNet Path as: " + path + f_frameNetHome);
+        logger.info("Reading FrameNet Path as: " + f_frameNetHome);
 
-        try {
-            path = URLDecoder.decode(path, "UTF-8");
-        } catch (UnsupportedEncodingException e2) {
+        //try {
+            //path = URLDecoder.decode(path, "UTF-8");
+        //} catch (UnsupportedEncodingException e2) {
+            //e2.printStackTrace();
+        //}
 
-            e2.printStackTrace();
-        }
-
-        f_frameNetHome = path + f_frameNetHome;
+        //f_frameNetHome = path + f_frameNetHome;
     }
 
     //getter
