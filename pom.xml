@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.dhbw</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>3.7.1-Snapshot</version>
+	<version>3.7.1-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
