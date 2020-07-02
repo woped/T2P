@@ -8,9 +8,9 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>de.dhbw</groupId>
+	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>3.7.1-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
@@ -25,6 +25,17 @@
 			<url>http://cogcomp.org/m2repo/</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://vesta.dh-karlsruhe.de/nexus/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://vesta.dh-karlsruhe.de/nexus/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<properties>
 		<java.version>11</java.version>
@@ -147,6 +158,49 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 			Workspace Dependencies 				-->
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>edu.mit.jwi</artifactId>
+			<version>2.4.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/edu.mit.jwi_2.4.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>FrameNetReader</artifactId>
+			<version>0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/FrameNetReader.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>jsr173</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jsr173_1.0_api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>msv</artifactId>
+			<version>200030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/msv-20030807.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>relaxngDatatype</artifactId>
+			<version>20030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/relaxngDatatype-20030807.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>PLATZHALTER</groupId>
+			<artifactId>xsdlib</artifactId>
+			<version>20030807</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -154,6 +208,28 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy_NLPTools-FrameNet</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<copy todir="${basedir}/target/NLPTools">
+									<fileset dir="${basedir}/src/main/resources/NLPTools" includes="**/*" />
+								</copy>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
