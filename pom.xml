@@ -8,7 +8,7 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>de.dhbw</groupId>
+	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
 	<version>3.7.1-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
