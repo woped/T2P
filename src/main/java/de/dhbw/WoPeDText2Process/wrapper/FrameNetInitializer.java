@@ -6,18 +6,25 @@ import de.saar.coli.salsa.reiter.framenet.FrameNet;
 import de.saar.coli.salsa.reiter.framenet.fncorpus.AnnotationCorpus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 
-public class FrameNetInitializer {
 
+public class FrameNetInitializer {
     // Initialize log4j to log information into the console
     Logger logger = LoggerFactory.getLogger(FrameNetInitializer.class);
     //framenet source directory
-    private String f_frameNetHome = "/classes/NLPTools/FrameNet/fndata-1.5/";
+    private String f_frameNetHome = "/NLPTools/FrameNet/fndata-1.5/";
     //framenet initializer instance
     private static FrameNetInitializer fni;
     //framenet instance (dictionary)
@@ -30,8 +37,8 @@ public class FrameNetInitializer {
     private FrameNetInitializer (){
         f_frameNet = new FrameNet();
 
-        String path = FrameNetInitializer.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        path = (new File(path)).getParentFile().getPath();
+        ApplicationHome ah = new ApplicationHome(this.getClass());
+        String path = ah.getDir().getPath();
         logger.info("Reading FrameNet Path as: " + path + f_frameNetHome);
 
         try {
