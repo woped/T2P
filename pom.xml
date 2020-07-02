@@ -223,8 +223,8 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<copy todir="${basedir}/target/NLPTools/FrameNet">
-									<fileset dir="${basedir}/src/main/resources/NLPTools/FrameNet" includes="**/*" />
+								<copy todir="${basedir}/target/NLPTools">
+									<fileset dir="${basedir}/src/main/resources/NLPTools" includes="**/*" />
 								</copy>
 							</tasks>
 						</configuration>
