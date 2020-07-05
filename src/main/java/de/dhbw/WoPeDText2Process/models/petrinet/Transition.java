@@ -45,44 +45,19 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
     private int resourceDimensionY = 22;
     private int operatorType;
     private int orientationCode=1;
-    private boolean hasResource = false, isGateway = false, isTimeTriggered = false, isMessageTriggered = false; //hasResource bezieht sich auf die Rolle, nicht auf die Ressource
+    private boolean hasResource = false, isGateway = false; //hasResource bezieht sich auf die Rolle, nicht auf die Ressource
 
-    public boolean isTimeTriggered() {
-        return isTimeTriggered;
-    }
 
-    public void setTimeTriggered(boolean timeTriggered) {
-        isTimeTriggered = timeTriggered;
-    }
-
-    public boolean isMessageTriggered() {
-        return isMessageTriggered;
-    }
-
-    public void setMessageTriggered(boolean messageTriggered) {
-        isMessageTriggered = messageTriggered;
-    }
-
-    public Transition(String text, boolean hasResource, boolean isGateway, boolean isTimeTriggered, boolean isMessageTriggered, String originID, IDHandler idHandler) {
+    public Transition(String text, boolean hasResource, boolean isGateway, String originID, IDHandler idHandler) {
         super(originID, idHandler);
         this.text = text;
         this.hasResource = hasResource;
         this.isGateway = isGateway;
-        this.isMessageTriggered = isMessageTriggered;
-        this.isTimeTriggered = isTimeTriggered;
 
         // Set Id of transition
         this.ID = "t" + IDCounter;
     }
 
-    /**
-    * Please use new constructor with isTimeTriggered and isMessageTriggered. This constructor is deprecated since woped release 4.0.0.
-    *
-    */
-    @Deprecated
-    public Transition(String text, boolean hasResource, boolean isGateway, String originID, IDHandler idHandler) {
-        this(text, hasResource, isGateway, false, false, originID, idHandler);
-    }
 
     public void setOrientationCode(int orientationCode) {
         this.orientationCode = orientationCode;
@@ -330,8 +305,6 @@ public class Transition extends PetriNetElement implements IPertiNetElement {
                 ", orientationCode=" + orientationCode +
                 ", hasResource=" + hasResource +
                 ", isGateway=" + isGateway +
-                ", isTimeTriggered=" + isTimeTriggered +
-                ", isMessageTriggered=" + isMessageTriggered +
                 "} " + super.toString();
     }
 }

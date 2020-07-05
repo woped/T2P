@@ -5,6 +5,7 @@ package de.dhbw.WoPeDText2Process.models.worldModel;
 
 import de.dhbw.WoPeDText2Process.enums.ActionLinkType;
 import de.dhbw.WoPeDText2Process.enums.TriggerType;
+import org.springframework.scheduling.Trigger;
 
 public class Action extends SpecifiedElement{
 	
@@ -34,6 +35,9 @@ public class Action extends SpecifiedElement{
 	private Action f_link = null;
 	private ActionLinkType f_linkType = null;
 	private boolean f_transient;
+	private TriggerType triggerType = TriggerType.TRIGGER_TYPE_NOT_TRIGGERED;
+
+	private String finalLabel;
 
 	public TriggerType getTriggerType() {
 		return triggerType;
@@ -43,17 +47,17 @@ public class Action extends SpecifiedElement{
 		this.triggerType = triggerType;
 	}
 
-	private TriggerType triggerType;
-
-
-	private String finalLabel;
-
 	/**
 	 * 
 	 */
 	public Action(T2PSentence origin, int wordInSentence, String verb) {
 		super(origin,wordInSentence,verb);
 	}
+
+	public Action(T2PSentence origin, String verb) {
+		super(origin,verb);
+	}
+
 
 	public void setBaseForm(String verbBaseForm){
 		f_baseForm = verbBaseForm;
@@ -80,6 +84,9 @@ public class Action extends SpecifiedElement{
 		_clone.f_markerFromPP = f_markerFromPP;
 		_clone.f_negated = f_negated;
 		_clone.f_link = f_link;
+
+		_clone.triggerType = triggerType;
+
 		for(Specifier s:this.getSpecifiers()) {
 			_clone.addSpecifiers(s);
 		}		

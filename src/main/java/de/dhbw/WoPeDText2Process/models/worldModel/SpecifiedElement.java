@@ -26,6 +26,11 @@ public abstract class SpecifiedElement extends OriginatedElement implements Comp
 		f_name = name;
 	}
 
+	public SpecifiedElement(T2PSentence origin,String name) {
+		super(origin);
+		f_name = name;
+	}
+
 	public List<Specifier> getSpecifiers(SpecifierType type){
 		ArrayList<Specifier> _result = new ArrayList<Specifier>();
 		for(Specifier s:f_specifiers) {

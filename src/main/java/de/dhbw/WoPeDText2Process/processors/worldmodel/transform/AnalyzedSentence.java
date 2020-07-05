@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.dhbw.WoPeDText2Process.enums.PersonalPronouns;
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
 import de.dhbw.WoPeDText2Process.models.worldModel.T2PSentence;
@@ -45,7 +46,7 @@ public class AnalyzedSentence {
 	private ArrayList<Action> f_actions = new ArrayList<Action>();
 	private final boolean f_ignoreNPSubSentences = "1".equals(Configuration.getInstance().getProperty(Constants.CONF_GENERATE_IGNORE_SBAR_ON_NP));
 
-	private final Logger logger = LoggerFactory.getLogger(AnalyzedSentence.class);
+	private final static Logger logger = LoggerFactory.getLogger(AnalyzedSentence.class);
 
 
 
@@ -709,6 +710,7 @@ public class AnalyzedSentence {
 		}
 		return _result;
 	}
+
 
 	/**
 	 * @param head

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
 import de.dhbw.WoPeDText2Process.wrapper.FrameNetFunctionality;
 import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
@@ -25,6 +26,7 @@ import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.Trigger;
 
 public class ElementsBuilder {
 
@@ -127,10 +129,39 @@ public class ElementsBuilder {
 		extractPPSpecifier(origin, fullSentence, _result, node,dependencies);
 		extractRCMODSpecifier(origin, _result, node,dependencies);
 		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
+
+		checkIsTimeTriggered(node, dependencies, _result);
+
 		return _result;
 	}
 
+	/**
+	 * This method checks if an action is time triggered.
+	 *
+	 * @param node
+	 * @param dependencies
+	 * @param action
+	 * @return
+	 */
+	private static void checkIsTimeTriggered(TreeGraphNode node, Collection<TypedDependency> dependencies, Action action){
+		logger.info("Check for time trigger.");
+		List<TypedDependency> _toCheck = SearchUtils.findDependency(ListUtils.getList("tmod"),dependencies);
+		for(TypedDependency td:_toCheck) {
+			if(td.gov().equals(node)) {
+				action.setTriggerType(TriggerType.TRIGGER_TYPE_TIME);
+			}
+		}
+	}
 
+	/**
+	 * This method is not implemented yet. TriggerType enum with attribute "TRIGGER_TYPE_MESSAGE" and flag isMessageTriggered in Transition already added.
+	 * TriggerType is implemented in the Action class.
+	 *
+	 * @param dependencies
+	 * @param wnf
+	 * @param node
+	 * @return
+	 */
 	private boolean checkIsMessageTriggered(Collection<TypedDependency> dependencies, WordNetFunctionality wnf, TreeGraphNode node){
 		//wnf.getListHypernym()
 		return true;

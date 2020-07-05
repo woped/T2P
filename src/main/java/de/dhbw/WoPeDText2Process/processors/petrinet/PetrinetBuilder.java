@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 import de.dhbw.WoPeDText2Process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.WoPeDText2Process.enums.FlowDirection;
 import de.dhbw.WoPeDText2Process.enums.FlowType;
@@ -239,6 +240,7 @@ public class PetrinetBuilder {
                 petriNet.add(elementBuilder.createArc(p0.getID(),t0.getID(),""));
                 petriNet.add(elementBuilder.createArc(t0.getID(),p1.getID(),getOriginID(f.getSingleObject())));
             }
+
             Transition t1= createTransition(f.getMultipleObjects().get(0),false);
             petriNet.add(t1);
             Place p2 =elementBuilder.createPlace(false,getOriginID(f.getMultipleObjects().get(0)));
