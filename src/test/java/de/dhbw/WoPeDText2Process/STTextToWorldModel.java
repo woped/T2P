@@ -1,10 +1,10 @@
 package de.dhbw.WoPeDText2Process;
 
-import de.dhbw.WoPeDText2Process.processors.worldmodel.WorldModelBuilder;
-import de.dhbw.WoPeDText2Process.models.worldModel.Action;
-import de.dhbw.WoPeDText2Process.models.worldModel.Actor;
-import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
-import de.dhbw.WoPeDText2Process.models.worldModel.WorldModel;
+import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
+import de.dhbw.text2process.models.worldModel.Action;
+import de.dhbw.text2process.models.worldModel.Actor;
+import de.dhbw.text2process.models.worldModel.SpecifiedElement;
+import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.junit.Test;
 import org.w3c.dom.*;
 

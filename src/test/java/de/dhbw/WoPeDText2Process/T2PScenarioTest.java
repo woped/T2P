@@ -1,6 +1,6 @@
 package de.dhbw.WoPeDText2Process;
 
-import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
+import de.dhbw.text2process.models.worldModel.SpecifiedElement;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 

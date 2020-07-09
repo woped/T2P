@@ -1,6 +1,6 @@
 package de.dhbw.WoPeDText2Process.nlpTest;
 
-import de.dhbw.WoPeDText2Process.wrapper.WordNetInitializer;
+import de.dhbw.text2process.wrapper.WordNetInitializer;
 import edu.mit.jwi.Dictionary;
 import edu.mit.jwi.IDictionary;
 import edu.mit.jwi.IRAMDictionary;

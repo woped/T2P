@@ -1,9 +1,9 @@
 package de.dhbw.WoPeDText2Process.UTWorldModelToPetriNet;
 
 import de.dhbw.WoPeDText2Process.T2PUnitTest;
-import de.dhbw.WoPeDText2Process.models.petrinet.ANDJoin;
-import de.dhbw.WoPeDText2Process.models.petrinet.PetriNet;
-import de.dhbw.WoPeDText2Process.models.petrinet.Place;
+import de.dhbw.text2process.models.petrinet.ANDJoin;
+import de.dhbw.text2process.models.petrinet.PetriNet;
+import de.dhbw.text2process.models.petrinet.Place;
 import org.junit.Test;
 
 import java.util.ArrayList;

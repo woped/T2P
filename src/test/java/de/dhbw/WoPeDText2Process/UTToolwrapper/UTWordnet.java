@@ -1,7 +1,7 @@
 package de.dhbw.WoPeDText2Process.UTToolwrapper;
 
-import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
-import de.dhbw.WoPeDText2Process.wrapper.WordNetInitializer;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
+import de.dhbw.text2process.wrapper.WordNetInitializer;
 import org.junit.Test;
 
 import java.io.IOException;
