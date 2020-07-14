@@ -1,25 +1,25 @@
 /**
  * modified taken from https://github.com/FabianFriedrich/Text2Process
  */
-package de.dhbw.text2process.processors.worldmodel.transform;
+package de.dhbw.WoPeDText2Process.processors.worldmodel.transform;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.dhbw.text2process.enums.TriggerType;
-import de.dhbw.text2process.processors.worldmodel.Constants;
-import de.dhbw.text2process.wrapper.FrameNetFunctionality;
-import de.dhbw.text2process.wrapper.WordNetFunctionality;
-import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
-import de.dhbw.text2process.models.worldModel.T2PSentence;
-import de.dhbw.text2process.models.worldModel.Action;
-import de.dhbw.text2process.models.worldModel.Actor;
-import de.dhbw.text2process.models.worldModel.ExtractedObject;
-import de.dhbw.text2process.models.worldModel.Resource;
-import de.dhbw.text2process.models.worldModel.SpecifiedElement;
-import de.dhbw.text2process.models.worldModel.Specifier;
-import de.dhbw.text2process.enums.SpecifierType;
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
+import de.dhbw.WoPeDText2Process.wrapper.FrameNetFunctionality;
+import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
+import de.dhbw.WoPeDText2Process.models.worldModel.T2PSentence;
+import de.dhbw.WoPeDText2Process.models.worldModel.Action;
+import de.dhbw.WoPeDText2Process.models.worldModel.Actor;
+import de.dhbw.WoPeDText2Process.models.worldModel.ExtractedObject;
+import de.dhbw.WoPeDText2Process.models.worldModel.Resource;
+import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
+import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
+import de.dhbw.WoPeDText2Process.enums.SpecifierType;
 import edu.mit.jwi.item.IWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
@@ -129,6 +129,9 @@ public class ElementsBuilder {
 		extractPPSpecifier(origin, fullSentence, _result, node,dependencies);
 		extractRCMODSpecifier(origin, _result, node,dependencies);
 		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
+
+		checkIsTimeTriggered(node, dependencies, _result);
+
 		return _result;
 	}
 
@@ -314,8 +317,8 @@ public class ElementsBuilder {
 	}
 
 	/**
-	 * @param node
 	 * @param active
+	 * @param _vp
 	 * @return
 	 */
 	private static List<Tree> extractVerbParts(Tree node, boolean active) {
@@ -344,6 +347,7 @@ public class ElementsBuilder {
 	 * creates a new specified elements which can either be a Resource
 	 * or an Actor
 	 * @param origin
+	 * @param world
 	 * @param fullSentence
 	 * @param node
 	 * @param dependencies
@@ -571,8 +575,8 @@ public class ElementsBuilder {
 	}
 
 	/**
-	 * @param list
-	 * @param input
+	 * @param string
+	 * @param tree
 	 */
 	private static Tree deleteBranches(List<String> list, Tree input) {
 		Tree _result = input.deepCopy();
@@ -582,7 +586,7 @@ public class ElementsBuilder {
 
 	/**
 	 * only pass copies in here!
-	 * @param list
+	 * @param string
 	 * @param tree
 	 */
 	private static void deleteBranchesInternal(List<String> list, Tree tree) {
@@ -636,7 +640,7 @@ public class ElementsBuilder {
 	 * @param origin
 	 * @param node
 	 * @param dependencies
-	 * @param element
+	 * @param _a
 	 */
 	private static void findAMODSpecifiers(T2PSentence origin,
 										   TreeGraphNode node, Collection<TypedDependency> dependencies,

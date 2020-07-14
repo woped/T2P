@@ -1,10 +1,10 @@
 /**
  * modified taken from https://github.com/FabianFriedrich/Text2Process
  */
-package de.dhbw.text2process.models.worldModel;
+package de.dhbw.WoPeDText2Process.models.worldModel;
 
-import de.dhbw.text2process.enums.ActionLinkType;
-import de.dhbw.text2process.enums.TriggerType;
+import de.dhbw.WoPeDText2Process.enums.ActionLinkType;
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
 import org.springframework.scheduling.Trigger;
 
 public class Action extends SpecifiedElement{

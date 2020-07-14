@@ -7,7 +7,9 @@ import edu.mit.jwi.RAMDictionary;
 import edu.mit.jwi.data.ILoadPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.system.ApplicationHome;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -16,6 +18,8 @@ public class WordNetInitializer {
     // Initialize log4j to log information into the console
     Logger logger = LoggerFactory.getLogger(WordNetInitializer.class);
 
+
+    String wordNetPath = "/NLPTools/WordNet/dict/";
     //wordnet initializer instance
     private static WordNetInitializer wni;
     //dictionary instance
@@ -30,11 +34,13 @@ public class WordNetInitializer {
     private WordNetInitializer(){
         logger.info("Initializing WordNet dictionary ...");
 
-        URL wordNetUrl = WordNetInitializer.class.getResource("/NLPTools/WordNet/dict/");
-        logger.debug("Reading WordNet Path as: " + wordNetUrl.getPath());
+        ApplicationHome ah = new ApplicationHome(this.getClass());
+        wordNetPath = ah.getDir().getPath() + wordNetPath;
+
+        logger.debug("WordNetUrl: " + wordNetPath);
 
         logger.info("Loading Wordnet into memory ... ");
-        dict = new RAMDictionary (wordNetUrl , ILoadPolicy.IMMEDIATE_LOAD );
+        dict = new RAMDictionary ( new File(wordNetPath) , ILoadPolicy.NO_LOAD );
 
     }
 

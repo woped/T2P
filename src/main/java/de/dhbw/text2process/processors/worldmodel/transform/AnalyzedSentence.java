@@ -1,28 +1,28 @@
 /**
  * modified taken from https://github.com/FabianFriedrich/Text2Process
  */
-package de.dhbw.text2process.processors.worldmodel.transform;
+package de.dhbw.WoPeDText2Process.processors.worldmodel.transform;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import de.dhbw.text2process.enums.PersonalPronouns;
-import de.dhbw.text2process.enums.TriggerType;
-import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
-import de.dhbw.text2process.processors.worldmodel.Constants;
-import de.dhbw.text2process.models.worldModel.T2PSentence;
-import de.dhbw.text2process.enums.ConjunctionType;
-import de.dhbw.text2process.models.worldModel.Action;
-import de.dhbw.text2process.models.worldModel.Actor;
-import de.dhbw.text2process.models.worldModel.ExtractedObject;
-import de.dhbw.text2process.models.worldModel.Resource;
-import de.dhbw.text2process.models.worldModel.SpecifiedElement;
-import de.dhbw.text2process.models.worldModel.Specifier;
-import de.dhbw.text2process.models.worldModel.WorldModel;
-import de.dhbw.text2process.enums.SpecifierType;
-import de.dhbw.text2process.wrapper.WordNetFunctionality;
+import de.dhbw.WoPeDText2Process.enums.PersonalPronouns;
+import de.dhbw.WoPeDText2Process.enums.TriggerType;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
+import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
+import de.dhbw.WoPeDText2Process.models.worldModel.T2PSentence;
+import de.dhbw.WoPeDText2Process.enums.ConjunctionType;
+import de.dhbw.WoPeDText2Process.models.worldModel.Action;
+import de.dhbw.WoPeDText2Process.models.worldModel.Actor;
+import de.dhbw.WoPeDText2Process.models.worldModel.ExtractedObject;
+import de.dhbw.WoPeDText2Process.models.worldModel.Resource;
+import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
+import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
+import de.dhbw.WoPeDText2Process.models.worldModel.WorldModel;
+import de.dhbw.WoPeDText2Process.enums.SpecifierType;
+import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
@@ -51,7 +51,7 @@ public class AnalyzedSentence {
 
 
 	/**
-	 * @param sentence
+	 * @param s
 	 * @param sentenceNumber
 	 */
 	public AnalyzedSentence(T2PSentence sentence, int sentenceNumber) {
@@ -89,7 +89,7 @@ public class AnalyzedSentence {
 
 
 	/**
-	 * @param rootNode
+	 * @param f_root2
 	 */
 	@SuppressWarnings("unused")
 	private void filterPRN(Tree rootNode) {
@@ -192,9 +192,8 @@ public class AnalyzedSentence {
 
 
 	/**
-	 * @param original
-	 * @param copy
-	 * @param remove
+	 * @param _copy
+	 * @param sentence
 	 */
 	private boolean removeChildInCopy(Tree original, Tree copy, Tree remove) {
 		if(original.indexOf(remove) != -1) {
@@ -258,7 +257,7 @@ public class AnalyzedSentence {
 	/**
 	 * @param tree
 	 * @param sentence
-	 * @param startIndex
+	 * @param index
 	 * @return
 	 */
 	private int indexOf(Tree tree, List<Tree> sentence, int startIndex) {
@@ -286,7 +285,7 @@ public class AnalyzedSentence {
 
 	/**
 	 * @param sentence
-	 * @param dependencies
+	 * @param filterRC
 	 */
 	private void extractElements(Tree sentence,Collection<TypedDependency> dependencies) {
 		WordNetFunctionality wnf = new WordNetFunctionality();
@@ -375,7 +374,7 @@ public class AnalyzedSentence {
 
 
 	/**
-	 * @param verbs
+	 * @param _verbs
 	 */
 	private void removeExamples(List<Action> verbs) {
 		for(int i=0;i<verbs.size();i++) {
@@ -561,9 +560,9 @@ public class AnalyzedSentence {
 	 * checks if our main subject is connected to someone else via a conjunction (or, and)
 	 * because then those are also actors (... has to be checked by the CEO -and- the COO)
 	 * @param dependencies
-	 * @param current
-	 * @param actor
-	 * @param active
+	 * @param depType
+	 * @param currentActor
+	 * @param flowType
 	 */
 	private ArrayList<SpecifiedElement> checkConjunctions(Collection<TypedDependency> dependencies,SpecifiedElement current,boolean object,boolean actor,boolean active) {
 		// checking or conjunctions
@@ -754,11 +753,10 @@ public class AnalyzedSentence {
 
 	/**
 	 * @param sentence
-	 * @param _active
-	 * @param verb
 	 * @param dependencies
-	 * @param active
-	 * enables additional checks in case no dobj relation is found
+	 * @param sentence2
+	 * @param _active
+	 * @param verbPhrase - enables additional checks in case no dobj relation is found
 	 */
 	private List<ExtractedObject> determineObject(Tree sentence, boolean _active, Action verb, Collection<TypedDependency> dependencies,boolean active) {
 		List<ExtractedObject> _result = new ArrayList<ExtractedObject>();
@@ -961,7 +959,7 @@ public class AnalyzedSentence {
 
 
 	/**
-	 * @param list
+	 * @param _agent
 	 */
 	private void printToConsole(List<TypedDependency> list) {
 		for(TypedDependency td:list) {

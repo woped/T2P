@@ -13,5 +13,6 @@ public enum SpecifierType {
     COP,
     DOBJ, //for passive sentences (the employee is given a chance by the supervisor)
     RCMOD,
-    IOBJ
+    IOBJ,
+    TMOD
 }
