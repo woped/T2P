@@ -1,12 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Text2Process</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/jpeg" href="/img/favicon.jpeg"/>
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="bower_components/vis/dist/vis.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="app.js"></script>
+  <script src="view1/view1.js"></script>
+  <script src="view2/view2.js"></script>
+  <script src="components/version/version.js"></script>
+  <script src="components/petrinet/petrinet.js"></script>
+  <script src="components/form/form.component.js"></script>
+  <script src="components/version/version-directive.js"></script>
+  <script src="components/version/interpolate-filter.js"></script>
+  <script src="bower_components/vis/dist/vis.js"></script>
+  <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/popper.js/dist/umd/popper.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </head>
-<body>
-<h1>Welcome to Text2Process</h1>
-<text style="display: block">This webservice transforms any business process description to a workflow petrinet.</text>
-<img src="./img/meme.jpg" style="padding-top: 30px" height="400" width="400">
+<body class="main" ng-controller="T2PController">
+<!--  <ul class="menu">
+    <li><a href="#!/view1">view1</a></li>
+    <li><a href="#!/view2">view2</a></li>
+  </ul>
+
+  style="background-color:#424242"
+-->
+  <nav  class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" href=" #" onClick="window.location.reload( true );">
+        <img style="width:40px;height:40px;" alt="Brand" src="img/favicon.jpeg">
+        <p  class="navbar-text" style="color:#ffffff; font-size:1.5rem; margin-left:1rem;">Text2Process</p>
+      </a>
+
+    </div>
+</nav>
+
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+
+<div class="flex-container fade-in">
+  <div ng-show="loading" class="petrinet-container">
+    <div class="spinner">
+    <div class="dot1"></div>
+    <div class="dot2"></div>
+  </div>
+  <p class="animate-flicker" style="position: relative;text-align: center;">We are generating your Petrinet.</p>
+</div>
+  <div ng-show="!loading&&!displayInfo" class="petrinet-container">
+    <petrinet pnml="pnml"></petrinet>
+  </div>
+
+  <div ng-show="!loading&&displayInfo" class="petrinet-container">
+      <div style="height:100%;display:flex;flex-direction: column;align-items: center;justify-content: center; overflow:auto;">
+        <h3 style="margin:3rem;color:#757575">What is Text2Process?</h3>
+        <ul style="color:#9E9E9E">
+          <li>It generates a Workflow Petrinet based on a plain text description!</li>
+          <li>This is a Demo of a Functionality in the <a href="https://woped.dhbw-karlsruhe.de/">WoPeD</a> tool</li>
+          <li>Try it out. Type a Text, that describes a business process and click generate.</li>
+        </ul>
+      </div>
+  </div>
+  <div style="display:flex;flex-direction: column;">
+    <t2p-form loading="loadingCallback" pnml="callback"></t2p-form>
+  </div>
+  </div>
+  <div ng-view></div>
+
+  <!--<div>Angular seed app: v<span app-version></span></div>
+  <div>servus</div>
+In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
 </body>
 </html>

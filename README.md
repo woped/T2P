@@ -60,6 +60,13 @@ After a short time of loading the server will listen to the port and root path y
 </p>
 
 <h2>Testing the WebServices</h2>
+
+<h3>Web UI</h3>
+<p>
+The T2P service includes a basic Web Application, that allows a user to perform T2P requests and displays the result as a graphical Petrinet.
+This Web Application is accessible at <configured host>/t2p and is self explanatory.
+</p>
+
 <h3>With SoapUI</h3>
 <p>
 The server is exposing different webservices, which can be called.

@@ -1,0 +1,14 @@
+<div class="form-container">
+  <h2 style="margin-bottom:1rem;color:#ffffff;">Describe Your Business Process:</h2>
+  <textarea placeholder="Use keyphrases like &quot;if... otherwise&quot; or &quot;and&quot; to express the flow logic of the business process." title="give me some cookies" class="t2p-inputArea" rows="4" cols="50" ng-model="text">{{text}}</textarea>
+  <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isGeneratable()" ng-click="generate()">Generate</button>
+  <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isClearable()" ng-click="clearText()">Clear Input</button>
+  <div class="dropdown" style="display:inline;">
+    <button class="btn btn-secondary dropdown-toggle" style="margin-top:0.5rem;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Input Language
+    </button>
+    <div class="dropdown-menu" aria-labelledby="input language">
+      <a class="dropdown-item" href="#">english</a>
+    </div>
+  </div>
+</div>
