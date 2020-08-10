@@ -1,17 +1,17 @@
-package de.dhbw.WoPeDText2Process.processors.petrinet;
+package de.dhbw.text2process.processors.petrinet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import de.dhbw.WoPeDText2Process.enums.TriggerType;
-import de.dhbw.WoPeDText2Process.processors.worldmodel.transform.DummyAction;
-import de.dhbw.WoPeDText2Process.enums.FlowDirection;
-import de.dhbw.WoPeDText2Process.enums.FlowType;
-import de.dhbw.WoPeDText2Process.enums.SpecifierType;
-import de.dhbw.WoPeDText2Process.exceptions.PetrinetGenerationException;
-import de.dhbw.WoPeDText2Process.models.petrinet.*;
-import de.dhbw.WoPeDText2Process.models.worldModel.*;
+import de.dhbw.text2process.enums.TriggerType;
+import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
+import de.dhbw.text2process.enums.FlowDirection;
+import de.dhbw.text2process.enums.FlowType;
+import de.dhbw.text2process.enums.SpecifierType;
+import de.dhbw.text2process.exceptions.PetrinetGenerationException;
+import de.dhbw.text2process.models.petrinet.*;
+import de.dhbw.text2process.models.worldModel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

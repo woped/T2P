@@ -60,7 +60,7 @@ public class FrameNetFunctionality {
             boolean _verb = element instanceof Action;
             WordNetFunctionality wnf = new WordNetFunctionality();
             String _baseForm = wnf.getBaseForm(element.getName(), false, _verb? POS.VERB:POS.NOUN);
-            if(_verb && ((Action)element).getPrt()!=null) {
+            if(_verb && ((de.dhbw.text2process.models.worldModel.Action)element).getPrt()!=null) {
                 _baseForm += " "+((Action)element).getPrt();
             }
             Collection<LexicalUnit> _units = f_frameNet.getLexicalUnits(_baseForm, (_verb?"v":"n"));

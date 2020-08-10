@@ -1,25 +1,25 @@
 /**
  * modified taken from https://github.com/FabianFriedrich/Text2Process
  */
-package de.dhbw.WoPeDText2Process.processors.worldmodel.transform;
+package de.dhbw.text2process.processors.worldmodel.transform;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.dhbw.WoPeDText2Process.enums.TriggerType;
-import de.dhbw.WoPeDText2Process.processors.worldmodel.Constants;
-import de.dhbw.WoPeDText2Process.wrapper.FrameNetFunctionality;
-import de.dhbw.WoPeDText2Process.wrapper.WordNetFunctionality;
-import de.dhbw.WoPeDText2Process.processors.worldmodel.processing.ProcessingUtils;
-import de.dhbw.WoPeDText2Process.models.worldModel.T2PSentence;
-import de.dhbw.WoPeDText2Process.models.worldModel.Action;
-import de.dhbw.WoPeDText2Process.models.worldModel.Actor;
-import de.dhbw.WoPeDText2Process.models.worldModel.ExtractedObject;
-import de.dhbw.WoPeDText2Process.models.worldModel.Resource;
-import de.dhbw.WoPeDText2Process.models.worldModel.SpecifiedElement;
-import de.dhbw.WoPeDText2Process.models.worldModel.Specifier;
-import de.dhbw.WoPeDText2Process.enums.SpecifierType;
+import de.dhbw.text2process.enums.TriggerType;
+import de.dhbw.text2process.processors.worldmodel.Constants;
+import de.dhbw.text2process.wrapper.FrameNetFunctionality;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
+import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
+import de.dhbw.text2process.models.worldModel.T2PSentence;
+import de.dhbw.text2process.models.worldModel.Action;
+import de.dhbw.text2process.models.worldModel.Actor;
+import de.dhbw.text2process.models.worldModel.ExtractedObject;
+import de.dhbw.text2process.models.worldModel.Resource;
+import de.dhbw.text2process.models.worldModel.SpecifiedElement;
+import de.dhbw.text2process.models.worldModel.Specifier;
+import de.dhbw.text2process.enums.SpecifierType;
 import edu.mit.jwi.item.IWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;

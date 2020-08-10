@@ -52,7 +52,7 @@ public class TextAnalyzer {
 
 	private IDHandler dummyIDHandler;
 	private Text f_text;
-	private ArrayList<AnalyzedSentence> f_analyzedSentences = new ArrayList<AnalyzedSentence>();
+	private ArrayList<de.dhbw.text2process.processors.worldmodel.transform.AnalyzedSentence> f_analyzedSentences = new ArrayList<AnalyzedSentence>();
 
 	private HashMap<SentenceWordID, SentenceWordID> f_referenceMap = new HashMap<SentenceWordID, SentenceWordID>();
 
