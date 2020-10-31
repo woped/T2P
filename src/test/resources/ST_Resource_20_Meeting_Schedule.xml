@@ -1,0 +1,617 @@
+<?xml version = "1.0"?>
+<TestInstance>
+    <PlainTextDescription>
+        In november of each year, the coordination unit at the town planning authorithy drafts a schedule of meetings for the next calender year and adds draft dates to all calenders. The support officer then checks the dates and suggests modifications. The coordination unit then rechecks all dates and looks for potential conflicts. The final schedule of meeting date is sent to all the independent commitee membersby email, who then check their diaries and advise the coordination unit of any conflicts.
+    </PlainTextDescription>
+    <WorldModel>
+        <Actions>
+            <Action id="1"><Name>manufacture</Name></Action>
+            <Action id="2"><Name>receive</Name></Action>
+            <Action id="3"><Name>creat</Name></Action>
+            <Action id="4"><Name>reject</Name></Action>
+            <Action id="5"><Name>accept</Name></Action>
+            <Action id="6"><Name>finish</Name></Action>
+            <Action id="7"><Name>inform</Name></Action>
+            <Action id="8"><Name>process</Name></Action>
+            <Action id="9"><Name>check</Name></Action>
+            <Action id="10"><Name>reserve</Name></Action>
+            <Action id="11"><Name>back-order</Name></Action>
+            <Action id="12"><Name>prepare</Name></Action>
+            <Action id="13"><Name>assemble</Name></Action>
+            <Action id="14"><Name>ship</Name></Action>
+        </Actions>
+        <Actors>
+            <Actor id="1"><Name>company</Name></Actor>
+            <Actor id="2"><Name>sales department</Name></Actor>
+            <Actor id="3"><Name>member of sales department</Name></Actor>
+            <Actor id="4"><Name>storehouse</Name></Actor>
+            <Actor id="5"><Name>engineering department</Name></Actor>
+        </Actors>
+        <Resources>
+            <Resource id="1"><Name>customized bicycles</Name></Resource>
+            <Resource id="2"><Name>order</Name></Resource>
+            <Resource id="3"><Name>process instance</Name></Resource>
+            <Resource id="4"><Name>part list</Name></Resource>
+            <Resource id="5"><Name>part</Name></Resource>
+            <Resource id="6"><Name>bicycle</Name></Resource>
+        </Resources>
+    </WorldModel>
+    <PetriNet>
+        <places>
+            <place id="p1">
+                <name>
+                    <text>start</text>
+                    <graphics>
+                        <offset x="10" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="10" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p2">
+                <name>
+                    <text>dates defaulted</text>
+                    <graphics>
+                        <offset x="230" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="230" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p3">
+                <name>
+                    <text>next year calender entered</text>
+                    <graphics>
+                        <offset x="450" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="450" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p4">
+                <name>
+                    <text>the update checked and suggested</text>
+                    <graphics>
+                        <offset x="810" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="810" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p5">
+                <name>
+                    <text>sechduule to member sent</text>
+                    <graphics>
+                        <offset x="1190" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1190" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p7">
+                <name>
+                    <text>group calenders updated</text>
+                    <graphics>
+                        <offset x="1540" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1540" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p8">
+                <name>
+                    <text>end</text>
+                    <graphics>
+                        <offset x="1940" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1940" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+        </places>
+        <transitions>
+            <transition id="t6">
+                <name>
+                    <text>update group calenders</text>
+                    <graphics>
+                        <offset x="1380" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1380" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="t7">
+                <name>
+                    <text>send final schedule to members</text>
+                    <graphics>
+                        <offset x="1720" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1720" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="sub1">
+                <name>
+                    <text>send sechedule to member</text>
+                    <graphics>
+                        <offset x="1020" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="1020" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <subprocess>true</subprocess>
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="t1">
+                <name>
+                    <text>default dates</text>
+                    <graphics>
+                        <offset x="120" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="120" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="t2">
+                <name>
+                    <text>enter onto next years calender</text>
+                    <graphics>
+                        <offset x="370" y="330"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="360" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="t3">
+                <name>
+                    <text>check and suggest the update</text>
+                    <graphics>
+                        <offset x="620" y="320"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="620" y="280"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+        </transitions>
+        <arcs>
+            <arc id="a13" source="t6" target="p7">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a15" source="t7" target="p8">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a14" source="p7" target="t7">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a17" source="p5" target="t6">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a1" source="p1" target="t1">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a2" source="t1" target="p2">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a3" source="p2" target="t2">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a4" source="t2" target="p3">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a5" source="p3" target="t3">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a6" source="t3" target="p4">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a8" source="p4" target="sub1">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a9" source="sub1" target="p5">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+        </arcs>
+        <toolspecific tool="WoPeD" version="1.0">
+            <bounds>
+                <position x="2" y="25"/>
+                <dimension x="1130" y="750"/>
+            </bounds>
+            <scale>100</scale>
+            <treeWidthRight>878</treeWidthRight>
+            <overviewPanelVisible>true</overviewPanelVisible>
+            <treeHeightOverview>100</treeHeightOverview>
+            <treePanelVisible>true</treePanelVisible>
+            <verticalLayout>false</verticalLayout>
+            <resources/>
+            <simulations/>
+            <partnerLinks/>
+            <variables/>
+        </toolspecific>
+        <places>
+            <place id="sub1_p2">
+                <name>
+                    <text>schedule confilicts advised</text>
+                    <graphics>
+                        <offset x="610" y="200"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="610" y="160"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p4">
+                <name>
+                    <text>receive meeting schedule</text>
+                    <graphics>
+                        <offset x="30" y="200"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="10" y="160"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="p5">
+                <name>
+                    <text>final schedule received</text>
+                    <graphics>
+                        <offset x="890" y="140"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="870" y="100"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+            <place id="sub1_p1">
+                <name>
+                    <text>for confilicts checked</text>
+                    <graphics>
+                        <offset x="290" y="200"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="290" y="160"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+            </place>
+        </places>
+        <transitions>
+            <transition id="sub1_t1">
+                <name>
+                    <text>check for confilicts</text>
+                    <graphics>
+                        <offset x="180" y="200"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="180" y="160"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="sub1_t2">
+                <name>
+                    <text>advise of schedule confilicts</text>
+                    <graphics>
+                        <offset x="420" y="200"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="420" y="160"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+            <transition id="sub1_t3">
+                <name>
+                    <text>receive final schedule</text>
+                    <graphics>
+                        <offset x="730" y="140"/>
+                    </graphics>
+                </name>
+                <graphics>
+                    <position x="730" y="100"/>
+                    <dimension x="40" y="40"/>
+                </graphics>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <time>0</time>
+                    <timeUnit>1</timeUnit>
+                    <orientation>1</orientation>
+                </toolspecific>
+            </transition>
+        </transitions>
+        <arcs>
+            <arc id="a1" source="p4" target="sub1_t1">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a2" source="sub1_t1" target="sub1_p1">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a3" source="sub1_p1" target="sub1_t2">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a4" source="sub1_t2" target="sub1_p2">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a5" source="sub1_p2" target="sub1_t3">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+            <arc id="a7" source="sub1_t3" target="p5">
+                <inscription>
+                    <text>1</text>
+                    <graphics>
+                        <offset x="500.0" y="-12.0"/>
+                    </graphics>
+                </inscription>
+                <graphics/>
+                <toolspecific tool="WoPeD" version="1.0">
+                    <probability>1.0</probability>
+                    <displayProbabilityOn>false</displayProbabilityOn>
+                    <displayProbabilityPosition x="500.0" y="12.0"/>
+                </toolspecific>
+            </arc>
+        </arcs>
+        <toolspecific tool="WoPeD" version="1.0">
+            <bounds>
+                <position x="0" y="0"/>
+                <dimension x="600" y="404"/>
+            </bounds>
+            <treeWidthRight>500</treeWidthRight>
+            <overviewPanelVisible>true</overviewPanelVisible>
+            <treeHeightOverview>100</treeHeightOverview>
+            <treePanelVisible>true</treePanelVisible>
+        </toolspecific>
+    </PetriNet>
+</TestInstance>
