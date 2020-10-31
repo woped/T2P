@@ -63,19 +63,24 @@
 		</dependency>
 
 		<!-- STANFORD DEPENDENCIES -->
-		<!--
+
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
-			<version>${stanford.version}</version>
-			<classifier>models-german</classifier>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>4.0.0</version>
+			<classifier>models</classifier>
 		</dependency>
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-parser</artifactId>
 			<version>${stanford.parser.version}</version>
 		</dependency>
-		-->
+
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>old-stanford-parser</artifactId>

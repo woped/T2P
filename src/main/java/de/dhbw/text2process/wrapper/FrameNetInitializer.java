@@ -18,7 +18,7 @@ public class FrameNetInitializer {
     // Initialize log4j to log information into the console
     Logger logger = LoggerFactory.getLogger(FrameNetInitializer.class);
     //framenet source directory
-    private String frameNetHome = "/NLPTools/FrameNet/fndata-1.5/";
+    public static String frameNetHome = "/NLPTools/FrameNet/fndata-1.5/";
     //framenet initializer instance
     private static FrameNetInitializer fni;
     //framenet instance (dictionary)

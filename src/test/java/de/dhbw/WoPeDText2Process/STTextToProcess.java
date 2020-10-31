@@ -7,6 +7,8 @@ import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.models.worldModel.WorldModel;
+import de.dhbw.text2process.wrapper.FrameNetInitializer;
+import de.dhbw.text2process.wrapper.WordNetInitializer;
 import org.junit.Test;
 import org.w3c.dom.NodeList;
 
@@ -21,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 public class STTextToProcess extends T2PScenarioTest {
 
-    private static String [] TestExamples ={"ST_Resource_Bike_Manufacturing.xml","ST_Ressource_Computer_Repair.xml","ST_Resource_Lemon_Chicken_Recipe.xml"};
+    private static String [] TestExamples ={"ST_Ressource_Computer_Repair.xml","ST_Resource_Lemon_Chicken_Recipe.xml"};
     private final static double acceptanceThreshold = 0.4;
     private static final String [] ELEMENT_TYPE_PLACE = {"places","place"};
     private static final String [] ELEMENT_TYPE_TRANSITION ={"transitions","transition"};
@@ -31,8 +33,9 @@ public class STTextToProcess extends T2PScenarioTest {
     @Test
     public void evaluateT2P() throws InterruptedException, InvalidInputException {
         filePath = System.getProperty("user.dir");
-        filePath = filePath + "/TestData/";
-
+        filePath = filePath + "/src/test/resources/";
+        WordNetInitializer.wordNetPath = "/src/main/resources/NLPTools/WordNet/dict";
+        FrameNetInitializer.frameNetHome = "/src/main/resources/NLPTools/FrameNet/fndata-1.5";
         WorldModelBuilder WMbuilder;
         PetrinetBuilder PNbuilder;
 

@@ -191,7 +191,7 @@ public class PetrinetBuilder {
         if(a.getObject()!=null)
             t.setResourceName(a.getObject().getName());
 
-        extractOrgnaizationalUnits(a, t);
+     //   extractOrgnaizationalUnits(a, t);
         return t;
     }
 
@@ -205,16 +205,16 @@ public class PetrinetBuilder {
         if(a.getActorFrom()!= null){
             if(a.getActorFrom().getReference()!=null){
                 if(a.getActorFrom().getReference().getSpecifiers(SpecifierType.NN).size()>0){
-                    t.setOrganizationalUnitName(a.getActorFrom().getReference().getSpecifiers(SpecifierType.NN).get(0).getName());
+                   // t.setOrganizationalUnitName(a.getActorFrom().getReference().getSpecifiers(SpecifierType.NN).get(0).getName());
                 }else{
-                    t.setOrganizationalUnitName(a.getActorFrom().getReference().getName());
+                    //t.setOrganizationalUnitName(a.getActorFrom().getReference().getName());
                 }
-                t.setRoleName(a.getActorFrom().getReference().getName());
+               // t.setRoleName(a.getActorFrom().getReference().getName());
             }else if(a.getActorFrom()!=null){
                 if(a.getActorFrom().getSpecifiers(SpecifierType.NN).size()>0){
-                    t.setOrganizationalUnitName(a.getActorFrom().getSpecifiers(SpecifierType.NN).get(0).getName());
+                  //  t.setOrganizationalUnitName(a.getActorFrom().getSpecifiers(SpecifierType.NN).get(0).getName());
                 }
-                t.setRoleName(a.getActorFrom().getName());
+               // t.setRoleName(a.getActorFrom().getName());
             }
         }
     }
