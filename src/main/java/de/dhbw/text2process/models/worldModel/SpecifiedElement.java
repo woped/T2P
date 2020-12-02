@@ -37,6 +37,10 @@ public abstract class SpecifiedElement extends OriginatedElement implements Comp
 			if(s.getType().equals(type)) {
 				_result.add(s);
 			}
+
+			if(s.getObject() == null)
+				continue;
+
 			if(type==SpecifierType.NN && s.getObject().getSpecifiers() != null){
 				for(Specifier specifier:s.getObject().getSpecifiers()) {
 					if(specifier.getType() == SpecifierType.NN){

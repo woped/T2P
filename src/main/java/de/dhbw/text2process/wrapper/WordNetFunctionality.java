@@ -296,8 +296,14 @@ public class WordNetFunctionality {
     public  String getBaseForm(String verb, boolean keepAuxiliaries, POS pos) {
         String[] _parts = verb.split(" "); // verb can contain auxiliary verbs
         // (to acquire)
-        try {
-            IIndexWord word = dict.getIndexWord(_parts[_parts.length - 1], pos);
+        try
+        {
+            if (_parts.length==0)
+                return verb;
+            String lasPart = _parts[_parts.length - 1];
+            if (lasPart.length()==0)
+                return verb;
+            IIndexWord word = dict.getIndexWord(lasPart, pos);
             if (word != null) {
                 _parts[_parts.length - 1] = word.getLemma();
                 StringBuilder _b = new StringBuilder();

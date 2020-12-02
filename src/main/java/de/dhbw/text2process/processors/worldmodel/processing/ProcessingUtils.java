@@ -10,6 +10,8 @@ import de.dhbw.text2process.models.worldModel.Actor;
 import de.dhbw.text2process.models.worldModel.ExtractedObject;
 import edu.stanford.nlp.trees.Tree;
 
+import java.util.List;
+
 
 public class ProcessingUtils {
 	
@@ -144,32 +146,11 @@ public class ProcessingUtils {
 	 * @return
 	 */
 	public static Tree removeChild(Tree copy, int i) {
-		Tree[] kids = copy.children();
-		Tree kid = kids[i];
-		Tree[] newKids;
-		if (copy instanceof Tree) {
-			newKids = new Tree[kids.length - 1];
-		} else {
-			newKids = new Tree[kids.length - 1];
-		}
-		for (int j = 0; j < newKids.length; j++) {
-			if (j < i) {
-				if (copy instanceof Tree) {
-					newKids[j] = (Tree) kids[j];
-				} else {
-					newKids[j] = kids[j];
-				}
-
-			} else {
-				if (copy instanceof Tree) {
-					newKids[j] = (Tree) kids[j+1];
-				} else {
-					newKids[j] = kids[j+1];
-				}
-			}
-		}
-		copy.setChildren(newKids);
-		return kid;
+		List<Tree> children = copy.getChildrenAsList();
+		Tree child = children.get(i);
+		children.remove(i);
+		copy.setChildren(children);
+		return child;
 	}
 	
 	/**

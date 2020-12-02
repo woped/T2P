@@ -82,7 +82,7 @@ public class T2PController {
             pnmlResponse = new Response<String>(true, e.getCause(), e.getMessage(), e.getStackTrace());
         }
 
-        response.setStatus(HttpServletResponse.SC_OK);
+       // Response status should not be set here: Rcs defined in catch blocks are overwritten!
         logger.info("Returning the pnmlString");
         return pnmlResponse.getResponse();
     }
