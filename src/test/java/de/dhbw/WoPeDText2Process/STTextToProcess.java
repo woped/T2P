@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class STTextToProcess extends T2PScenarioTest {
 
 
     @Test
-    public void evaluateT2P() throws InterruptedException, InvalidInputException {
+    public void evaluateT2P() throws InterruptedException, InvalidInputException, IOException {
         filePath = System.getProperty("user.dir");
         filePath = filePath + "/TestData/";
 

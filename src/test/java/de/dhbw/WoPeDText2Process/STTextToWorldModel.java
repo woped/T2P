@@ -10,6 +10,7 @@ import org.w3c.dom.*;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +25,7 @@ public class STTextToWorldModel extends T2PScenarioTest {
     private static final String [] ELEMENT_TYPE_FLOWS ={"Flows","Flow"};
 
     @Test
-    public void evaluateWorldModelBuild() {
+    public void evaluateWorldModelBuild() throws IOException {
         filePath = System.getProperty("user.dir");
         filePath = filePath+"/TestData/";
         WorldModelBuilder WMbuilder;

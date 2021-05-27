@@ -32,7 +32,7 @@ public class T2PControllerHelper {
      * @return A string which represents the PetriNet
      * @throws PetrinetGenerationException
      */
-    public String generatePetrinetFromText(String text) throws PetrinetGenerationException {
+    public String generatePetrinetFromText(String text) throws PetrinetGenerationException, IOException {
         logger.debug("Instantiating the WorldModelBuilder ...");
         WorldModelBuilder worldModelBuilder = new WorldModelBuilder(text);
         logger.debug("Instantiating the PetrinetBuilder based on the WorldModel ...");

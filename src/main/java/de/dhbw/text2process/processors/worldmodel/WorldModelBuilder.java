@@ -10,6 +10,8 @@ import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class WorldModelBuilder {
 
     Logger logger = LoggerFactory.getLogger(WorldModelBuilder.class);
@@ -24,7 +26,7 @@ public class WorldModelBuilder {
         this.processText = processText;
     }
 
-    public WorldModel buildWorldModel(boolean mockBuild){
+    public WorldModel buildWorldModel(boolean mockBuild) throws IOException {
         logger.debug("Entered buildWorldModel method");
         logger.debug("Check whether mockBuild is true or false");
         if(mockBuild){
@@ -52,7 +54,7 @@ public class WorldModelBuilder {
         return textStatistics;
     }
 
-    private WorldModel buildWorldModel(){
+    private WorldModel buildWorldModel() throws IOException {
         logger.debug("Entered buildWorldModel method");
         logger.debug("Parsing the Text through the Stanford CoreNLP ...");
         parsedText = stanford.createText(processText);

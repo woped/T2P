@@ -15,6 +15,7 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StanfordParserFunctionality {
 
@@ -44,11 +45,11 @@ public class StanfordParserFunctionality {
         instance=null;
     }
 
-    public synchronized Text createText(String input){
+    public synchronized Text createText(String input) throws IOException {
         return createText(input, null);
     }
 
-    public synchronized Text createText(String input, ITextParsingStatusListener listener){
+    public synchronized Text createText(String input, ITextParsingStatusListener listener) throws IOException {
         Text _result = new Text();
 
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -83,11 +84,25 @@ public class StanfordParserFunctionality {
     }
 
 
-    private T2PSentence createSentence(ArrayList<Word> _list) {
+    private T2PSentence createSentence(ArrayList<Word> _list) throws IOException {
         T2PSentence _s = new T2PSentence(_list);
-        Tree _parse = parser.apply(_s);
-        _s.setTree(_parse);
-        GrammaticalStructure _gs = gsf.newGrammaticalStructure(_parse);
+        ProcessBuilder processBuilder = new ProcessBuilder("venv\\Scripts\\python.exe",
+                "src/main/resources/python/main.py", _s.toStringFormated());
+        processBuilder.redirectErrorStream(true);
+        Process process = processBuilder.start();
+        BufferedReader bfr = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String tr = bfr.lines().collect(Collectors.joining());
+        System.out.println("Kiwi"+tr);
+        Tree t = Tree.valueOf(tr);
+        //parser.getTreePrint().printTree(t);
+
+        //String line = "";
+        //while ((line = bfr.readLine()) != null) {
+        //    System.out.println(line);
+        //}
+
+        _s.setTree(t);
+        GrammaticalStructure _gs = gsf.newGrammaticalStructure(t);
         _s.setGrammaticalStructure(_gs);
         return _s;
     }
