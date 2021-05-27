@@ -1,7 +1,7 @@
 from nltk.parse.corenlp import CoreNLPParser
 from nltk.parse.corenlp import CoreNLPServer
 import argparse
-#um alle nötigen Pakete zu holen ist das in die Kommandozeile einzugeben:
+#um alle noetigen Pakete zu holen ist das in die Kommandozeile einzugeben:
 #pip install -r requirements.txt
 
 argParser = argparse.ArgumentParser(description="A script to be used as a workaround for the usage of a newer NLP-parser")
