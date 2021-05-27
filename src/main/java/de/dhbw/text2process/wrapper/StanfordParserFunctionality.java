@@ -86,13 +86,13 @@ public class StanfordParserFunctionality {
 
     private T2PSentence createSentence(ArrayList<Word> _list) throws IOException {
         T2PSentence _s = new T2PSentence(_list);
-        ProcessBuilder processBuilder = new ProcessBuilder("venv\\Scripts\\python.exe",
+        ProcessBuilder processBuilder = new ProcessBuilder("python",
                 "src/main/resources/python/main.py", _s.toStringFormated());
         processBuilder.redirectErrorStream(true);
         Process process = processBuilder.start();
         BufferedReader bfr = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String tr = bfr.lines().collect(Collectors.joining());
-        System.out.println("Kiwi"+tr);
+        System.out.println(tr);
         Tree t = Tree.valueOf(tr);
         //parser.getTreePrint().printTree(t);
 
