@@ -13,7 +13,13 @@ sentence = args.sent_string
 nlpServer = CoreNLPServer(path_to_jar="src\\main\\resources\\python\\stanford-corenlp-4.2.1.jar",
                           path_to_models_jar="src\\main\\resources\\python\\stanford-corenlp-4.2.1-models.jar",)
 
-nlpServer.start()
+def is_port_in_use(port):
+    import socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) == 0
+
+if(is_port_in_use(9000) is False):
+    nlpServer.start()
 
 nlpParser = CoreNLPParser(url="http://localhost:9000")
 
@@ -29,4 +35,3 @@ for i in parsed:
 #         for i in res:
 #            f.write(str(i))
 
-nlpServer.stop()
