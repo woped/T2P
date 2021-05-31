@@ -2,6 +2,7 @@ from nltk.parse.corenlp import CoreNLPParser
 from nltk.parse.corenlp import CoreNLPServer
 import argparse
 import os
+import socket
 #um alle noetigen Pakete zu holen ist das in die Kommandozeile einzugeben:
 #pip install -r requirements.txt
 
@@ -23,7 +24,6 @@ nlpServer = CoreNLPServer(path_to_jar=pathname1,
 
 
 def is_port_in_use(port):
-    import socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
 

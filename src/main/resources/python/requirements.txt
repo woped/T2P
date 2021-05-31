@@ -9,3 +9,5 @@ regex==2021.4.4
 requests==2.25.1
 tqdm==4.61.0
 urllib3==1.26.5
+websocket-client==0.48.0
+websockets==8.1
