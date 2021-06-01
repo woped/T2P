@@ -108,6 +108,22 @@ public class TextAnalyzer {
         ProcessLabelGenerator pg = new ProcessLabelGenerator();
         while (i.hasNext()) {
             Action a = i.next();
+            /*
+                        String temp = pg.createTaskText(a);
+            int counter = temp.length();
+            int helperdelete = 0;
+            System.out.println(counter);
+            if (counter > 12) {
+                helperdelete = counter - 12;
+                if (counter <= 15) {
+                    temp = temp.substring(0, temp.length() - 3) + "...";
+
+                } else {
+                    temp = temp.substring(0, temp.length() - helperdelete) + "...";
+                }
+                a.setFinalLabel(temp);
+            }
+             */
             a.setFinalLabel(pg.createTaskText(a));
         }
 
