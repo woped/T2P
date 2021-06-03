@@ -353,7 +353,7 @@ public class TextAnalyzer {
     private void buildFlows() {
         f_lastSplit = null;
         List<Action> _cameFrom = new ArrayList<Action>();
-        List<Action> _openSplit = new ArrayList<Action>();
+                List<Action> _openSplit = new ArrayList<Action>();
         for (AnalyzedSentence sentence : f_analyzedSentences) {
             T2PSentence _base = sentence.getBaseSentence();
             List<Action> _actions = sentence.getExtractedActions();
@@ -671,6 +671,12 @@ public class TextAnalyzer {
             }
             //do we need to create something in parallel
             if ("while".equals(action.getMarker())) {
+                if(this.f_analyzedSentences.get(1).getExtractedActions().size()>2){
+                    f_world.getFlows().get(1).getMultipleObjects().add(action);
+                    f_world.getFlows().get(1).setType(FlowType.concurrency);
+                    cameFrom.add(action);
+                    return;
+                }
                 if (f_world.getLastFlowAdded() != null) {
                     f_world.getLastFlowAdded().getMultipleObjects().add(action);
                     f_world.getLastFlowAdded().setType(FlowType.concurrency);
@@ -1151,7 +1157,11 @@ public class TextAnalyzer {
                 Action _a = findAction(_lookFor, sentence.getExtractedActions(), _deps);
                 String _val = td.dep().value().toLowerCase();
                 if (Constants.f_parallelIndicators.contains(_val)) {
-                    _a.setMarker("while");
+                    try {
+                        _a.setMarker("while");
+                    } catch (NullPointerException e){
+                        System.out.println("NullPointerException");
+                    }
                 } else {
                     if (!_val.equals("also")) { // make exclusion list?
                         if (Constants.DEBUG_MARKING)
