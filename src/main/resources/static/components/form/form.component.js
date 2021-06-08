@@ -16,7 +16,11 @@ angular.module('myApp').
       $scope.isGeneratable=function(){
         if($scope.text==null){
           return true;
-        }else{
+        }
+        else if  ($scope.selectVal===undefined){
+          return true;
+        }
+        else{
         return !($scope.text.length>0);
         }
       }
@@ -31,6 +35,10 @@ angular.module('myApp').
         }
       }
       $scope.generate=function(){
+        if ($scope.selectVal!=undefined)
+          $scope.msg = 'Selected Value: ' + $scope.selectVal;
+        else
+          $scope.msg = 'Please choose atleast one option';
           if(!($scope.text===$scope.previousText)){
       $scope.loading(true);
         var req = {
