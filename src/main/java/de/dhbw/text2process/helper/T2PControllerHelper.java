@@ -4,6 +4,9 @@ import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
+import de.dhbw.text2process.exceptions.WorldModelGenerationException;
+import de.dhbw.text2process.models.worldModel.WorldModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +26,23 @@ public class T2PControllerHelper {
     public static final int MAX_INPUT_LENGTH=15000;
 
     /**
+     * <h1>generateWorldModelFromText</h1>
+     *
+     * <p></p>
+     *
+     * @author KanBen86
+     * @param text
+     * @return A WorldModel
+     * @throws WorldModelGenerationException
+     */
+    public WorldModel generateWorldModelFromText(String text) throws WorldModelGenerationException {
+        logger.debug("Instantiating the WorldModelBuilder ...");
+        WorldModelBuilder worldModelBuilder = new WorldModelBuilder(text);
+        WorldModel worldModel = worldModelBuilder.buildWorldModel(false);
+        return worldModel;
+    }
+    
+    /**
      * <h1>generatePetrinetFromText</h1>
      *
      * <p></p>
@@ -32,11 +52,9 @@ public class T2PControllerHelper {
      * @return A string which represents the PetriNet
      * @throws PetrinetGenerationException
      */
-    public String generatePetrinetFromText(String text) throws PetrinetGenerationException {
-        logger.debug("Instantiating the WorldModelBuilder ...");
-        WorldModelBuilder worldModelBuilder = new WorldModelBuilder(text);
+    public String generatePetrinetFromText(String text) throws PetrinetGenerationException, WorldModelGenerationException {
         logger.debug("Instantiating the PetrinetBuilder based on the WorldModel ...");
-        PetrinetBuilder petriNetBuilder = new PetrinetBuilder(worldModelBuilder.buildWorldModel(false));
+        PetrinetBuilder petriNetBuilder = new PetrinetBuilder(generateWorldModelFromText(text));
         logger.debug("Build the PNML-String ...");
         String pnml = petriNetBuilder.buildPNML();
         logger.debug("Minimizing the PNML-String ...");
@@ -47,8 +65,10 @@ public class T2PControllerHelper {
 
     private String minifyResult(String result) {
         //A few characters less to bother the internet with  ¯\_(ツ)_/¯
-        result=result.replaceAll("\n","");
+        logger.debug("replacing \\n and \\t");
+    	result=result.replaceAll("\n","");
         result=result.replaceAll("\t","");
+        logger.debug("Replacing two space characters with one.");
         while (result.contains("  ")){
             result=result.replace("  "," ");
         }
