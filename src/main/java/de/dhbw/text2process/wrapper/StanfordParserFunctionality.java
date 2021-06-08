@@ -113,7 +113,9 @@ public class StanfordParserFunctionality {
         Tree t = Tree.valueOf(tr);
         _s.setTree(t);
         GrammaticalStructure _gs = gsf.newGrammaticalStructure(t);
+        System.out.println("_gs"+_gs);
         _s.setGrammaticalStructure(_gs);
+        System.out.println("s.setGS"+_s);
         return _s;
     }
 
