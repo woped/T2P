@@ -303,7 +303,7 @@ component('bpmn', {
                     gatewayType=transition.getElementsByTagName("operator")[0].getAttribute("type");
                     gatewayID=transition.getElementsByTagName("operator")[0].getAttribute("id");
                 }
-                petrinet.transitions.push({id:transition.getAttribute("id"),label:"",isGateway:isGateway,gatewayType:gatewayType,gatewayID:gatewayID})
+                petrinet.transitions.push({id:transition.getAttribute("id"),label:transition.getElementsByTagName("text")[0].textContent,isGateway:isGateway,gatewayType:gatewayType,gatewayID:gatewayID})
             }
 
             return petrinet;
@@ -374,7 +374,7 @@ component('bpmn', {
 
             for (var x=0;x<PetriNet.transitions.length;x++){
                 if(!PetriNet.transitions[x].isGateway || generateWorkFlowNet===false){
-                    nodes.add({id: PetriNet.transitions[x].id,group:"transitions", label: "",title:PetriNet.transitions[x].label});
+                    nodes.add({id: PetriNet.transitions[x].id,group:"transitions", label: PetriNet.transitions[x].label,title:PetriNet.transitions[x].label});
                 }
                 else{
                     var gatewayGroup="";
