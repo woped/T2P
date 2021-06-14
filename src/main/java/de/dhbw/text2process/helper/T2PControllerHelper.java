@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXB;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +52,7 @@ public class T2PControllerHelper {
         System.out.println(actors.toString());
         System.out.println(elements.toString());
         System.out.println(resources.toString());
+        System.out.println();
         return worldModel;
     }
     

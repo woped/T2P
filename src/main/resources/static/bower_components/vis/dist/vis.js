@@ -43081,23 +43081,22 @@ if (typeof CanvasRenderingContext2D !== 'undefined') {
    */
   CanvasRenderingContext2D.prototype.triangle = function (x, y, r) {
     // http://en.wikipedia.org/wiki/Equilateral_triangle
-    this.beginPath();
+      this.beginPath();
 
-    // the change in radius and the offset is here to center the shape
-    r *= 1.15;
-    y += 0.275 * r;
+      this.lineTo(x, y + r);
+      this.moveTo(x , y );
+      this.lineTo(x , y -10);
+      this.lineTo(x , y +10);
+      this.moveTo(x , y );
+      this.lineTo(x -10  , y );
+      this.lineTo(x +10  , y );
+      this.moveTo(x, y + r);
 
-    var s = r * 2;
-    var s2 = s / 2;
-    var ir = Math.sqrt(3) / 6 * s; // radius of inner circle
-    var h = Math.sqrt(s * s - s2 * s2); // height
+      this.lineTo(x + r, y);
+      this.lineTo(x, y - r);
+      this.lineTo(x - r, y);
 
-
-    this.moveTo(x, y - (h - ir));
-    this.lineTo(x + s2, y + ir);
-    this.lineTo(x - s2, y + ir);
-    this.lineTo(x, y - (h - ir));
-    this.closePath();
+      this.closePath();
   };
 
   /**
@@ -43107,23 +43106,22 @@ if (typeof CanvasRenderingContext2D !== 'undefined') {
    * @param {number} r radius
    */
   CanvasRenderingContext2D.prototype.triangleDown = function (x, y, r) {
+      //overwrite triangle down for end result
     // http://en.wikipedia.org/wiki/Equilateral_triangle
-    this.beginPath();
+      this.beginPath();
 
-    // the change in radius and the offset is here to center the shape
-    r *= 1.15;
-    y -= 0.275 * r;
+      this.lineTo(x, y + r);
+      this.moveTo(x - 10, y - 10);
+      this.lineTo(x + 10, y + 10);
+      this.moveTo(x + 10, y - 10);
+      this.lineTo(x - 10, y + 10);
+      this.moveTo(x, y + r);
 
-    var s = r * 2;
-    var s2 = s / 2;
-    var ir = Math.sqrt(3) / 6 * s; // radius of inner circle
-    var h = Math.sqrt(s * s - s2 * s2); // height
+      this.lineTo(x + r, y);
+      this.lineTo(x, y - r);
+      this.lineTo(x - r, y);
 
-    this.moveTo(x, y + (h - ir));
-    this.lineTo(x + s2, y - ir);
-    this.lineTo(x - s2, y - ir);
-    this.lineTo(x, y + (h - ir));
-    this.closePath();
+      this.closePath();
   };
 
   /**
@@ -43134,18 +43132,9 @@ if (typeof CanvasRenderingContext2D !== 'undefined') {
    */
   CanvasRenderingContext2D.prototype.star = function (x, y, r) {
     // http://www.html5canvastutorials.com/labs/html5-canvas-star-spinner/
-    this.beginPath();
-
-    // the change in radius and the offset is here to center the shape
-    r *= 0.82;
-    y += 0.1 * r;
-
-    for (var n = 0; n < 10; n++) {
-      var radius = n % 2 === 0 ? r * 1.3 : r * 0.5;
-      this.lineTo(x + radius * Math.sin(n * 2 * Math.PI / 10), y - radius * Math.cos(n * 2 * Math.PI / 10));
-    }
-
-    this.closePath();
+      this.beginPath();
+      this.rect(x - r*2, y - r, r * 4, r * 2);
+      this.closePath();
   };
 
   /**
@@ -43154,17 +43143,35 @@ if (typeof CanvasRenderingContext2D !== 'undefined') {
    * @param {number} y vertical center
    * @param {number} r   radius, half the length of the sides of the triangle
    */
-  CanvasRenderingContext2D.prototype.diamond = function (x, y, r) {
+  CanvasRenderingContext2D.prototype.cross = function (x, y, r) {
     // http://www.html5canvastutorials.com/labs/html5-canvas-star-spinner/
     this.beginPath();
 
     this.lineTo(x, y + r);
-    this.lineTo(x + r, y);
+      this.moveTo(x - 10, y - 10);
+      this.lineTo(x + 10, y + 10);
+      this.moveTo(x + 10, y - 10);
+      this.lineTo(x - 10, y + 10);
+      this.moveTo(x, y + r);
+
+      this.lineTo(x + r, y);
     this.lineTo(x, y - r);
     this.lineTo(x - r, y);
 
-    this.closePath();
+      this.closePath();
   };
+
+    CanvasRenderingContext2D.prototype.diamond = function (x, y, r) {
+        // http://www.html5canvastutorials.com/labs/html5-canvas-star-spinner/
+        this.beginPath();
+
+        this.lineTo(x, y + r);
+        this.lineTo(x + r, y);
+        this.lineTo(x, y - r);
+        this.lineTo(x - r, y);
+
+        this.closePath();
+    };
 
   /**
    * http://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas

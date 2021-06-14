@@ -65,9 +65,20 @@
   </div>
   <p class="animate-flicker" style="position: relative;text-align: center;">We are generating your Petrinet.</p>
 </div>
-  <div ng-show="!loading&&!displayInfo" class="petrinet-container">
+  <div ng-if="!loading&&!displayInfo&&selectVal==='Petrinet'" class="petrinet-container">
     <petrinet pnml="pnml"></petrinet>
   </div>
+  <div ng-if="!loading&&!displayInfo&&selectVal==='BPMN'" class="petrinet-container">
+    <bpmn pnml="pnml"></bpmn>
+  </div>
+
+  <div>
+    <input type ="radio" value="Petrinet" ng-model="selectVal" /><span style="color:Black">Petrinet</span><br />
+    <input type ="radio" value="BPMN" ng-model="selectVal" /><span style="color:Black">BPMN</span><br />
+    <span style="color:White">{{msg}}</span>
+  </div>
+
+
 
   <div ng-show="!loading&&displayInfo" class="petrinet-container">
       <div style="height:100%;display:flex;flex-direction: column;align-items: center;justify-content: center; overflow:auto;">
@@ -76,6 +87,7 @@
           <li>It generates a Workflow Petrinet based on a plain text description!</li>
           <li>This is a Demo of a Functionality in the <a href="https://woped.dhbw-karlsruhe.de/">WoPeD</a> tool</li>
           <li>Try it out. Type a Text, that describes a business process and click generate.</li>
+          <li ng-show="!isBPMN">Try it out. Type a Text, that describes a business process and click generate.</li>
         </ul>
       </div>
   </div>
