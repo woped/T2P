@@ -5,7 +5,7 @@ This application is tailored to handle all requests from WoPeD to generate a PNM
 | URL           | Description   | 
 | ------------- |:-------------:|
 | https://woped.dhbw-karlsruhe.de/t2p/ | Embedded UI|
-| https://woped.dhbw-karlsruhe.de/t2p/swagger-ui| Swagger UI|
+| https://woped.dhbw-karlsruhe.de/t2p/swagger-ui/| Swagger UI|
 
 # Related repositories
 | URL           | Description   |
