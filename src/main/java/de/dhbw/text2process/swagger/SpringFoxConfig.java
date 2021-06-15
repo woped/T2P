@@ -26,10 +26,10 @@ public class SpringFoxConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "WoPeD - Text2Process Webservice",
-                "This webservices can be used to translate text into a process model.",
+                "This webservice can be used to translate text into a process model.",
                 "3.8.0",
-                "Terms of service",
-                new Contact("Prof. Dr. Thomas Freytag", "www.woped.dhbw-karlsruhe.de/", "thomas.freytag@dhbw-karlsruhe.de"),
-                "License of API", "API license URL", Collections.emptyList());
+                null,
+                new Contact("Prof. Dr. Thomas Freytag", "https://woped.dhbw-karlsruhe.de/", "thomas.freytag@dhbw-karlsruhe.de"),
+                "License", "https://github.com/tfreytag/T2P/blob/master/LICENSE.md", Collections.emptyList());
     }
 }
