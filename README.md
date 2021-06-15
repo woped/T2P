@@ -1,28 +1,63 @@
-<h1>Welcome to the WoPeD-Text2Process SpringBoot-Application</h1>
+# Text to Process (T2P)
+This application is tailored to handle all requests from WoPeD to generate a PNML-String from a given Text.
 
-<p>This application is tailored to handle all requests from WoPeD to generate a PNML-String from a given Text.</p>
+# Live demo
+| URL           | Description   | 
+| ------------- |:-------------:|
+| https://woped.dhbw-karlsruhe.de/p2t/ | Embedded UI|
+| https://woped.dhbw-karlsruhe.de/p2t/swagger-ui| Swagger UI|
 
-<h2>Configuration Guide - IntelliJ IDEA</h2>
+# Related repositories
+| URL           | Description   |
+| ------------- |:-------------:|
+| https://github.com/tfreytag/T2P | Text2Process Webservice |
+| https://github.com/tfreytag/WoPeD | WoPeD-Client |
 
-<p>This manual describes the configuration of the WoPeD-Text2Process process in IntelliJ IDEA.</p> 
+# Resources
+| URL           | Description   |
+| ------------- |:-------------:|
+| https://hub.docker.com/r/woped/process2text | Docker Hub|
 
-<h3>Installing the required software</h3>
+# Requirements for development
+- <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher
+- <a href="https://maven.apache.org/">Apache Maven</a>
+- <a href="https://git-scm.com/">Git</a>
+- <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a>
 
-<p>If you have already installed all the required Software go ahead with the next step.</p>
+# Testing
+### Testing via Swagger UI
+1. Start the application.
+2. Navigate to `http://localhost:8081/t2p/swagger-ui.`
+3. Insert your business process description in the body of the `POST /t2p/generatePNML` endpoint.
 
-<p>Preset:
-<ul>
-<li>Install <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher</li>
-<li>Install <a href="https://maven.apache.org/">Apache Maven</a></li>
-<li>Install <a href="https://git-scm.com/">Git</a></li>
-<li>Install <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a></li>
-<li>Activate your <a href="https://www.jetbrains.com/de-de/">JetBrains</a> educational account</li>
-<li>Install <a href="https://www.soapui.org/downloads/soapui/">SoapUI Open Source</a> (or another tool for to test Rest-APIs)</li>
-<li>Clone this repository to your local machine in a new workspace</li>
-</ul></p>
+### Testing via the embedded GUI
+1. Start the application.
+2. Navigate to `http://localhost:8081/t2p/`.
+3. Insert your business process description into the second text area and click on `generate`.
 
+### Testing via the WoPeD-Client
+1. Start the application.
+2. Follow the installation instructions of the WoPeD-Client (`https://github.com/tfreytag/WoPeD`).
+3. Start WoPeD-Client and.
+4. Open the configuration and navigate to `NLP Tools`. Adapt the `Text2Process` configuration:
+    - `Server host`: `localhost`
+    - `Port`: `8081`
+    - `URI`: `/t2p`
+5. Test your configuration.
+6. Close the configuration.
+7. Navigate to `Analyse` -> `Translate to process model` and execute. The text will now be transformed by your locally started T2P webservice.
+
+# Hosting the webservice yourself
+### Option 1: Use our pre-build docker image
+1. Pull our pre-build docker image from docker hub (see above).
+2. Run this image on your server.
+### Option 2: Build the docker image yourself
+1. Build your own docker image with the Dockerfile.
+2. Run this image on your server.
+
+# Configuration guide
+_It is recommended to use IntelliJ IDE._
 <h3>Resolving all the dependencies</h3>
-
 <p>
 The next step is resolving the missing dependencies of the project. There three tasks are necessary.<br>
 First of all you need to ad the projects lib folder as library.
@@ -57,32 +92,4 @@ On the one hand you can click on the play button at the upper right connor in yo
 <p>
 Maven will automatically compile the source code to a runnable application. After that the SpringBootServer will start and load the configuration given by the application.properties file.
 After a short time of loading the server will listen to the port and root path you configured.
-</p>
-
-<h2>Testing the WebServices</h2>
-
-<h3>Web UI</h3>
-<p>
-The T2P service includes a basic Web Application, that allows a user to perform T2P requests and displays the result as a graphical Petrinet.
-This Web Application is accessible at <configured host>/t2p and is self explanatory.
-</p>
-
-<h3>With SoapUI</h3>
-<p>
-The server is exposing different webservices, which can be called.
-To test the functionality WoPeD-UI is using we need a proper tool to send POST requests to the ReSTController.
-We are using SoapUI as required in the installation guide.
-New it is time to set it up the right way.
-</p>
-<img src="./img/soapui_configuring_rest.png">
-<img src="./img/soapui_configuring_rest_2.png">
-
-<h3>With WoPeD itself</h3>
-<p>
-If you want to give it a try with WoPeD, you simply have to check if you are running a release >= 4.0.0. Start your application and navigate to the settings. Configure your WoPeD as shown below.
-</p>
-<img src="./img/settings.png">
-<img src="./img/nlp_settings.png">
-<p>
-Now you can start analysing text information as you are used to do.
 </p>
