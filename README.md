@@ -4,19 +4,19 @@ This application is tailored to handle all requests from WoPeD to generate a PNM
 # Live demo
 | URL           | Description   | 
 | ------------- |:-------------:|
-| https://woped.dhbw-karlsruhe.de/p2t/ | Embedded UI|
-| https://woped.dhbw-karlsruhe.de/p2t/swagger-ui| Swagger UI|
+| https://woped.dhbw-karlsruhe.de/t2p/ | Embedded UI|
+| https://woped.dhbw-karlsruhe.de/t2p/swagger-ui| Swagger UI|
 
 # Related repositories
 | URL           | Description   |
 | ------------- |:-------------:|
-| https://github.com/tfreytag/T2P | Text2Process Webservice |
+| https://github.com/tfreytag/P2T | Process2Text Webservice |
 | https://github.com/tfreytag/WoPeD | WoPeD-Client |
 
 # Resources
 | URL           | Description   |
 | ------------- |:-------------:|
-| https://hub.docker.com/r/woped/process2text | Docker Hub|
+| https://hub.docker.com/r/woped/text2process | Docker Hub|
 
 # Requirements for development
 - <a href="https://aws.amazon.com/de/corretto/">OpenJDK 11</a> or higher
