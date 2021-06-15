@@ -93,6 +93,12 @@
 			<artifactId>activiti-bpmn-model</artifactId>
 			<version>${activiti.org.bpmn.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-converter</artifactId>
+			<version>${activiti.org.bpmn.version}</version>
+		</dependency>
 
 
 		<!-- XML-FRAMEWORKS -->
@@ -198,6 +204,14 @@
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
+		<!-- BPMN -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-process-validation</artifactId>
+			<version>${activiti.org.bpmn.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
