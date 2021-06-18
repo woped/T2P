@@ -10,6 +10,7 @@ angular.module('myApp').component('t2pForm', {
         isBPMN: '<'
     },
     controller: function T2pFormController($http, $scope) {
+        var helper = "";
         $scope.pnml = this.pnml;
         $scope.loading = this.loading;
         $scope.isBPMN = this.isBPMN;
@@ -34,6 +35,16 @@ angular.module('myApp').component('t2pForm', {
             }
         }
 
+        $scope.saveFile = function () {
+                var s = new XMLSerializer();
+                var newXmlStr = s.serializeToString(helper);
+                var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
+                var downloadLink = angular.element('<a></a>');
+                downloadLink.attr('href',window.URL.createObjectURL(blob));
+                downloadLink.attr('download', 'processmodel.txt');
+                downloadLink[0].click();
+        };
+
 
         $scope.generate = function () {
             if ($scope.selectVal != undefined)
@@ -42,10 +53,10 @@ angular.module('myApp').component('t2pForm', {
                 $scope.msg = 'Please choose atleast one option';
 
             console.log($scope.selectVal);
-            console.log($scope.isBPMN);
+            console.log(this.isBPMN);
 
             if($scope.selectVal === 'Petrinet'){
-                $scope.isBPMN = false;
+                this.isBPMN = false;
             }
             if (!($scope.text === $scope.previousText)) {
                 $scope.loading(true);
@@ -62,6 +73,7 @@ angular.module('myApp').component('t2pForm', {
                 $http(req).then(function (response) {
                     var parser = new DOMParser();
                     var xmlDoc = parser.parseFromString(response.data, "text/xml");
+                    helper = parser.parseFromString(response.data, "text/xml");
                     $scope.loading(false);
                     $scope.pnml(xmlDoc);
                     $scope.previousText = $scope.text;
