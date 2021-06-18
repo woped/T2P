@@ -1,6 +1,6 @@
 package de.dhbw.text2process.models.bpmn;
 
-import nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
 
 public abstract class Event extends FlowObject{
 	

@@ -8,7 +8,7 @@
  *
  * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin Kanzler</a>
  */
-package de.dhbw.text2process.controller;
+package de.dhbw.text2process.controler;
 
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.exceptions.WorldModelGenerationException;
@@ -28,17 +28,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController()
-public class T2PController {
+public class T2PControler {
 
     // Initialize log4j to log information into the console
-    Logger logger = LoggerFactory.getLogger(T2PController.class);
+    Logger logger = LoggerFactory.getLogger(T2PControler.class);
 
     /* Helper class to keep the controller clean.
      * Please place any methods performing the work here.
      */
     T2PControllerHelper t2PControllerHelper = new T2PControllerHelper();
 
-    public T2PController() {
+    public T2PControler() {
         StanfordParserInitializer.getInstance();
         WordNetInitializer.getInstance();
         FrameNetInitializer.getInstance();

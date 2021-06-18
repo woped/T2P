@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import epc.SequenceFlow;
-import models.ProcessModel;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.meta.ProcessModel;
 
 public abstract class ProcessNode extends ProcessObject {
 	

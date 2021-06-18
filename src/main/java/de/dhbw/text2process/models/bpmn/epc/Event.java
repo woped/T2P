@@ -1,12 +1,13 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
 import java.util.Map;
 
-import nodes.AttachedNode;
-import nodes.FlowObject;
-import nodes.ProcessNode;
-import nodes.ProcessObject;
-import models.ProcessModel;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.nodes.AttachedNode;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessObject;
+import de.dhbw.text2process.models.meta.ProcessModel;
 
 public class Event extends FlowObject implements AttachedNode {
 	

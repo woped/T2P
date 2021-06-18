@@ -1,24 +1,22 @@
 /**
  * modified taken from https://github.com/FabianFriedrich/Text2Process
  */
-package transform;
+package de.dhbw.text2process.processors.textmodel;
 
 
 import java.util.HashMap;
 
-
-
-import nodes.ProcessNode;
-//import net.frapu.code.visualization.ProcessNode;
-import text.T2PSentence;
-import textModel.SentenceNode;
-import textModel.TextEdge;
-import textModel.TextLinkEdge;
-import textModel.TextModel;
-import textModel.WordNode;
-import worldModel.Action;
-import worldModel.ExtractedObject;
-import worldModel.SpecifiedElement;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
+import de.dhbw.text2process.models.textModel.SentenceNode;
+import de.dhbw.text2process.models.textModel.TextEdge;
+import de.dhbw.text2process.models.textModel.TextLinkEdge;
+import de.dhbw.text2process.models.textModel.TextModel;
+import de.dhbw.text2process.models.textModel.WordNode;
+import de.dhbw.text2process.models.worldModel.Action;
+import de.dhbw.text2process.models.worldModel.ExtractedObject;
+import de.dhbw.text2process.models.worldModel.SpecifiedElement;
+import de.dhbw.text2process.models.worldModel.T2PSentence;
+import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;
 
 public class TextModelBuilder {
 	

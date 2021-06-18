@@ -1,6 +1,6 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
-import tools.ReferenceChooserRestriction;
+import de.dhbw.text2process.helper.ReferenceChooserRestriction;
 
 public interface Linkable {
 	

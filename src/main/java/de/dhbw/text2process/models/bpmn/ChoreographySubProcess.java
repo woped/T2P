@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import epc.SequenceFlow;
-import nodes.Cluster;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.Cluster;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class ChoreographySubProcess extends Cluster {
 

@@ -1,8 +1,9 @@
 package de.dhbw.text2process.models.bpmn;
 
 import java.util.LinkedList;
-import nodes.Linkable;
-import tools.ReferenceChooserRestriction;
+
+import de.dhbw.text2process.helper.ReferenceChooserRestriction;
+import de.dhbw.text2process.models.bpmn.nodes.Linkable;
 
 public class CallActivity extends Activity implements Linkable {
 	

@@ -1,6 +1,7 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
-import nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
 
 public class InformationObject extends FlowObject {
 

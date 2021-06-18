@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import nodes.Cluster;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.Cluster;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public abstract class LaneableCluster extends Cluster{
 

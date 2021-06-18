@@ -3,8 +3,9 @@ package de.dhbw.text2process.models.bpmn.epc;
 import java.util.LinkedList;
 import java.util.List;
 
-import nodes.FlowObject;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class Artifact extends FlowObject {
 	

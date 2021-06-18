@@ -1,7 +1,6 @@
 package de.dhbw.text2process.models.bpmn;
 
-import epc.SequenceFlow;
-import nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
 
 public class Conversation extends FlowObject{
 	

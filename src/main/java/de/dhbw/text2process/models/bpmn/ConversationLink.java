@@ -1,7 +1,7 @@
 package de.dhbw.text2process.models.bpmn;
 
-import nodes.ProcessEdge;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class ConversationLink extends ProcessEdge{
 	

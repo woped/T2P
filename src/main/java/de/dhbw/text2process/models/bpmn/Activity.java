@@ -3,9 +3,8 @@ package de.dhbw.text2process.models.bpmn;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.dhbw.text2process.models.nodes.FlowObject;
-import epc.SequenceFlow;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class Activity extends FlowObject {
 

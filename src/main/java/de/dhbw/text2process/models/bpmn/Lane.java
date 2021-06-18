@@ -2,12 +2,11 @@ package de.dhbw.text2process.models.bpmn;
 
 import java.util.LinkedList;
 
-import epc.SequenceFlow;
-import orgChart.ManagerialRole;
-import orgChart.Person;
-import orgChart.Role;
-import nodes.Linkable;
-import tools.ReferenceChooserRestriction;
+import de.dhbw.text2process.helper.ReferenceChooserRestriction;
+import de.dhbw.text2process.models.bpmn.nodes.Linkable;
+import de.dhbw.text2process.models.orgChart.ManagerialRole;
+import de.dhbw.text2process.models.orgChart.Person;
+import de.dhbw.text2process.models.orgChart.Role;
 
 public class Lane extends LaneableCluster implements Linkable {
 	

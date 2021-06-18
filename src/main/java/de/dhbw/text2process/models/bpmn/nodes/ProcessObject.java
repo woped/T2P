@@ -3,8 +3,7 @@ package de.dhbw.text2process.models.bpmn.nodes;
 import java.util.HashSet;
 import java.util.Set;
 
-import models.ProcessModel;
-
+import de.dhbw.text2process.models.meta.ProcessModel;
 
 public abstract class ProcessObject extends SerializableProcessObject {
 	

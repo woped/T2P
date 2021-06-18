@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import processing.ProcessUtils;
+import de.dhbw.text2process.processors.meta.ProcessUtils;
 
 
 public abstract class SerializableProcessObject implements Cloneable {

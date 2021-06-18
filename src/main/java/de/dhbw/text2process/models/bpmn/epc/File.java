@@ -1,10 +1,7 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
-import java.util.LinkedList;
-
-import nodes.Linkable;
-import tools.ReferenceChooserRestriction;
-import epc.Artifact;
+import de.dhbw.text2process.helper.ReferenceChooserRestriction;
+import de.dhbw.text2process.models.bpmn.nodes.Linkable;
 
 public class File extends Artifact implements Linkable {
 

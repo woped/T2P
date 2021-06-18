@@ -1,7 +1,7 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
-import nodes.ProcessEdge;
-import nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class Association extends ProcessEdge{
 	

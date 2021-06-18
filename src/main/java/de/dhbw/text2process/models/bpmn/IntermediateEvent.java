@@ -2,11 +2,10 @@ package de.dhbw.text2process.models.bpmn;
 
 import java.util.Map;
 
-import epc.SequenceFlow;
-import nodes.AttachedNode;
-import nodes.ProcessNode;
-import nodes.ProcessObject;
-import models.ProcessModel;
+import de.dhbw.text2process.models.bpmn.nodes.AttachedNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessObject;
+import de.dhbw.text2process.models.meta.ProcessModel;
 
 public class IntermediateEvent extends Event implements AttachedNode {
 

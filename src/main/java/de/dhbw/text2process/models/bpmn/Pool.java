@@ -1,7 +1,5 @@
 package de.dhbw.text2process.models.bpmn;
 
-import epc.SequenceFlow;
-
 public class Pool extends LaneableCluster {
 
 	/** Property if the Pool is a Black Box Pool */

@@ -1,6 +1,6 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
-import epc.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
 
 public class EdgeDocker extends ProcessNode {
 

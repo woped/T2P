@@ -1,16 +1,14 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
 import java.util.HashMap;
-
 import java.util.StringTokenizer;
-
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Node;
 
-import processing.ProcessUtils;
+import de.dhbw.text2process.processors.meta.ProcessUtils;
 
 public abstract class ProcessEdge extends ProcessObject {
 

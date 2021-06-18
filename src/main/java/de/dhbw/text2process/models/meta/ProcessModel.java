@@ -10,14 +10,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import nodes.AttachedNode;
-import nodes.Cluster;
-import nodes.EdgeDocker;
-import nodes.FlowObject;
-import nodes.ProcessEdge;
-import nodes.ProcessNode;
-import nodes.ProcessObject;
-import processing.ProcessUtils;
+import de.dhbw.text2process.models.bpmn.nodes.AttachedNode;
+import de.dhbw.text2process.models.bpmn.nodes.Cluster;
+import de.dhbw.text2process.models.bpmn.nodes.EdgeDocker;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessObject;
+import de.dhbw.text2process.processors.meta.ProcessUtils;
 
 public abstract class ProcessModel implements Cloneable {
 

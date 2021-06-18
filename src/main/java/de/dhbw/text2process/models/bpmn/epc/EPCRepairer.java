@@ -1,19 +1,13 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
 import java.util.ArrayList;
 
-import nodes.Cluster;
-import nodes.ProcessEdge;
-import nodes.ProcessNode;
-import models.EPCModel;
-import epc.Connector;
-import epc.ConnectorAND;
-import epc.ConnectorOR;
-import epc.ConnectorXOR;
-import epc.Event;
-import epc.Function;
-import epc.Organisation;
-import epc.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.nodes.Cluster;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
+import de.dhbw.text2process.models.meta.EPCModel;
+
 
 public class EPCRepairer {
 	

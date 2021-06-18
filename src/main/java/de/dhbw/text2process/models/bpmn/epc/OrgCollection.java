@@ -1,4 +1,4 @@
-package epc;
+package de.dhbw.text2process.models.bpmn.epc;
 
 public class OrgCollection extends OrganisationCluster{
 	
