@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import de.dhbw.text2process.models.bpmn.epc.Event;
+import de.dhbw.text2process.helper.exporter.meta.Exporter;
 import de.dhbw.text2process.models.bpmn.SequenceFlow;
 import de.dhbw.text2process.models.bpmn.epc.Connector;
 import de.dhbw.text2process.models.bpmn.epc.Function;

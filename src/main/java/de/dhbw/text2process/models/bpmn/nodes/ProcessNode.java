@@ -1,5 +1,6 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Set;
 import de.dhbw.text2process.models.bpmn.SequenceFlow;
 import de.dhbw.text2process.models.meta.ProcessModel;
 
-public abstract class ProcessNode extends ProcessObject {
+public abstract class ProcessNode extends ProcessObject implements Serializable {
 	
 	 public final static String TAG_NODE = "node";
 	 

@@ -1,10 +1,12 @@
 package de.dhbw.text2process.helper.rest;
 
+import de.dhbw.text2process.models.meta.BPMNModel;
 import de.dhbw.text2process.models.worldModel.*;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.bpmn.BPMNModelBuilder;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.Text2ProcessApplication;
+import de.dhbw.text2process.exceptions.BpmnGenerationException;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.exceptions.WorldModelGenerationException;
@@ -12,6 +14,8 @@ import de.dhbw.text2process.helper.TextToProcess;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
 
 import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
@@ -95,16 +99,17 @@ public class T2PControllerHelper {
 	 * @throws PetrinetGenerationException
 	 */
 	public String generateBpmnFromText(String text)
-			throws PetrinetGenerationException, WorldModelGenerationException, IOException {
+			throws BpmnGenerationException, WorldModelGenerationException, IOException {
 		logger.debug("Instantiating the TextToProcess object ...");
 		TextToProcess textToProcess = new TextToProcess();
 		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
 		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
-		bpmnBuilder.buildDataObjects(generateWorldModelFromText(text));
+		logger.debug("Creating a new BMPN-Model ...");
+		BPMNModel bpmnModel = (BPMNModel)bpmnBuilder.createProcessModel(generateWorldModelFromText(text));
+		logger.debug("Converting BPMN model to json");
+		String bpmnString = new Gson().toJson(bpmnModel);
 		
-		
-		
-		return null;
+		return bpmnString;
 	}
 
 	private String minifyResult(String result) {

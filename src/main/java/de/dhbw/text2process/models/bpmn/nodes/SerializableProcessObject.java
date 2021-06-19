@@ -1,5 +1,6 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
@@ -11,7 +12,7 @@ import org.w3c.dom.Element;
 import de.dhbw.text2process.processors.meta.ProcessUtils;
 
 
-public abstract class SerializableProcessObject implements Cloneable {
+public abstract class SerializableProcessObject implements Cloneable, Serializable {
 
      /** Holds the properties of the ProcessObject */
     private HashMap<String, String> properties = new HashMap<String, String>();

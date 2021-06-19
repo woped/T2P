@@ -1,12 +1,13 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public abstract class Cluster extends ProcessNode {
+public abstract class Cluster extends ProcessNode implements Serializable {
 	
 	/** Property for the contained Nodes of this Cluster */
     public final static String PROP_CONTAINED_NODES = "#nodes";

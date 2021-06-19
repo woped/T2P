@@ -1,5 +1,6 @@
 package de.dhbw.text2process.models.bpmn.epc;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +10,7 @@ import de.dhbw.text2process.models.bpmn.SequenceFlow;
 import de.dhbw.text2process.models.bpmn.nodes.Cluster;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
-public class OrganisationCluster extends Cluster{
+public class OrganisationCluster extends Cluster implements Serializable{
 	
 	public List<Organisation> f_orgs = new ArrayList<Organisation>();
 	

@@ -1,9 +1,11 @@
 package de.dhbw.text2process.models.bpmn.epc;
 
+import java.io.Serializable;
+
 import de.dhbw.text2process.helper.ReferenceChooserRestriction;
 import de.dhbw.text2process.models.bpmn.nodes.Linkable;
 
-public class File extends Artifact implements Linkable {
+public class File extends Artifact implements Linkable, Serializable {
 
 	/** Property if this Data Object is a collection (0=FALSE, 1=TRUE) */
     public final static String PROP_COLLECTION = "collection";

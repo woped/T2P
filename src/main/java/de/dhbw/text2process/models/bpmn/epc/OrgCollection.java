@@ -1,6 +1,8 @@
 package de.dhbw.text2process.models.bpmn.epc;
 
-public class OrgCollection extends OrganisationCluster{
+import java.io.Serializable;
+
+public class OrgCollection extends OrganisationCluster implements Serializable{
 	
 	/** Property if the Pool is a Black Box Pool */
     public final static String PROP_BLACKBOX_POOL = "blackbox_pool";

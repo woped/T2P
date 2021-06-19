@@ -1,11 +1,12 @@
 package de.dhbw.text2process.models.bpmn.nodes;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import de.dhbw.text2process.models.meta.ProcessModel;
 
-public abstract class ProcessObject extends SerializableProcessObject {
+public abstract class ProcessObject extends SerializableProcessObject implements Serializable {
 	
 	 /**
      * Serialization properties
