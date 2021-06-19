@@ -169,11 +169,11 @@ public class TextToProcess {
 
 	private void extractBPMNFlowObjects(BPMNModel bpmn) {
 		for (ProcessNode pn : new ArrayList<ProcessNode>(f_generatedModelBPMN.getFlowObjects())) {
-			if (pn instanceof bpmn.Task) {
+			if (pn instanceof Task) {
 				Task task = (Task) pn;
 				f_tasks.add(task);
 			}
-			if (pn instanceof bpmn.Message) {
+			if (pn instanceof Message) {
 				Message mess = (Message) pn;
 				f_messages.add(mess);
 			}
@@ -182,8 +182,8 @@ public class TextToProcess {
 
 	private void extractBPMNFlows(BPMNModel bpmn) {
 		for (ProcessEdge pe : new ArrayList<ProcessEdge>(f_generatedModelBPMN.getEdges())) {
-			if (pe instanceof bpmn.SequenceFlow) {
-				bpmn.SequenceFlow f = (bpmn.SequenceFlow) pe;
+			if (pe instanceof SequenceFlow) {
+				SequenceFlow f = (SequenceFlow) pe;
 				f_bflows.add(f);
 			}
 			if (pe instanceof MessageFlow) {

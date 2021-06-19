@@ -64,7 +64,7 @@ public class T2PControler {
             logger.info("Validating the String information, scanning for incompatible characters");
             t2PControllerHelper.checkInputValidity(param);
             logger.info("Starting generating PNML-String ...");
-            bpmnResponse = new Response<String>(t2PControllerHelper.generatePetrinetFromText(param));
+            bpmnResponse = new Response<String>(t2PControllerHelper.generateBpmnFromText(param));
             logger.info("Finished generating PNML-String");
         } catch (InvalidInputException e) {
             logger.error("The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");

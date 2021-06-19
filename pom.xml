@@ -55,6 +55,7 @@
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
 		<activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version>
+		<jwnl.version>1.4.0.rc2</jwnl.version>
 	</properties>
 
 	<dependencies>
@@ -100,6 +101,13 @@
 			<version>${activiti.org.bpmn.version}</version>
 		</dependency>
 
+		<!-- WordNet -->
+		<!-- https://mvnrepository.com/artifact/net.didion.jwnl/jwnl -->
+		<dependency>
+			<groupId>net.didion.jwnl</groupId>
+			<artifactId>jwnl</artifactId>
+			<version>${jwnl.version}</version>
+		</dependency>
 
 		<!-- XML-FRAMEWORKS -->
 		<dependency>
