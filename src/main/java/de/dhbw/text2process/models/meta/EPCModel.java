@@ -1,20 +1,21 @@
 package de.dhbw.text2process.models.meta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import epc.Association;
-import epc.Connector;
-import epc.ConnectorAND;
-import epc.ConnectorOR;
-import epc.ConnectorXOR;
-import epc.Event;
-import epc.Function;
-import epc.InformationObject;
-import epc.Organisation;
-import epc.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.Association;
+import de.dhbw.text2process.models.bpmn.epc.Event;
+import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.epc.Connector;
+import de.dhbw.text2process.models.bpmn.epc.ConnectorAND;
+import de.dhbw.text2process.models.bpmn.epc.ConnectorOR;
+import de.dhbw.text2process.models.bpmn.epc.ConnectorXOR;
+import de.dhbw.text2process.models.bpmn.epc.Function;
+import de.dhbw.text2process.models.bpmn.epc.InformationObject;
+import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
 public class EPCModel extends ProcessModel {
 	

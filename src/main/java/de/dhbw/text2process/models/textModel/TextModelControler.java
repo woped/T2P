@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.dhbw.text2process.enums.SpecifierType;
+import de.dhbw.text2process.helper.SentenceWordID;
 import de.dhbw.text2process.helper.TextToProcess;
 import de.dhbw.text2process.models.bpmn.nodes.Cluster;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
@@ -21,7 +22,6 @@ import de.dhbw.text2process.models.worldModel.SpecifiedElement;
 import de.dhbw.text2process.models.worldModel.Specifier;
 import de.dhbw.text2process.processors.meta.ProcessUtils;
 import de.dhbw.text2process.processors.textmodel.TextModelBuilder;
-import de.dhbw.text2process.processors.worldmodel.SentenceWordID;
 import de.dhbw.text2process.processors.worldmodel.transform.AnalyzedSentence;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;

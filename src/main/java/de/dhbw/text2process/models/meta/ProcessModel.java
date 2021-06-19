@@ -1,5 +1,6 @@
 package de.dhbw.text2process.models.meta;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessObject;
 import de.dhbw.text2process.processors.meta.ProcessUtils;
 
-public abstract class ProcessModel implements Cloneable {
+public abstract class ProcessModel implements Cloneable, Serializable {
 
     /**
      * Serialization properties

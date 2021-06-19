@@ -1,4 +1,4 @@
-package de.dhbw.text2process.helper;
+package de.dhbw.text2process.helper.rest;
 
 import de.dhbw.text2process.models.worldModel.*;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
@@ -8,6 +8,7 @@ import de.dhbw.text2process.Text2ProcessApplication;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.exceptions.WorldModelGenerationException;
+import de.dhbw.text2process.helper.TextToProcess;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,15 +96,15 @@ public class T2PControllerHelper {
 	 */
 	public String generateBpmnFromText(String text)
 			throws PetrinetGenerationException, WorldModelGenerationException, IOException {
-		logger.debug("Instantiating the PetrinetBuilder based on the WorldModel ...");
+		logger.debug("Instantiating the TextToProcess object ...");
 		TextToProcess textToProcess = new TextToProcess();
+		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
 		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
-		logger.debug("Build the PNML-String ...");
-		String bpnm = bpmnBuilder.buildPNML();
-		logger.debug("Minimizing the PNML-String ...");
-		pnml = minifyResult(pnml);
-		logger.debug("The PNML-String is done. Method is returning the final PNML-String.");
-		return pnml;
+		bpmnBuilder.buildDataObjects(generateWorldModelFromText(text));
+		
+		
+		
+		return null;
 	}
 
 	private String minifyResult(String result) {

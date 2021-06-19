@@ -10,7 +10,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import de.dhbw.text2process.models.bpmn.Event;
+import de.dhbw.text2process.helper.exporter.BPMNExporter;
+import de.dhbw.text2process.helper.exporter.EPCExporter;
+import de.dhbw.text2process.models.bpmn.epc.Event;
 import de.dhbw.text2process.models.bpmn.Lane;
 import de.dhbw.text2process.models.bpmn.Message;
 import de.dhbw.text2process.models.bpmn.MessageFlow;

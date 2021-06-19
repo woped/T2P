@@ -16,6 +16,7 @@ import de.dhbw.text2process.models.bpmn.Association;
 import de.dhbw.text2process.models.bpmn.DataObject;
 import de.dhbw.text2process.models.bpmn.EndEvent;
 import de.dhbw.text2process.models.bpmn.ErrorIntermediateEvent;
+import de.dhbw.text2process.models.bpmn.Event;
 import de.dhbw.text2process.models.bpmn.EventBasedGateway;
 import de.dhbw.text2process.models.bpmn.ExclusiveGateway;
 import de.dhbw.text2process.models.bpmn.Gateway;
@@ -580,8 +581,8 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
 					f_notAssigned.clear();
 				}
 			}
-			if (_obj instanceof bpmn.Event){
-				bpmn.Event e = (bpmn.Event) _obj;
+			if (_obj instanceof Event){
+				Event e = (Event) _obj;
 				f_model.addEvent(e);
 			}
 		}

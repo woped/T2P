@@ -1,22 +1,38 @@
 package de.dhbw.text2process.models.meta;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
+import de.dhbw.text2process.models.bpmn.Activity;
+import de.dhbw.text2process.models.bpmn.Artifact;
 import de.dhbw.text2process.models.bpmn.Association;
+import de.dhbw.text2process.models.bpmn.ChoreographyActivity;
 import de.dhbw.text2process.models.bpmn.ComplexGateway;
+import de.dhbw.text2process.models.bpmn.Conversation;
+import de.dhbw.text2process.models.bpmn.ConversationLink;
+import de.dhbw.text2process.models.bpmn.EndEvent;
 import de.dhbw.text2process.models.bpmn.Event;
 import de.dhbw.text2process.models.bpmn.EventBasedGateway;
 import de.dhbw.text2process.models.bpmn.ExclusiveGateway;
+import de.dhbw.text2process.models.bpmn.Gateway;
 import de.dhbw.text2process.models.bpmn.InclusiveGateway;
+import de.dhbw.text2process.models.bpmn.IntermediateEvent;
+import de.dhbw.text2process.models.bpmn.Lane;
+import de.dhbw.text2process.models.bpmn.LaneableCluster;
+import de.dhbw.text2process.models.bpmn.Message;
+import de.dhbw.text2process.models.bpmn.MessageFlow;
 import de.dhbw.text2process.models.bpmn.ParallelGateway;
 import de.dhbw.text2process.models.bpmn.Pool;
 import de.dhbw.text2process.models.bpmn.SequenceFlow;
+import de.dhbw.text2process.models.bpmn.StartEvent;
 import de.dhbw.text2process.models.bpmn.nodes.Cluster;
 import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 
-public class BPMNModel extends ProcessModel {
+public class BPMNModel extends ProcessModel implements Serializable{
 	
 	private ArrayList<Event> events = new ArrayList<Event>();
 	

@@ -20,15 +20,20 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.dhbw.text2process.models.worldModel.Action;
+import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.text2process.processors.worldmodel.transform.ListUtils;
-import edu.mit.jwi.Dictionary;
-import edu.mit.jwi.item.IndexWord;
-import edu.mit.jwi.item.POS;
-import edu.mit.jwi.item.Synset;
 import net.didion.jwnl.JWNL;
 import net.didion.jwnl.JWNLException;
+import net.didion.jwnl.data.IndexWord;
+import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.Pointer;
+import net.didion.jwnl.data.PointerType;
+import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.data.Word;
 import net.didion.jwnl.data.list.PointerTargetTree;
+import net.didion.jwnl.dictionary.Dictionary;
 
 public class WordNetWrapper {
 	private static ArrayList<String> f_acceptedAMODList = new ArrayList<String>();

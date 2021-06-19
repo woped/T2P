@@ -3,21 +3,23 @@
  */
 package de.dhbw.text2process.processors.worldmodel.transform;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
-import de.dhbw.text2process.processors.worldmodel.ProcessLabelGenerator;
-import de.dhbw.text2process.wrapper.WordNetFunctionality;
-import de.dhbw.text2process.processors.petrinet.IDHandler;
-import de.dhbw.text2process.processors.worldmodel.Constants;
-import de.dhbw.text2process.processors.worldmodel.SentenceWordID;
-import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
-import edu.mit.jwi.item.POS;
-
-import de.dhbw.text2process.enums.PhraseType;
-import de.dhbw.text2process.models.worldModel.T2PSentence;
-import de.dhbw.text2process.models.worldModel.Text;
+import de.dhbw.text2process.enums.ActionLinkType;
 import de.dhbw.text2process.enums.ConjunctionType;
+import de.dhbw.text2process.enums.DLRStatusCode;
+import de.dhbw.text2process.enums.FlowDirection;
+import de.dhbw.text2process.enums.FlowType;
+import de.dhbw.text2process.enums.PhraseType;
+import de.dhbw.text2process.enums.SpecifierType;
+import de.dhbw.text2process.helper.SentenceWordID;
 import de.dhbw.text2process.models.worldModel.Action;
 import de.dhbw.text2process.models.worldModel.Actor;
 import de.dhbw.text2process.models.worldModel.DetermineConjResult;
@@ -26,13 +28,15 @@ import de.dhbw.text2process.models.worldModel.Flow;
 import de.dhbw.text2process.models.worldModel.Resource;
 import de.dhbw.text2process.models.worldModel.SpecifiedElement;
 import de.dhbw.text2process.models.worldModel.Specifier;
+import de.dhbw.text2process.models.worldModel.T2PSentence;
+import de.dhbw.text2process.models.worldModel.Text;
 import de.dhbw.text2process.models.worldModel.WorldModel;
-import de.dhbw.text2process.enums.ActionLinkType;
-import de.dhbw.text2process.enums.DLRStatusCode;
-import de.dhbw.text2process.enums.FlowDirection;
-import de.dhbw.text2process.enums.FlowType;
-import de.dhbw.text2process.enums.SpecifierType;
-
+import de.dhbw.text2process.processors.petrinet.IDHandler;
+import de.dhbw.text2process.processors.worldmodel.Constants;
+import de.dhbw.text2process.processors.worldmodel.ProcessLabelGenerator;
+import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
+import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
 

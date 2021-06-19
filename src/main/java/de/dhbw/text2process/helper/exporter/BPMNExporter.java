@@ -1,4 +1,4 @@
-package de.dhbw.text2process.helper;
+package de.dhbw.text2process.helper.exporter;
 
 import java.io.BufferedWriter;
 import java.io.File;

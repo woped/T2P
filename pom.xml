@@ -25,6 +25,11 @@
 			<id>Cogcomp</id>
 			<url>http://cogcomp.org/m2repo/</url>
 		</repository>
+		<!-- JWNL -->
+		<repository>
+			<id>BibSonomy</id>
+			<url>https://dev.bibsonomy.org/maven2/</url>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
@@ -55,7 +60,7 @@
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
 		<activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version>
-		<jwnl.version>1.4.0.rc2</jwnl.version>
+		<jwnl.version>1.4.1</jwnl.version>
 	</properties>
 
 	<dependencies>
@@ -102,12 +107,13 @@
 		</dependency>
 
 		<!-- WordNet -->
-		<!-- https://mvnrepository.com/artifact/net.didion.jwnl/jwnl -->
+		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
 		<dependency>
-			<groupId>net.didion.jwnl</groupId>
+			<groupId>net.didion</groupId>
 			<artifactId>jwnl</artifactId>
 			<version>${jwnl.version}</version>
 		</dependency>
+
 
 		<!-- XML-FRAMEWORKS -->
 		<dependency>
