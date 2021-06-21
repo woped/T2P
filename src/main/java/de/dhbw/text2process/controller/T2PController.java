@@ -19,6 +19,7 @@ import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.wrapper.FrameNetInitializer;
 import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
