@@ -18,8 +18,6 @@ angular.module('myApp').component('t2pForm', {
         $scope.isGeneratable = function () {
             if ($scope.text == null) {
                 return true;
-            } else if ($scope.selectVal === undefined) {
-                return true;
             } else {
                 return !($scope.text.length > 0);
             }
@@ -47,17 +45,6 @@ angular.module('myApp').component('t2pForm', {
 
 
         $scope.generate = function () {
-            if ($scope.selectVal != undefined)
-                $scope.msg = $scope.selectVal;
-            else
-                $scope.msg = 'Please choose atleast one option';
-
-            console.log($scope.selectVal);
-            console.log(this.isBPMN);
-
-            if($scope.selectVal === 'Petrinet'){
-                this.isBPMN = false;
-            }
             if (!($scope.text === $scope.previousText)) {
                 $scope.loading(true);
                 var req = {
@@ -100,6 +87,9 @@ angular.module('myApp').component('t2pForm', {
                     });
                 });
             }
+        }
+        $scope.getValue = function (){
+            return this.isBPMN;
         }
     }
 });
