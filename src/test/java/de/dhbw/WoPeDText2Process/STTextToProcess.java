@@ -2,9 +2,9 @@ package de.dhbw.WoPeDText2Process;
 
 import de.dhbw.text2process.models.petrinet.*;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
-import de.dhbw.text2process.helper.T2PControllerHelper;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
+import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.junit.Test;

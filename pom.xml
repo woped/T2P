@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.3.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
@@ -23,6 +24,11 @@
 		<repository>
 			<id>Cogcomp</id>
 			<url>http://cogcomp.org/m2repo/</url>
+		</repository>
+		<!-- JWNL -->
+		<repository>
+			<id>BibSonomy</id>
+			<url>https://dev.bibsonomy.org/maven2/</url>
 		</repository>
 	</repositories>
 
@@ -53,6 +59,8 @@
 		<stanford.parser.version>3.9.2</stanford.parser.version>
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
+		<activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version>
+		<jwnl.version>1.4.1</jwnl.version>
 	</properties>
 
 	<dependencies>
@@ -63,19 +71,10 @@
 		</dependency>
 
 		<!-- STANFORD DEPENDENCIES -->
-		<!--
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-			<version>${stanford.version}</version>
-			<classifier>models-german</classifier>
-		</dependency>
-		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-parser</artifactId>
-			<version>${stanford.parser.version}</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>edu.stanford.nlp</groupId> <artifactId>stanford-corenlp</artifactId> 
+			<version>${stanford.version}</version> <classifier>models-german</classifier> 
+			</dependency> <dependency> <groupId>edu.stanford.nlp</groupId> <artifactId>stanford-parser</artifactId> 
+			<version>${stanford.parser.version}</version> </dependency> -->
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>old-stanford-parser</artifactId>
@@ -92,6 +91,29 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.version}</version>
 		</dependency>
+
+		<!-- BPMN -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-model</artifactId>
+			<version>${activiti.org.bpmn.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-converter</artifactId>
+			<version>${activiti.org.bpmn.version}</version>
+		</dependency>
+
+		<!-- WordNet -->
+		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
+		<dependency>
+			<groupId>net.didion</groupId>
+			<artifactId>jwnl</artifactId>
+			<version>${jwnl.version}</version>
+		</dependency>
+
 
 		<!-- XML-FRAMEWORKS -->
 		<dependency>
@@ -119,18 +141,9 @@
 			<artifactId>pull-parser</artifactId>
 			<version>${pullparser.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>net.java.dev.msv</groupId>
-			<artifactId>msv-core</artifactId>
-			<version>${msv.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.msv</groupId>
-			<artifactId>xsdlib</artifactId>
-			<version>${msv.version}</version>
-		</dependency>
-		-->
+		<!-- <dependency> <groupId>net.java.dev.msv</groupId> <artifactId>msv-core</artifactId> 
+			<version>${msv.version}</version> </dependency> <dependency> <groupId>net.java.dev.msv</groupId> 
+			<artifactId>xsdlib</artifactId> <version>${msv.version}</version> </dependency> -->
 		<!-- JSON -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -168,7 +181,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 			Workspace Dependencies 				-->
+		<!-- Workspace Dependencies -->
 		<dependency>
 			<groupId>PLATZHALTER</groupId>
 			<artifactId>edu.mit.jwi</artifactId>
@@ -211,11 +224,19 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
 		</dependency>
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+		<!-- BPMN -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-process-validation</artifactId>
+			<version>${activiti.org.bpmn.version}</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -238,7 +259,8 @@
 						<configuration>
 							<tasks>
 								<copy todir="${basedir}/target/NLPTools">
-									<fileset dir="${basedir}/src/main/resources/NLPTools" includes="**/*" />
+									<fileset dir="${basedir}/src/main/resources/NLPTools"
+										includes="**/*" />
 								</copy>
 							</tasks>
 						</configuration>

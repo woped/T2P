@@ -1,4 +1,4 @@
-package de.dhbw.text2process.helper;
+package de.dhbw.text2process.helper.rest;
 
 import java.util.Arrays;
 
