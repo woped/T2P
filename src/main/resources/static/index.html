@@ -65,7 +65,7 @@
   </div>
   <p class="animate-flicker" style="position: relative;text-align: center;">We are generating your Petrinet.</p>
 </div>
-  <div ng-if="!loading&&!displayInfo&&selectVal==='Petrinet'|| !loading&&!displayInfo&&selectVal===undefined" class="petrinet-container">
+  <div ng-if="!loading&&!displayInfo&&selectVal==='PNML'|| !loading&&!displayInfo&&selectVal===undefined" class="petrinet-container">
     <petrinet pnml="pnml"></petrinet>
   </div>
   <div ng-if="!loading&&!displayInfo&&selectVal==='BPMN'" class="petrinet-container">
@@ -73,7 +73,7 @@
   </div>
 
   <div ng-show="!loading&&displayInfo" class="petrinet-container">
-      <div style="height:100%;display:flex;flex-direction: column;align-items: center;justify-content: center; overflow:auto;">
+      <div style="height:100%;display:flex;flex-direction: column;align-items: center;justify-content: center; overflow:auto;">i
         <h3 style="margin:3rem;color:#757575">What is Text2Process?</h3>
         <ul style="color:#9E9E9E">
           <li>It generates a Workflow Petrinet based on a plain text description!</li>
@@ -84,7 +84,7 @@
       </div>
   </div>
   <div style="margin-left: 5% !important; margin-top: 2%;">
-    <input type ="radio" value="Petrinet" ng-model="selectVal"/><span style="color:Black">Petrinet</span><br />
+    <input type ="radio" value="PNML" ng-model="selectVal"/><span style="color:Black">PNML</span><br />
     <input type ="radio" value="BPMN" ng-model="selectVal" /><span style="color:Black">BPMN</span><br />
   </div>
   <div style="display:flex;flex-direction: column;">
