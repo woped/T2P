@@ -213,7 +213,16 @@ public class Constants {
 		// Author: Simon
 		f_parallelIndicators.add("and");
 		f_parallelIndicators.add("as well as");
-		
+
+		//Author: Jonas
+		f_parallelIndicators.add("synchronously");
+		f_parallelIndicators.add("at the same time");
+		f_parallelIndicators.add("simultaneously");
+		f_parallelIndicators.add("concomitantly");
+		f_parallelIndicators.add("at once");
+		f_parallelIndicators.add("at one time");
+		f_parallelIndicators.add("together");
+
 		// for continuation of a branch of a gateway
 		f_sequenceIndicators.add("then");
 		f_sequenceIndicators.add("after");

@@ -13,16 +13,20 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StanfordParserFunctionality {
 
-    private StanfordParserInitializer SPInitializer = StanfordParserInitializer.getInstance();
-    private DocumentPreprocessor dpp;
-    private GrammaticalStructureFactory gsf;
-    private LexicalizedParser parser;
-    private TreebankLanguagePack tlp;
+    private final StanfordParserInitializer SPInitializer = StanfordParserInitializer.getInstance();
+    private final DocumentPreprocessor dpp;
+    private final GrammaticalStructureFactory gsf;
+    private final LexicalizedParser parser;
+    private final TreebankLanguagePack tlp;
 
     private static StanfordParserFunctionality instance;
 
@@ -44,11 +48,11 @@ public class StanfordParserFunctionality {
         instance=null;
     }
 
-    public synchronized Text createText(String input){
+    public synchronized Text createText(String input) throws IOException {
         return createText(input, null);
     }
 
-    public synchronized Text createText(String input, ITextParsingStatusListener listener){
+    public synchronized Text createText(String input, ITextParsingStatusListener listener) throws IOException {
         Text _result = new Text();
 
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
@@ -83,12 +87,35 @@ public class StanfordParserFunctionality {
     }
 
 
-    private T2PSentence createSentence(ArrayList<Word> _list) {
+    private T2PSentence createSentence(ArrayList<Word> _list) throws IOException {
         T2PSentence _s = new T2PSentence(_list);
-        Tree _parse = parser.apply(_s);
-        _s.setTree(_parse);
-        GrammaticalStructure _gs = gsf.newGrammaticalStructure(_parse);
+        String tr;
+        URL url = new URL("http://localhost:8000");
+        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+        String jsonInputString = _s.toStringFormated();
+        try(OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine = null;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+            tr = response.toString();
+            System.out.println(tr);
+        }
+        Tree t = Tree.valueOf(tr);
+        _s.setTree(t);
+        GrammaticalStructure _gs = gsf.newGrammaticalStructure(t);
+        System.out.println("_gs"+_gs);
         _s.setGrammaticalStructure(_gs);
+        System.out.println("s.setGS"+_s);
         return _s;
     }
 

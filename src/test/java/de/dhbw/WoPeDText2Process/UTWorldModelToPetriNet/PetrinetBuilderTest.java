@@ -4,11 +4,13 @@ import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 
+import java.io.IOException;
+
 public class PetrinetBuilderTest {
     /*
     For module testing during implementation phase
     */
-    public static void main(String [] args) throws PetrinetGenerationException {
+    public static void main(String [] args) throws PetrinetGenerationException, IOException {
 
         //The Manager finishes the documents. if he likes it, he signs it and sends it away. If he doesnt like it, he throws it away.
 

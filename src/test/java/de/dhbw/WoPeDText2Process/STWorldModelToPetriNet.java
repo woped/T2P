@@ -73,7 +73,7 @@ public class STWorldModelToPetriNet extends T2PScenarioTest {
     private static String  filePath;
 
     @Test
-    public void evaluatePetriNetBuild() {
+    public void evaluatePetriNetBuild() throws IOException {
         filePath= System.getProperty("user.dir");
         filePath=filePath+"/TestData/";
         WorldModelBuilder WMBuilder = new WorldModelBuilder("The manager finishes the document. If he likes it, he sends it to the office. Otherwise he throws it in the bin.");
