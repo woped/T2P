@@ -93,3 +93,36 @@ On the one hand you can click on the play button at the upper right connor in yo
 Maven will automatically compile the source code to a runnable application. After that the SpringBootServer will start and load the configuration given by the application.properties file.
 After a short time of loading the server will listen to the port and root path you configured.
 </p>
+
+# Impementation in your Sourcecode (e. g. Java-Call)
+
+The first thing you need to know, the api is using a Rosponse-Object (/src/main/java/de/dhbw/text2process/helper/Response.java)
+
+The controller is located here (/src/main/java/de/dhbw/text2process/controller/T2PController.java)
+
+This is converted to a json String. If there are any errors during the NLP processing the exceptions and the stacktrace are stored in this generic Response<E> as well as the correct result.
+
+Use getResponse() to extract the generated process.
+
+If you want to call the API then use the Swagger-UI mentions above to identify the correct URI. You will get 
+
+## Java impementation
+
+This is what you have to do in Java to implement the T2P-Interface to your code:
+
+```java
+BufferedReader bufferedReader = new BufferedReader(
+	new InputStreamReader(connection.getInputStream())
+);
+
+StringBuilder responseJson = new StringBuilder();
+String responseLine;
+// Reading the incoming json line by line and transforming it to a single String
+while ((responseLine = bufferedReader.readLine()) != null) {
+	responseJson.append(responseLine.trim());
+}
+String processModelXmlString = responseJson.toString();
+```
+
+Now you can do what ever you like with the String in your Java application.
+
