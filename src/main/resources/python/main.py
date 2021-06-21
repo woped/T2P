@@ -11,9 +11,9 @@ argParser.add_argument("sent_string", help="Sentence to be used")
 args = argParser.parse_args()
 sentence = args.sent_string
 
-pathname1 = os.path.join("src", "main", "resources", "python", "stanford-corenlp-4.2.1.jar")
+pathname1 = os.path.join("src", "main", "resources", "python", "stanford-corenlp-4.2.2.jar")
 
-pathname2 = os.path.join("src", "main", "resources", "python", "stanford-corenlp-4.2.1-models.jar")
+pathname2 = os.path.join("src", "main", "resources", "python", "stanford-corenlp-4.2.2-models.jar")
 
 
 #nlpServer = CoreNLPServer(path_to_jar="/Users/jannik/Documents/DHBW/5. Semester/T2P/src/main/resources/python/stanford-corenlp-4.2.1.jar",

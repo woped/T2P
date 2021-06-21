@@ -1,4 +1,4 @@
-package de.dhbw.text2process.controler;
+package de.dhbw.text2process.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
