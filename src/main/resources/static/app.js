@@ -11,10 +11,9 @@ var myApp=angular.module('myApp', [
 
 myApp.controller('T2PController', function T2PController($scope) {
 
-
-
   $scope.displayInfo=true;
   $scope.loading=false;
+  $scope.isBPMN = false;
   $scope.callback = function(pnml){
     $scope.displayInfo=false;
   $scope.pnml = pnml;

@@ -211,7 +211,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

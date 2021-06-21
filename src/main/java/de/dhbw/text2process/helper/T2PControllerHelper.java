@@ -1,19 +1,23 @@
 package de.dhbw.text2process.helper;
 
+import de.dhbw.text2process.models.worldModel.*;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.exceptions.WorldModelGenerationException;
-import de.dhbw.text2process.models.worldModel.WorldModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXB;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,10 +39,20 @@ public class T2PControllerHelper {
      * @return A WorldModel
      * @throws WorldModelGenerationException
      */
-    public WorldModel generateWorldModelFromText(String text) throws WorldModelGenerationException {
+    public WorldModel generateWorldModelFromText(String text) throws WorldModelGenerationException, IOException {
         logger.debug("Instantiating the WorldModelBuilder ...");
         WorldModelBuilder worldModelBuilder = new WorldModelBuilder(text);
         WorldModel worldModel = worldModelBuilder.buildWorldModel(false);
+        List<Action> actions = worldModel.getActions();
+        List<Actor> actors = worldModel.getActors();
+        List<Flow> elements=  worldModel.getFlows();
+        List<Resource> resources =  worldModel.getResources();
+
+        System.out.println(actions.toString());
+        System.out.println(actors.toString());
+        System.out.println(elements.toString());
+        System.out.println(resources.toString());
+        System.out.println();
         return worldModel;
     }
     
@@ -52,7 +66,7 @@ public class T2PControllerHelper {
      * @return A string which represents the PetriNet
      * @throws PetrinetGenerationException
      */
-    public String generatePetrinetFromText(String text) throws PetrinetGenerationException, WorldModelGenerationException {
+    public String generatePetrinetFromText(String text) throws PetrinetGenerationException, WorldModelGenerationException, IOException {
         logger.debug("Instantiating the PetrinetBuilder based on the WorldModel ...");
         PetrinetBuilder petriNetBuilder = new PetrinetBuilder(generateWorldModelFromText(text));
         logger.debug("Build the PNML-String ...");
