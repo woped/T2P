@@ -105,7 +105,7 @@ public class T2PControllerHelper {
 		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
 		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
 		logger.debug("Creating a new BMPN-Model ...");
-		BPMNModel bpmnModel = (BPMNModel)bpmnBuilder.createProcessModel(generateWorldModelFromText(text));
+		BPMNModel bpmnModel = (BPMNModel)bpmnBuilder.createProcessModel(textToProcess.getWorldModel(text));
 		logger.debug("Converting BPMN model to json");
 		String bpmnString = new Gson().toJson(bpmnModel);
 		
