@@ -17,6 +17,7 @@ import de.dhbw.text2process.helper.T2PControllerHelper;
 import de.dhbw.text2process.wrapper.FrameNetInitializer;
 import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,7 @@ public class T2PController {
      * @param param:
      * @return A generic Response Object with the PNML-String in the response attribute.
      */
+    @ApiOperation(value = "Translate text into a process model.")
     @PostMapping(value = "/generatePNML", consumes = "application/json", produces = "application/json")
     public String generatePetriNetFromText(@RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
 
