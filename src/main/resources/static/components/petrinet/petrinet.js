@@ -213,7 +213,7 @@ angular.module('myApp').
 
 angular.module('myApp').
 component('bpmn', {
-    template: '<div id="mynetwork" style="height:100%;width:100%;"></div>',
+    template: '<div id="mynetwork" style="height:100%;width:100%; margin-bottom: 50%"></div>',
     bindings: {
         pnml: '<'
     },
