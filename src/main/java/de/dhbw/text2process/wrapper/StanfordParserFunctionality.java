@@ -1,5 +1,6 @@
 package de.dhbw.text2process.wrapper;
 
+import de.dhbw.text2process.configuration.PropertiesWithJavaConfig;
 import de.dhbw.text2process.models.worldModel.Text;
 import de.dhbw.text2process.models.worldModel.T2PSentence;
 import de.dhbw.text2process.processors.worldmodel.processing.ITextParsingStatusListener;
@@ -18,7 +19,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,7 +132,7 @@ public class StanfordParserFunctionality {
         String tr;
         
         logger.info("Trying to connect to the Stanford Core NLP microservice ...");
-        URL url = new URL("https://woped.dhbw-karlsruhe.de/t2p-stanford");
+        URL url = new URL(PropertiesWithJavaConfig.stanfordHost + PropertiesWithJavaConfig.stanfordUri);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
         con.setRequestProperty("Content-Type", "application/json; utf-8");
         con.setRequestProperty("Accept", "application/json");
