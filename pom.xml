@@ -59,7 +59,7 @@
 		<stanford.parser.version>3.9.2</stanford.parser.version>
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
-		<activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version>
+		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
 		<jwnl.version>1.4.1</jwnl.version>
 	</properties>
 
@@ -93,18 +93,20 @@
 		</dependency>
 
 		<!-- BPMN -->
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-bpmn-model</artifactId>
 			<version>${activiti.org.bpmn.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter -->
+		 -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter 
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-bpmn-converter</artifactId>
 			<version>${activiti.org.bpmn.version}</version>
 		</dependency>
+		-->
 
 		<!-- WordNet -->
 		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
@@ -229,12 +231,13 @@
 			<artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
 		<!-- BPMN -->
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation -->
+		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-process-validation</artifactId>
 			<version>${activiti.org.bpmn.version}</version>
 		</dependency>
+		 -->
 
 	</dependencies>
 
