@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 
 import de.dhbw.text2process.helper.exporter.BPMNExporter;
 import de.dhbw.text2process.helper.exporter.EPCExporter;
-import de.dhbw.text2process.models.bpmn.epc.Event;
 import de.dhbw.text2process.models.bpmn.Lane;
 import de.dhbw.text2process.models.bpmn.Message;
 import de.dhbw.text2process.models.bpmn.MessageFlow;
@@ -21,6 +20,7 @@ import de.dhbw.text2process.models.bpmn.SequenceFlow;
 import de.dhbw.text2process.models.bpmn.Task;
 import de.dhbw.text2process.models.bpmn.epc.Connector;
 import de.dhbw.text2process.models.bpmn.epc.EPCRepairer;
+import de.dhbw.text2process.models.bpmn.epc.Event;
 import de.dhbw.text2process.models.bpmn.epc.Function;
 import de.dhbw.text2process.models.bpmn.epc.Organisation;
 import de.dhbw.text2process.models.bpmn.nodes.Cluster;
@@ -42,7 +42,7 @@ import de.dhbw.text2process.processors.bpmn.BPMNModelBuilder;
 import de.dhbw.text2process.processors.bpmn.EPCModelBuilder;
 import de.dhbw.text2process.processors.textmodel.TextModelBuilder;
 import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;
-import de.dhbw.text2process.wrapper.T2PStanfordWrapper;
+import de.dhbw.text2process.wrapper.StanfordParserFunctionality;
 import edu.stanford.nlp.trees.TypedDependency;
 
 /**
@@ -53,7 +53,7 @@ import edu.stanford.nlp.trees.TypedDependency;
  */
 public class TextToProcess {
 
-	private T2PStanfordWrapper f_stanford = new T2PStanfordWrapper();
+	private StanfordParserFunctionality f_stanford = new StanfordParserFunctionality();
 
 	private Text f_text;
 
@@ -98,7 +98,7 @@ public class TextToProcess {
 	 * (Re-)starts analyzing the loaded text and creates a process model
 	 */
 
-	public WorldModel getWorldModel(String text) {
+	public WorldModel getWorldModel(String text) throws IOException {
 
 		f_text = f_stanford.createText(text);
 		f_analyzer.clear();
@@ -195,7 +195,7 @@ public class TextToProcess {
 		}
 	}
 
-	public void parseText(String text, boolean bpmn, File outputFile) {
+	public void parseText(String text, boolean bpmn, File outputFile) throws IOException {
 		f_text = f_stanford.createText(text);
 		f_analyzer.clear();
 		analyzeText(true, bpmn, outputFile);
