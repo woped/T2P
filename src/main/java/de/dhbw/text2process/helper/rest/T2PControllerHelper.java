@@ -21,6 +21,7 @@ import javax.lang.model.element.Element;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXB;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
@@ -87,6 +88,34 @@ public class T2PControllerHelper {
 		return pnml;
 	}
 
+	/**
+	 * <h1>generatePetrinetFromText</h1>
+	 *
+	 * <p>
+	 * </p>
+	 *
+	 * @author
+	 * @param text
+	 * @return A string which represents the PetriNet
+	 * @throws PetrinetGenerationException
+	 */
+	public File generateBpmnFileFromText(String text)
+			throws BpmnGenerationException, WorldModelGenerationException, IOException {
+		logger.debug("Instantiating the TextToProcess object ...");
+		TextToProcess textToProcess = new TextToProcess();
+		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
+		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
+		
+		logger.debug("Creating a file for the Export ...");
+		File bpmnFile = new File("." + File.separator + "files"  + File.separator + "bpmn_file");
+		logger.debug("Set Text ...");
+		textToProcess.setProcessText(text);
+		logger.debug("Starting analyzing the given text ...");
+		textToProcess.analyzeText(true, true, bpmnFile);
+		
+		return bpmnFile;
+	}
+	
 	/**
 	 * <h1>generatePetrinetFromText</h1>
 	 *

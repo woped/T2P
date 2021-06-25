@@ -55,7 +55,7 @@ public class TextToProcess {
 
 	private StanfordParserFunctionality f_stanford = new StanfordParserFunctionality();
 
-	private Text f_text;
+	private Text processText;
 
 	private TextModelControler f_textModelControler = null;
 	private TextAnalyzer f_analyzer = new TextAnalyzer();
@@ -100,16 +100,16 @@ public class TextToProcess {
 
 	public WorldModel getWorldModel(String text) throws IOException {
 
-		f_text = f_stanford.createText(text);
+		processText = f_stanford.createText(text);
 		f_analyzer.clear();
-		f_analyzer.analyze(f_text);
+		f_analyzer.analyze(processText);
 		return f_analyzer.getWorld();
 
 	}
 
 	public void analyzeText(boolean rebuildTextModel, boolean bpmn, File outputFile) {
 		boolean f_bpmn = bpmn;
-		f_analyzer.analyze(f_text);
+		f_analyzer.analyze(processText);
 		if (rebuildTextModel) {
 			TextModel _model = f_builder.createModel(f_analyzer);
 			if (f_textModelControler != null)
@@ -196,13 +196,13 @@ public class TextToProcess {
 	}
 
 	public void parseText(String text, boolean bpmn, File outputFile) throws IOException {
-		f_text = f_stanford.createText(text);
+		processText = f_stanford.createText(text);
 		f_analyzer.clear();
 		analyzeText(true, bpmn, outputFile);
 	}
 
 	public void parseFile(File file, boolean bpmn, File outputFile) throws IOException {
-		f_text = f_stanford.createText(file);
+		processText = f_stanford.createText(file);
 		f_analyzer.clear();
 		analyzeText(true, bpmn, outputFile);
 	}
@@ -227,7 +227,7 @@ public class TextToProcess {
 	public void textModelElementClicked(ProcessObject o) {
 		if (o instanceof SentenceNode) {
 			SentenceNode n = (SentenceNode) o;
-			T2PSentence _sentence = f_text.getSentences().get(n.getIndex());
+			T2PSentence _sentence = processText.getSentences().get(n.getIndex());
 			if (_sentence != null) {
 
 				Collection<TypedDependency> _list = _sentence.getGrammaticalStructure().typedDependenciesCollapsed();
@@ -253,8 +253,8 @@ public class TextToProcess {
 	 */
 	public TextStatistics getTextStatistics() {
 		TextStatistics _result = new TextStatistics();
-		_result.setNumberOfSentences(f_text.getSize());
-		_result.setAvgSentenceLength(f_text.getAvgSentenceLength());
+		_result.setNumberOfSentences(processText.getSize());
+		_result.setAvgSentenceLength(processText.getAvgSentenceLength());
 		_result.setNumOfReferences(f_analyzer.getNumberOfReferences());
 		_result.setNumOfLinks(f_analyzer.getNumberOfLinks());
 		return _result;
@@ -284,6 +284,14 @@ public class TextToProcess {
 	 */
 	public void addManualReferenceResolution(SentenceWordID sentenceWordID, SentenceWordID sentenceWordID2) {
 		f_analyzer.addManualReference(sentenceWordID, sentenceWordID2);
+	}
+
+	public Text getProcessText() {
+		return processText;
+	}
+
+	public void setProcessText(String processText) throws IOException {
+		this.processText = f_stanford.createText(processText);
 	}
 
 }

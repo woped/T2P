@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +51,72 @@ public class T2PController {
 	}
 
 	/**
-	 * <h1>generatePetriNetFromText</h1>
+	 * <h1>generateBPMNFileFromText</h1>
+	 *
+	 * <p>
+	 * POST based controller method. Tailored to generate a BPMN from a given Text.
+	 * Use the proper URL to get generate the String which can be interpreted by the
+	 * WoPeD-Tool.
+	 * </p>
+	 *
+	 * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin
+	 *         Kanzler</a>
+	 * @param param: plainText in as application/json
+	 * @return A generic Response Object with the PNML-String in the response
+	 *         attribute.
+	 */
+	@PostMapping(value = "/generateBPMNFile", consumes = "application/json", produces = "application/json")
+	public File generateBPMNFileFromText(@RequestBody String param, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		Response<File> bpmnResponse;
+		
+		logger.info("Trying to generate a BPMN with the given String parameter");
+		try {
+			logger.info("Validating the String information, scanning for incompatible characters");
+			t2PControllerHelper.checkInputValidity(param);
+			logger.info("Starting generating BPMN -String ...");
+			bpmnResponse = new Response<File>(t2PControllerHelper.generateBpmnFileFromText(param));
+			logger.info("Finished generating PNML-String");
+		} catch (WorldModelGenerationException e) {
+			// TODO Text anpassen
+			logger.error(
+					"The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");
+			logger.error(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			bpmnResponse = new Response<File>(true, e.getCause(), e.getMessage(), e.getStackTrace());
+		} catch (InvalidInputException e) {
+			// TODO Text anpassen
+			logger.error(
+					"The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");
+			logger.error(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			bpmnResponse = new Response<File>(true, e.getCause(), e.getMessage(), e.getStackTrace());
+		} catch (BpmnGenerationException e) {
+			// TODO Text anpassen
+			logger.error(
+					"The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");
+			logger.error(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			bpmnResponse = new Response<File>(true, e.getCause(), e.getMessage(), e.getStackTrace());
+		} catch (IOException e) {
+			// TODO: handle exception
+			// TODO Text anpassen
+			logger.error(
+					"The given parameter ist not a valid one. Please check the String and pass a correct one. More details on the error is stored in the response json");
+			logger.error(e.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			bpmnResponse = new Response<File>(true, e.getCause(), e.getMessage(), e.getStackTrace());
+		}
+
+		// Response status should not be set here: Rcs defined in catch blocks are
+		// overwritten!
+		logger.info("Returning the pnmlString");
+		return bpmnResponse.getResponse();
+	}
+	
+	/**
+	 * <h1>generateBPMNFromText</h1>
 	 *
 	 * <p>
 	 * POST based controller method. Tailored to generate a BPMN from a given Text.
