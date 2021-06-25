@@ -83,11 +83,11 @@ public class TextAnalyzer {
                 analyzeSentence(s, i, false);
             }
 
-            referenceResolution();
-            markerDetection();
-            combineActions();
-            determineLinks();
-            buildFlows();
+            referenceResolution(); //Filters the actors
+            markerDetection(); //The sentences are analyzed individually and marked with markers if they are specially treated.
+            combineActions(); //Actors and actions are linked together
+            determineLinks(); //Actions are linked together
+            buildFlows(); //Flow is created
 
             createFinalLabelsForActions();
 
@@ -351,9 +351,8 @@ public class TextAnalyzer {
         return false;
     }
 
-    /**
-     *
-     */
+
+    //
     private void buildFlows() {
         f_lastSplit = null;
         List<Action> _cameFrom = new ArrayList<Action>();
@@ -363,6 +362,8 @@ public class TextAnalyzer {
             List<Action> _actions = sentence.getExtractedActions();
             List<ConjunctionElement> _conjs = sentence.getExtractedConjunctions();
             ArrayList<Action> _processed = new ArrayList<Action>();
+            //The flow is created by analyzing every single action in the input text by using a for loop.
+            //This means that a flow is created from every action, which is then assembled one after the other.
             for (Action a : _actions) {
                 if (a.getLink() != null && a.getLinkType().equals(ActionLinkType.JUMP)) {
                     System.out.println("!!!!!!!! BUILDING JUMP !!!!!!!!!!!");
@@ -655,12 +656,15 @@ public class TextAnalyzer {
      * @param _base
      * @param openSplit
      */
+    //If Commands are used to analyze how many cameFrom are present.
+    //CameFrom indicates how many flows were created in the last run by the for loop of buildFlows()
     private void handleSingleAction(T2PSentence _base, Flow flow, Action action, List<Action> cameFrom, List<Action> openSplit) {
         if (!"if".equals(action.getMarker()) && !"otherwise".equals(action.getPreAdvMod()) && !Constants.f_sequenceIndicators.contains(action.getPreAdvMod()) && openSplit.size() > 0) {
             //finishing all the open ends
             cameFrom.addAll(openSplit);
             clearSplit(openSplit);
         }
+        //If there is no cameFrom, it is the starting point of the Petrinet
         if (cameFrom.size() == 0) {
             createDummyStartNode(cameFrom, flow);
         }
@@ -673,8 +677,10 @@ public class TextAnalyzer {
                 clearSplit(openSplit);
                 f_world.addFlow(_dummyFlow);
             }
-            //do we need to create something in parallel
+            //It is analyzed wheather an action has a marker.
+            //If there is a while marker, we create something in parallel.
             if ("while".equals(action.getMarker())) {
+                //Special parallel with two Transitions in one branch.
                 if(this.f_analyzedSentences.get(1).getExtractedActions().size()>2){
                     f_world.getFlows().get(1).getMultipleObjects().add(action);
                     f_world.getFlows().get(1).setType(FlowType.concurrency);

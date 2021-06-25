@@ -54,14 +54,15 @@ public class WorldModelBuilder {
         return textStatistics;
     }
 
+    //Create WorldModel
     private WorldModel buildWorldModel() throws IOException {
         logger.debug("Entered buildWorldModel method");
         logger.debug("Parsing the Text through the Stanford CoreNLP ...");
-        parsedText = stanford.createText(processText);
+        parsedText = stanford.createText(processText); //Create ParsedText by Class StanfordParserFunctionality
         logger.debug("Clear the analyzer ...");
         textAnalyzer.clear();
         logger.debug("Analyzing the parsed text to get a worldModel ...");
-        textAnalyzer.analyze(parsedText);
+        textAnalyzer.analyze(parsedText); //Analyze ParsedText by Class TextAnalyzer
         logger.debug("WorldModel created based on the given input text");
         WorldModel worldModel= textAnalyzer.getWorld();
         return worldModel;

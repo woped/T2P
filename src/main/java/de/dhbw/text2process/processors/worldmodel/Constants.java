@@ -60,6 +60,7 @@ public class Constants {
 	public static ArrayList<String> f_realActorPPIndicators = new ArrayList<String>(2);
 	public static ArrayList<String> f_interactionVerbs  = new ArrayList<String>(5);
 
+	//Keywords for the process model
 	
 	static {
 		f_personCorrectorList.add("resource provisioning");

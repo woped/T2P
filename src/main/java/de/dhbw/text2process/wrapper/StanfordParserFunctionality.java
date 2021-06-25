@@ -126,7 +126,9 @@ public class StanfordParserFunctionality {
 }
 
 
-
+    //Create Tree by Python-Service. The Service has the latest Core-Nlp Version (Date of Comment: 24.06.2021).
+    //Input and Output of the Serivce is a String.
+    //Important: A tree is created from each sentence of the input text.
     private T2PSentence createSentence(ArrayList<Word> _list) throws IOException {
         T2PSentence t2pSentence = new T2PSentence(_list);
         String tr;
@@ -152,7 +154,7 @@ public class StanfordParserFunctionality {
             tr = response.toString();
             logger.debug(tr);
         }
-        Tree t = Tree.valueOf(tr);
+        Tree t = Tree.valueOf(tr); //Create Tree from String
         t2pSentence.setTree(t);
         GrammaticalStructure _gs = gsf.newGrammaticalStructure(t);
         logger.debug("_gs"+_gs);
