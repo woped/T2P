@@ -19,6 +19,7 @@ import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.wrapper.FrameNetInitializer;
 import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
+import de.dhbw.text2process.wrapper.WordNetWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,7 @@ public class T2PController {
 	public T2PController() {
 		StanfordParserInitializer.getInstance();
 		WordNetInitializer.getInstance();
+		WordNetWrapper.init();
 		FrameNetInitializer.getInstance();
 	}
 

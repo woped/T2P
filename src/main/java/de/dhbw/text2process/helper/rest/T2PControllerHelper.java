@@ -107,7 +107,8 @@ public class T2PControllerHelper {
 		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
 		
 		logger.debug("Creating a file for the Export ...");
-		File bpmnFile = new File("." + File.separator + "files"  + File.separator + "bpmn_file");
+		File bpmnFile = new File("bpmn.file");
+		if (!bpmnFile.exists())bpmnFile.createNewFile();
 		logger.debug("Set Text ...");
 		textToProcess.setProcessText(text);
 		logger.debug("Starting analyzing the given text ...");
