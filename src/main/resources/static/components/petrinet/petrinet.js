@@ -8,7 +8,8 @@ angular.module('myApp').
     bindings: {
    pnml: '<'
       },
-    controller: function petrinetController() {
+    controller: function petrinetController(radioService) {
+        radioService.setPNML();
 
       var generateWorkFlowNet=true;//Determines wether WoPeD specific Elements like XOR Split are created
 
@@ -217,7 +218,9 @@ component('bpmn', {
     bindings: {
         pnml: '<'
     },
-    controller: function petrinetController() {
+    controller: function petrinetController(radioService) {
+
+        radioService.setBPMN();
 
         var generateWorkFlowNet=true;//Determines wether WoPeD specific Elements like XOR Split are created
 
