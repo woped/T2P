@@ -70,8 +70,9 @@ public class WordNetWrapper {
 			logger.debug("Inhalt der Systemvariable WORDNET_HOME: " + System.getenv("WORDNET_HOME"));
 			
 			if (!System.getenv("WORDNET_HOME").isEmpty() && !System.getenv("WORDNET_HOME").isBlank()) {
-				logger.debug("We got: " + System.getenv("WORDNET2_HOME").trim());
-				wordNetDictionaryPath = System.getenv("WORDNET_HOME").trim() + "/dict";
+				logger.debug("We got: " + System.getenv("WORDNET_HOME").trim());
+				wordNetDictionaryPath = System.getenv("WORDNET_HOME").trim() + File.separator + "dict";
+				logger.debug(wordNetDictionaryPath.replace("\\", "\\\\"));
 				try {
 					logger.info("Manipulating file_properties.xml to match the environment.");
 					String newFilePropertiesString = wordNetProperties.replace(".configuration",
@@ -81,8 +82,13 @@ public class WordNetWrapper {
 					logger.debug("Creating a fileProperties-Object from " + newFilePropertiesString);
 					File fileProperties = new File(newFilePropertiesString);
 
-					logger.debug("Creating a scanner using " + wordNetProperties);
-					Scanner scannerOldFile = new Scanner(new File(wordNetProperties));
+					File oldFileProperties = new File(wordNetProperties);
+					if (!oldFileProperties.exists()) {
+						oldFileProperties = new File(WordNetWrapper.class.getClassLoader().getResource(wordNetProperties).getFile().replace("%20", " "));
+					}
+
+					logger.debug("Creating a scanner using " + oldFileProperties.getPath());
+					Scanner scannerOldFile = new Scanner(oldFileProperties);
 					StringBuffer bufferNewFileProperties = new StringBuffer();
 
 					writeNewPropertiesFile(wordNetDictionaryPath, fileProperties, scannerOldFile,
