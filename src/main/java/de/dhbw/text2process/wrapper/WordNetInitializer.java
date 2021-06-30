@@ -19,7 +19,7 @@ public class WordNetInitializer {
     Logger logger = LoggerFactory.getLogger(WordNetInitializer.class);
 
 
-    String wordNetPath = "/NLPTools/WordNet/dict/";
+    String wordNetPath = System.getenv("WORDNET_HOME") + "/dict/";
     //wordnet initializer instance
     private static WordNetInitializer wni;
     //dictionary instance

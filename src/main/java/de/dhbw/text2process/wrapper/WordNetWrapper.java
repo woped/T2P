@@ -5,6 +5,7 @@ package de.dhbw.text2process.wrapper;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -50,11 +51,9 @@ public class WordNetWrapper {
 
 		// get the path where the jar file is located
 		logger.info("Searching for file_properties.xml on ClassPath");
-		String wordNetProperties = ClassLoader.getSystemClassLoader().getResource("jwnl.configuration").getFile();
-		String wordNetDictionaryPath = ClassLoader.getSystemClassLoader().getResource("NLPTools").getPath()
-				+ "/WordNet3_1/dict";
-		logger.info("Collected infos:\n\t\t WordNetPropertiesFile: " + wordNetProperties + "\n\t\t WordNet-Path: "
-				+ wordNetDictionaryPath);
+		String wordNetProperties = "jwnl.configuration";
+		String wordNetDictionaryPath = "NLPTools/WordNet";
+		logger.info("Collected infos:\n\t\t WordNetPropertiesFile: " + wordNetProperties + "\n\t\t WordNetDictionaryPath: " + wordNetDictionaryPath);
 		try {
 			wordNetProperties = URLDecoder.decode(wordNetProperties, "UTF-8");
 		} catch (UnsupportedEncodingException e2) {
@@ -67,52 +66,58 @@ public class WordNetWrapper {
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 			logger.info("Start creating a individual config file");
-			try {
-				logger.info("Manipulating file_properties.xml to match the environment.");
-				String newFilePropertiesString = wordNetProperties.replace(".configuration", "_env_spec.configuration");
-				logger.info("Lets have a look on the new file:\t\t" + newFilePropertiesString);
-
-				logger.info("Creating a fileProperties-Object from " + newFilePropertiesString);
-				File fileProperties = new File(newFilePropertiesString);
-
-				logger.info("Creating a scanner using " + wordNetProperties);
-				Scanner scannerOldFile = new Scanner(new File(wordNetProperties));
-				StringBuffer bufferNewFileProperties = new StringBuffer();
-
-				logger.info("Reading the Lines:");
-				while (scannerOldFile.hasNextLine()) {
-					String line = scannerOldFile.nextLine();
-					if (line.contains("<param name=\"dictionary_path\" value=\"")) {
-						line = "			<param name=\"dictionary_path\" value=\"" + wordNetDictionaryPath + "\"/>";
-						logger.info("The modified line ... ");
-					}
-					logger.debug(line);
-					bufferNewFileProperties.append(line + System.lineSeparator());
-				}
-
-				logger.debug("Let have a look on what the buffer contains:\n" + bufferNewFileProperties.toString());
-
-				String newFileContent = bufferNewFileProperties.toString();
-				logger.debug("The new file content looks like:\n" + newFileContent);
-
-				scannerOldFile.close();
-
-				FileWriter newFilePropertiesFileWriter = new FileWriter(fileProperties);
-				newFilePropertiesFileWriter.append(newFileContent);
-				newFilePropertiesFileWriter.flush();
-
+			logger.debug("Inhalt der Systemvariable JAVA_HOME: " + System.getenv("JAVA_HOME"));
+			logger.debug("Inhalt der Systemvariable WORDNET_HOME: " + System.getenv("WORDNET2_HOME"));
+			
+			if (!System.getenv("WORDNET2_HOME").isEmpty() && !System.getenv("WORDNET2_HOME").isBlank()) {
+				logger.debug("We got: " + System.getenv("WORDNET2_HOME").trim());
+				wordNetDictionaryPath = System.getenv("WORDNET2_HOME").trim() + "/dict";
 				try {
-					logger.info("Trying to read " + newFilePropertiesString);
-					JWNL.initialize(new FileInputStream(newFilePropertiesString));
-					System.out.println("used new config");
-				} catch (JWNLException e1) {
-					System.out
-							.println("ERROR in config file: Try to delete the jwnl.configuration file and run again!");
+					logger.info("Manipulating file_properties.xml to match the environment.");
+					String newFilePropertiesString = wordNetProperties.replace(".configuration",
+							"_env_spec.configuration");
+					logger.debug("Lets have a look on the new file:\t\t" + newFilePropertiesString);
+
+					logger.debug("Creating a fileProperties-Object from " + newFilePropertiesString);
+					File fileProperties = new File(newFilePropertiesString);
+
+					logger.debug("Creating a scanner using " + wordNetProperties);
+					Scanner scannerOldFile = new Scanner(new File(wordNetProperties));
+					StringBuffer bufferNewFileProperties = new StringBuffer();
+
+					writeNewPropertiesFile(wordNetDictionaryPath, fileProperties, scannerOldFile,
+							bufferNewFileProperties);
+
+					readJwnlConfig(newFilePropertiesString);
+					
+				} catch (IOException e1) {
+					System.out.println("ERROR loading WordNet!");
 					e1.printStackTrace();
 				}
-			} catch (IOException e1) {
-				System.out.println("ERROR loading WordNet!");
-				e1.printStackTrace();
+			} else {
+
+				try {
+					logger.info("Manipulating file_properties.xml to match the environment.");
+					String newFilePropertiesString = wordNetProperties.replace(".configuration",
+							"_target_spec.configuration");
+					logger.debug("Lets have a look on the new file:\t\t" + newFilePropertiesString);
+
+					logger.debug("Creating a fileProperties-Object from " + newFilePropertiesString);
+					File fileProperties = new File(newFilePropertiesString);
+
+					logger.debug("Creating a scanner using " + wordNetProperties);
+					Scanner scannerOldFile = new Scanner(new File(wordNetProperties));
+					StringBuffer bufferNewFileProperties = new StringBuffer();
+
+					writeNewPropertiesFile(wordNetDictionaryPath, fileProperties, scannerOldFile,
+							bufferNewFileProperties);
+
+					readJwnlConfig(newFilePropertiesString);
+					
+				} catch (IOException e1) {
+					System.out.println("ERROR loading WordNet!");
+					e1.printStackTrace();
+				}
 			}
 		}
 
@@ -145,6 +150,55 @@ public class WordNetWrapper {
 			e.printStackTrace();
 		}
 		System.out.println("Loaded WordNet in " + (System.currentTimeMillis() - _start) + "ms.");
+	}
+
+	/**
+	 * @param wordNetDictionaryPath
+	 * @param fileProperties
+	 * @param scannerOldFile
+	 * @param bufferNewFileProperties
+	 * @throws IOException
+	 */
+	private static void writeNewPropertiesFile(String wordNetDictionaryPath, File fileProperties,
+			Scanner scannerOldFile, StringBuffer bufferNewFileProperties) throws IOException {
+		logger.info("Reading the Lines:");
+		while (scannerOldFile.hasNextLine()) {
+			String line = scannerOldFile.nextLine();
+			if (line.contains("<param name=\"dictionary_path\" value=\"")) {
+				line = "			<param name=\"dictionary_path\" value=\"" + wordNetDictionaryPath
+						+ "\"/>";
+				logger.info("The modified line ... ");
+			}
+			logger.debug(line);
+			bufferNewFileProperties.append(line + System.lineSeparator());
+		}
+
+		logger.debug("Let have a look on what the buffer contains:\n" + bufferNewFileProperties.toString());
+
+		String newFileContent = bufferNewFileProperties.toString();
+		logger.debug("The new file content looks like:\n" + newFileContent);
+
+		scannerOldFile.close();
+
+		FileWriter newFilePropertiesFileWriter = new FileWriter(fileProperties);
+		newFilePropertiesFileWriter.append(newFileContent);
+		newFilePropertiesFileWriter.flush();
+	}
+
+	/**
+	 * @param filePropertiesString
+	 * @throws FileNotFoundException
+	 */
+	private static void readJwnlConfig(String filePropertiesString) throws FileNotFoundException {
+		try {
+			logger.debug("Trying to read " + filePropertiesString);
+			JWNL.initialize(new FileInputStream(filePropertiesString));
+			System.out.println("used new config");
+		} catch (JWNLException e1) {
+			System.out.println(
+					"ERROR in config file: Try to delete the jwnl.configuration file and run again!");
+			e1.printStackTrace();
+		}
 	}
 
 	/**
