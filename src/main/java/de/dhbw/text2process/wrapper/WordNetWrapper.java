@@ -43,7 +43,7 @@ public class WordNetWrapper {
 
 	private static Dictionary dictionary;
 
-	public static void init() {
+	public static void init() throws JWNLException {
 
 		// TODO Prüfung der Initialisierung des Dictionary. Es muss das richtige WordNet
 		Locale.setDefault(Locale.US);
@@ -67,11 +67,11 @@ public class WordNetWrapper {
 			logger.debug(e.getMessage());
 			logger.info("Start creating a individual config file");
 			logger.debug("Inhalt der Systemvariable JAVA_HOME: " + System.getenv("JAVA_HOME"));
-			logger.debug("Inhalt der Systemvariable WORDNET_HOME: " + System.getenv("WORDNET2_HOME"));
+			logger.debug("Inhalt der Systemvariable WORDNET_HOME: " + System.getenv("WORDNET_HOME"));
 			
-			if (!System.getenv("WORDNET2_HOME").isEmpty() && !System.getenv("WORDNET2_HOME").isBlank()) {
+			if (!System.getenv("WORDNET_HOME").isEmpty() && !System.getenv("WORDNET_HOME").isBlank()) {
 				logger.debug("We got: " + System.getenv("WORDNET2_HOME").trim());
-				wordNetDictionaryPath = System.getenv("WORDNET2_HOME").trim() + "/dict";
+				wordNetDictionaryPath = System.getenv("WORDNET_HOME").trim() + "/dict";
 				try {
 					logger.info("Manipulating file_properties.xml to match the environment.");
 					String newFilePropertiesString = wordNetProperties.replace(".configuration",
@@ -95,29 +95,7 @@ public class WordNetWrapper {
 					e1.printStackTrace();
 				}
 			} else {
-
-				try {
-					logger.info("Manipulating file_properties.xml to match the environment.");
-					String newFilePropertiesString = wordNetProperties.replace(".configuration",
-							"_target_spec.configuration");
-					logger.debug("Lets have a look on the new file:\t\t" + newFilePropertiesString);
-
-					logger.debug("Creating a fileProperties-Object from " + newFilePropertiesString);
-					File fileProperties = new File(newFilePropertiesString);
-
-					logger.debug("Creating a scanner using " + wordNetProperties);
-					Scanner scannerOldFile = new Scanner(new File(wordNetProperties));
-					StringBuffer bufferNewFileProperties = new StringBuffer();
-
-					writeNewPropertiesFile(wordNetDictionaryPath, fileProperties, scannerOldFile,
-							bufferNewFileProperties);
-
-					readJwnlConfig(newFilePropertiesString);
-					
-				} catch (IOException e1) {
-					System.out.println("ERROR loading WordNet!");
-					e1.printStackTrace();
-				}
+				throw new JWNLException("Could not find WordNet on the given Path and WORDNET_HOME was not set correctly!");
 			}
 		}
 

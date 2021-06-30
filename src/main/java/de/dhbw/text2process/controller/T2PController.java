@@ -21,6 +21,8 @@ import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
 import de.dhbw.text2process.wrapper.WordNetWrapper;
 import io.swagger.annotations.ApiOperation;
+import net.didion.jwnl.JWNLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +47,7 @@ public class T2PController {
 	 */
 	T2PControllerHelper t2PControllerHelper = new T2PControllerHelper();
 
-	public T2PController() {
+	public T2PController() throws JWNLException {
 		StanfordParserInitializer.getInstance();
 		WordNetInitializer.getInstance();
 		WordNetWrapper.init();

@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>3.7.1-SNAPSHOT</version>
+	<version>3.7.2-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
