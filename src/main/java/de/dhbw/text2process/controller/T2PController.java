@@ -69,6 +69,7 @@ public class T2PController {
 	 * @return A generic Response Object with the PNML-String in the response
 	 *         attribute.
 	 */
+	@ApiOperation(value = "Translate text into a process model file type bpmn.")
 	@PostMapping(value = "/generateBPMNFile", consumes = "application/json", produces = "application/json")
 	public File generateBPMNFileFromText(@RequestBody String param, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -134,6 +135,7 @@ public class T2PController {
 	 * @return A generic Response Object with the PNML-String in the response
 	 *         attribute.
 	 */
+	@ApiOperation(value = "Translate text into a process model type bpmn.")
 	@PostMapping(value = "/generateBPMN", consumes = "application/json", produces = "application/json")
 	public String generateBPMNFromText(@RequestBody String param, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -199,6 +201,7 @@ public class T2PController {
 	 * @return A generic Response Object with the PNML-String in the response
 	 *         attribute.
 	 */
+	@ApiOperation(value = "Translate text into a process model type petrinet.")
 	@PostMapping(value = "/generatePNML", consumes = "application/json", produces = "application/json")
 	public String generatePetriNetFromText(@RequestBody String param, HttpServletRequest request,
 			HttpServletResponse response) {
