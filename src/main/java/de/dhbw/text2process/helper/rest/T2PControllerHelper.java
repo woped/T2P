@@ -1,33 +1,33 @@
 package de.dhbw.text2process.helper.rest;
 
-import de.dhbw.text2process.models.meta.BPMNModel;
-import de.dhbw.text2process.models.worldModel.*;
-import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
-import de.dhbw.text2process.processors.bpmn.BPMNModelBuilder;
-import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
-import de.dhbw.text2process.Text2ProcessApplication;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dhbw.text2process.exceptions.BpmnGenerationException;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
 import de.dhbw.text2process.exceptions.WorldModelGenerationException;
 import de.dhbw.text2process.helper.TextToProcess;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-
-import javax.lang.model.element.Element;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXB;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import de.dhbw.text2process.models.worldModel.Action;
+import de.dhbw.text2process.models.worldModel.Actor;
+import de.dhbw.text2process.models.worldModel.Flow;
+import de.dhbw.text2process.models.worldModel.Resource;
+import de.dhbw.text2process.models.worldModel.WorldModel;
+import de.dhbw.text2process.processors.bpmn.BPMNModelBuilder;
+import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
+import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 
 public class T2PControllerHelper {
 
@@ -89,57 +89,71 @@ public class T2PControllerHelper {
 	}
 
 	/**
-	 * <h1>generatePetrinetFromText</h1>
+	 * <h1>generateBpmnFileFromText</h1>
 	 *
 	 * <p>
 	 * </p>
 	 *
 	 * @author
 	 * @param text
-	 * @return A string which represents the PetriNet
-	 * @throws PetrinetGenerationException
+	 * @return A file which represents the BPMN process model
+	 * @throws BpmnGenerationException, WorldModelGenerationException, IOException
 	 */
 	public File generateBpmnFileFromText(String text)
 			throws BpmnGenerationException, WorldModelGenerationException, IOException {
+		logger.debug("Creating a file for the Export ...");
+		File bpmnFile = new File("bpmn.file");
+		if (!bpmnFile.exists())bpmnFile.createNewFile();
+
+		createBPMNFile(text, bpmnFile);
+		
+		return bpmnFile;
+	}
+
+	
+	/**
+	 * <h1>generateBPMNFromText</h1>
+	 *
+	 * <p>
+	 * </p>
+	 *
+	 * @author
+	 * @param text
+	 * @return A string which represents the BPMN process model
+	 * @throws BpmnGenerationException, WorldModelGenerationException, IOException
+	 */
+	public String generateBpmnFromText(String text)
+			throws BpmnGenerationException, WorldModelGenerationException, IOException {
+
+		logger.debug("Creating a file for the Export ...");
+		File bpmnFile = new File("bpmn.file");
+		if (!bpmnFile.exists())bpmnFile.createNewFile();
+
+		createBPMNFile(text, bpmnFile);
+		
+		logger.debug("Converting BPMN model to string");
+		String bpmnString = "";
+		
+		Scanner fileScanner = new Scanner(bpmnFile);
+		
+		while (fileScanner.hasNext()) {
+			bpmnString += fileScanner.next();
+		}
+		
+		logger.debug("The string contains:\n" + bpmnString);
+		return bpmnString;
+	}
+
+	private void createBPMNFile(String text, File bpmnFile) throws IOException {
 		logger.debug("Instantiating the TextToProcess object ...");
 		TextToProcess textToProcess = new TextToProcess();
 		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
 		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
 		
-		logger.debug("Creating a file for the Export ...");
-		File bpmnFile = new File("bpmn.file");
-		if (!bpmnFile.exists())bpmnFile.createNewFile();
 		logger.debug("Set Text ...");
 		textToProcess.setProcessText(text);
 		logger.debug("Starting analyzing the given text ...");
 		textToProcess.analyzeText(true, true, bpmnFile);
-		
-		return bpmnFile;
-	}
-	
-	/**
-	 * <h1>generatePetrinetFromText</h1>
-	 *
-	 * <p>
-	 * </p>
-	 *
-	 * @author
-	 * @param text
-	 * @return A string which represents the PetriNet
-	 * @throws PetrinetGenerationException
-	 */
-	public String generateBpmnFromText(String text)
-			throws BpmnGenerationException, WorldModelGenerationException, IOException {
-		logger.debug("Instantiating the TextToProcess object ...");
-		TextToProcess textToProcess = new TextToProcess();
-		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
-		BPMNModelBuilder bpmnBuilder = new BPMNModelBuilder(textToProcess);
-		logger.debug("Creating a new BMPN-Model ...");
-		BPMNModel bpmnModel = (BPMNModel)bpmnBuilder.createProcessModel(textToProcess.getWorldModel(text));
-		logger.debug("Converting BPMN model to json");
-		String bpmnString = new Gson().toJson(bpmnModel);
-		
-		return bpmnString;
 	}
 
 	private String minifyResult(String result) {

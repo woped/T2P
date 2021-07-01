@@ -180,7 +180,7 @@ public class T2PController {
 
 		// Response status should not be set here: Rcs defined in catch blocks are
 		// overwritten!
-		logger.info("Returning the pnmlString");
+		logger.info("Returning the bpmnString");
 		return bpmnResponse.getResponse();
 	}
 

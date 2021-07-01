@@ -79,8 +79,8 @@ angular.module('myApp').component('t2pForm', {
                             });
                         });
                     }
-                   // var newXmlStr = s.serializeToString(helperTwo);
-                    var newXmlStr = "test"
+                    var newXmlStr = s.serializeToString(helperTwo);
+                    //var newXmlStr = "test"
                 }
                 var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
                 var downloadLink = angular.element('<a></a>');
