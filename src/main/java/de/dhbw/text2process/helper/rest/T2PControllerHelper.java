@@ -137,7 +137,7 @@ public class T2PControllerHelper {
 		Scanner fileScanner = new Scanner(bpmnFile);
 		
 		while (fileScanner.hasNext()) {
-			bpmnString += fileScanner.next();
+			bpmnString += fileScanner.next() + System.lineSeparator();
 		}
 		
 		logger.debug("The string contains:\n" + bpmnString);
