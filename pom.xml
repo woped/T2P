@@ -70,11 +70,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- STANFORD DEPENDENCIES -->
-		<!-- <dependency> <groupId>edu.stanford.nlp</groupId> <artifactId>stanford-corenlp</artifactId> 
-			<version>${stanford.version}</version> <classifier>models-german</classifier> 
-			</dependency> <dependency> <groupId>edu.stanford.nlp</groupId> <artifactId>stanford-parser</artifactId> 
-			<version>${stanford.parser.version}</version> </dependency> -->
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>old-stanford-parser</artifactId>
@@ -92,22 +87,6 @@
 			<version>${apache.commons.version}</version>
 		</dependency>
 
-		<!-- BPMN -->
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-bpmn-model</artifactId>
-			<version>${activiti.org.bpmn.version}</version>
-		</dependency>
-		 -->
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-converter 
-		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-bpmn-converter</artifactId>
-			<version>${activiti.org.bpmn.version}</version>
-		</dependency>
-		-->
-
 		<!-- WordNet -->
 		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
 		<dependency>
@@ -115,7 +94,6 @@
 			<artifactId>jwnl</artifactId>
 			<version>${jwnl.version}</version>
 		</dependency>
-
 
 		<!-- XML-FRAMEWORKS -->
 		<dependency>
@@ -230,15 +208,15 @@
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
-		<!-- BPMN -->
-		<!-- https://mvnrepository.com/artifact/org.activiti/activiti-process-validation
 		<dependency>
-			<groupId>org.activiti</groupId>
-			<artifactId>activiti-process-validation</artifactId>
-			<version>${activiti.org.bpmn.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		 -->
-
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
