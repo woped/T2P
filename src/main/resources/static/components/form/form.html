@@ -4,7 +4,7 @@
 
   <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isGeneratable()" ng-click="generate()">Generate</button>
   <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isClearable()" ng-click="clearText()">Clear Input</button>
-  <button class="btn btn-primary" style="margin-top:0.5rem;" ng-click="saveFile()"  ng-href="{{ url }}">Download Model</button>
+  <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isDownloadable()" ng-click="saveFile()"  ng-href="{{ url }}">Download Model</button>
   <div class="dropdown" style="display:inline;">
     <button class="btn btn-secondary dropdown-toggle" style="margin-top:0.5rem;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Input Language

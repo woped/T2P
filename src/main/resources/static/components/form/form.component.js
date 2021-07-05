@@ -24,6 +24,15 @@ angular.module('myApp').component('t2pForm', {
                 return !($scope.text.length > 0);
             }
         }
+
+        $scope.isDownloadable = function (){
+            if (helperTwo === "" && helper === ""){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         $scope.clearText = function () {
             $scope.text = "";
         }
