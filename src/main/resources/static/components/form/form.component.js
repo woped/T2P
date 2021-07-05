@@ -56,7 +56,11 @@ angular.module('myApp').component('t2pForm', {
                 var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
                 var downloadLink = angular.element('<a></a>');
                 downloadLink.attr('href',window.URL.createObjectURL(blob));
-                downloadLink.attr('download', 'processmodel.txt');
+                if (radioService.getIsPNML()){	
+					downloadLink.attr('download', 'processmodel.pnml');
+				} else if (radioService.getIsBPMN()){
+					downloadLink.attr('download', 'processmodel.bpmn');
+				}
                 downloadLink[0].click();
         };
 
