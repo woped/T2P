@@ -32,6 +32,7 @@
   <script src="bower_components/popper.js/dist/umd/popper.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="radioService.js"></script>
+  <script src="downloadService.js"></script>
 
 </head>
 <body class="main" ng-controller="T2PController">
@@ -88,6 +89,7 @@
   <div style="margin-left: 5% !important; margin-top: 2%;">
     <input type ="radio" ng-checked="true" value="PNML" ng-model="selectVal"/><span style="color:Black">PNML</span><br />
     <input type ="radio" value="BPMN" ng-model="selectVal" /><span style="color:Black">BPMN</span><br />
+    <button class="btn btn-primary" style="margin-top:0.5rem;"ng-disabled="isDownloadableMain()" ng-click="saveFile()"  ng-href="{{ url }}">Download Model</button>
   </div>
   <div style="display:flex;flex-direction: column;">
     <t2p-form loading="loadingCallback" pnml="callback"></t2p-form>

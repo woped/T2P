@@ -9,7 +9,7 @@ angular.module('myApp').component('t2pForm', {
         loading: '<',
         isBPMN: '<'
     },
-    controller: function T2pFormController($http, $scope, radioService) {
+    controller: function T2pFormController($http, $scope, radioService, downloadService) {
         var helper = "";
         var helperTwo ="";
         $scope.pnml = this.pnml;
@@ -66,6 +66,8 @@ angular.module('myApp').component('t2pForm', {
 
 
         $scope.generate = function () {
+            var s = new XMLSerializer();
+
             if (!($scope.text === $scope.previousText)) {
                 $scope.loading(true);
                 var req = {
@@ -82,6 +84,8 @@ angular.module('myApp').component('t2pForm', {
                     var parser = new DOMParser();
                     var xmlDoc = parser.parseFromString(response.data, "text/xml");
                     helper = parser.parseFromString(response.data, "text/xml");
+                    downloadService.setContentPNML(s.serializeToString(helper));
+                    downloadService.setDownloadableTrue();
                     $scope.loading(false);
                     $scope.pnml(xmlDoc);
                     $scope.previousText = $scope.text;
@@ -111,7 +115,8 @@ angular.module('myApp').component('t2pForm', {
         }
 
         $scope.generateBPMN = function () {
-                var req = {
+            var s = new XMLSerializer();
+            var req = {
                     method: 'POST',
                     url: '/t2p/generateBPMN',
                     transformResponse: rawResponse,
@@ -124,6 +129,8 @@ angular.module('myApp').component('t2pForm', {
                 $http(req).then(function (response) {
                     var parser = new DOMParser();
                     helperTwo = parser.parseFromString(response.data, "text/xml");
+                    downloadService.setContentBPMN(s.serializeToString(helperTwo));
+                    downloadService.setDownloadableTrue();
                 });
         }
         $scope.getValue = function (){
