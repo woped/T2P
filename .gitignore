@@ -61,3 +61,7 @@ local.properties
 .scala_dependencies
 .worksheet
 .project
+
+### local BPMN-Models ###
+bpmn.file
+/jwnl_env_spec.configuration

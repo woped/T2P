@@ -2,9 +2,9 @@ package de.dhbw.WoPeDText2Process;
 
 import de.dhbw.text2process.models.petrinet.*;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
-import de.dhbw.text2process.helper.T2PControllerHelper;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
+import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class STTextToProcess extends T2PScenarioTest {
 
 
     @Test
-    public void evaluateT2P() throws InterruptedException, InvalidInputException {
+    public void evaluateT2P() throws InterruptedException, InvalidInputException, IOException {
         filePath = System.getProperty("user.dir");
         filePath = filePath + "/TestData/";
 

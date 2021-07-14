@@ -23,6 +23,7 @@ This application is tailored to handle all requests from WoPeD to generate a PNM
 - <a href="https://maven.apache.org/">Apache Maven</a>
 - <a href="https://git-scm.com/">Git</a>
 - <a href="https://www.jetbrains.com/de-de/idea/">IntelliJ IDEA</a>
+- <a href="https://wordnet.princeton.edu/download">WordNet</a>
 
 # Testing
 ### Testing via Swagger UI
@@ -80,6 +81,14 @@ Now go to the project view and check the SDK and language settings.
 <img src="./img/file_project_structure_intellij.PNG">
 <img src="./img/project_structure_intellij.PNG">
 
+<h3>Set a environment variable WORDNET_HOME</h3>
+<p>
+You need to configure a enviroment variable on your system to make sure the T2P-WebService can find the WordNet dictionary. Therefore we use WORDNET_HOME the same way you are familiar with from JAVA_HOME.
+</p>
+<p>
+<h4>Windows example</h4>
+WORDNET_HOME=C:\Program Files (x86)\WordNet\2.1
+</p>
 <h3>Starting the Application</h3>
 <p>
 Finally it is time to give it a try.

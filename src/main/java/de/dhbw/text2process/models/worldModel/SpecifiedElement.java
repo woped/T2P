@@ -4,9 +4,11 @@
 package de.dhbw.text2process.models.worldModel;
 
 import de.dhbw.text2process.enums.SpecifierType;
+import de.dhbw.text2process.models.worldModel.T2PSentence;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public abstract class SpecifiedElement extends OriginatedElement implements Comparable<SpecifiedElement>{
 

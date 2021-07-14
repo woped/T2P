@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.3.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>3.7.1-SNAPSHOT</version>
+	<version>3.7.2-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
@@ -23,6 +24,11 @@
 		<repository>
 			<id>Cogcomp</id>
 			<url>http://cogcomp.org/m2repo/</url>
+		</repository>
+		<!-- JWNL -->
+		<repository>
+			<id>BibSonomy</id>
+			<url>https://dev.bibsonomy.org/maven2/</url>
 		</repository>
 	</repositories>
 
@@ -53,6 +59,8 @@
 		<stanford.parser.version>3.9.2</stanford.parser.version>
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
+		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
+		<jwnl.version>1.4.1</jwnl.version>
 	</properties>
 
 	<dependencies>
@@ -91,6 +99,14 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.version}</version>
+		</dependency>
+
+		<!-- WordNet -->
+		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
+		<dependency>
+			<groupId>net.didion</groupId>
+			<artifactId>jwnl</artifactId>
+			<version>${jwnl.version}</version>
 		</dependency>
 
 		<!-- XML-FRAMEWORKS -->
@@ -212,6 +228,19 @@
 			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -243,7 +272,8 @@
 						<configuration>
 							<tasks>
 								<copy todir="${basedir}/target/NLPTools">
-									<fileset dir="${basedir}/src/main/resources/NLPTools" includes="**/*" />
+									<fileset dir="${basedir}/src/main/resources/NLPTools"
+										includes="**/*" />
 								</copy>
 							</tasks>
 						</configuration>

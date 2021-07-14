@@ -19,7 +19,7 @@ public class WordNetInitializer {
     Logger logger = LoggerFactory.getLogger(WordNetInitializer.class);
 
 
-    String wordNetPath = "/NLPTools/WordNet/dict/";
+    String wordNetPath = System.getenv("WORDNET_HOME") + File.separator + "dict";
     //wordnet initializer instance
     private static WordNetInitializer wni;
     //dictionary instance
@@ -34,8 +34,8 @@ public class WordNetInitializer {
     private WordNetInitializer(){
         logger.info("Initializing WordNet dictionary ...");
 
-        ApplicationHome ah = new ApplicationHome(this.getClass());
-        wordNetPath = ah.getDir().getPath() + wordNetPath;
+//        ApplicationHome ah = new ApplicationHome(this.getClass());
+//        wordNetPath = ah.getDir().getPath() + wordNetPath;
 
         logger.debug("WordNetUrl: " + wordNetPath);
 
