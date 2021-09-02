@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.dhbw.text2process.enums.BpmnHeader;
 import de.dhbw.text2process.helper.exporter.meta.Exporter;
 import de.dhbw.text2process.models.bpmn.ComplexGateway;
 import de.dhbw.text2process.models.bpmn.EventBasedGateway;
@@ -20,17 +21,7 @@ import de.dhbw.text2process.models.meta.BPMNModel;
 
 public class BPMNExporter extends Exporter{
 	
-	private String start = "<definitions id=\"Definition\"" + 
-            "\ntargetNamespace=\"http://www.example.org/MinimalExample\"" +
-            "\ntypeLanguage=\"http://www.java.com/javaTypes\"" + 
-            "\nexpressionLanguage=\"http://www.mvel.org/2.0\"" + 
-            "\nxmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"" + 
-            "\nxmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\"" + 
-            "\nxs:schemaLocation=\"http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd\"" +
-            "\nxmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\"" +
-            "\nxmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\"" +
-            "\nxmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\"" +
-            "\nxmlns:tns=\"http://www.jboss.org/drools\">";
+	private String start = BpmnHeader.BPMN_2_0.getHeader();
 	
 	private String end = "\n</process>"
 			+ "\n</definitions>";

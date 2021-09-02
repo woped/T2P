@@ -14,6 +14,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
+                echo 'Working with branch: ' + env.BRANCH_NAME
                 sh 'mvn clean install -Dmaven.test.skip=true'
             }
         }
