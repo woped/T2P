@@ -117,10 +117,74 @@ public class TextAnalyzer {
 
     }
 
+
+    private void determineLinks() {
+        List<Action> _actions = f_world.getActions();
+        List<Action> _sequentialActions = new ArrayList<Action>();
+        for (int a = _actions.size() -1; a > 0; a--) {
+            Action action1 = _actions.get(a);
+            if("if".equals(action1.getMarker())){
+                _sequentialActions.add(action1);
+                for (int b = a - 1; b >= 0; b--) {
+                    Action action2 = _actions.get(b);
+                    if(!"if".equals(action2.getMarker())){
+                        _sequentialActions.add(action2);
+                    } else {
+                        break;
+                    }
+                }
+                for (int i = _sequentialActions.size() - 1; i > 0; i--) {
+                    for (int j = i - 1; j >= 0; j--) {
+                        Action _a1 = _actions.get(i);
+                        Action _a2 = _actions.get(j);
+                        if (islinkable(_a1, _a2)) {
+                            _a1.setLink(_a2);
+                            _a1.setLinkType(ActionLinkType.FORWARD);
+                            if (Constants.DEBUG_FINAL_ACTIONS_RESULT)
+                                System.out.println("Linkable: " + _a1 + " --- " + _a2);
+                        }
+                    }
+                }
+            }
+            for(int b = a - 1; b >= 0; b--){
+                Action action2 = _actions.get(b);
+                if("if".equals(action2.getMarker())){
+                    _sequentialActions.add(action2);
+                    for (int c = a - 1; c >= 0; c--) {
+                        Action action3 = _actions.get(c);
+                        if(!"if".equals(action3.getMarker())){
+                            _sequentialActions.add(action3);
+                        } else {
+                            break;
+                        }
+                    }
+                    for (int i = _sequentialActions.size() - 1; i > 0; i--) {
+                        for (int j = i - 1; j >= 0; j--) {
+                            Action _a1 = _actions.get(i);
+                            Action _a2 = _actions.get(j);
+                            if (islinkable(_a1, _a2)) {
+                                _a1.setLink(_a2);
+                                _a1.setLinkType(ActionLinkType.FORWARD);
+                                if (Constants.DEBUG_FINAL_ACTIONS_RESULT)
+                                    System.out.println("Linkable: " + _a1 + " --- " + _a2);
+                            }
+                        }
+                    }
+                }
+                if (islinkable(action1, action2)) {
+                    action1.setLink(action2);
+                    action1.setLinkType(determineLinkType(action1, action2));
+                    if (Constants.DEBUG_FINAL_ACTIONS_RESULT)
+                        System.out.println("Linkable: " + action1 + " --- " + action2);
+                }
+            }
+        }
+    }
+
     /**
      *
      */
-    private void determineLinks() {
+    /*private void determineLinks() {
         List<Action> _actions = f_world.getActions();
         for (int i = _actions.size() - 1; i > 0; i--) {
             for (int j = i - 1; j >= 0; j--) {
@@ -134,7 +198,7 @@ public class TextAnalyzer {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * @param linkSource
