@@ -181,9 +181,6 @@ public class TextAnalyzer {
         }
     }
 
-    /**
-     *
-     */
     /*private void determineLinks() {
         List<Action> _actions = f_world.getActions();
         for (int i = _actions.size() - 1; i > 0; i--) {
