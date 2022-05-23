@@ -119,18 +119,8 @@ public class TextToProcess {
 		}
 		if (f_bpmn) {
 
-			AbstractFlowNodeBuilder process = Bpmn.createProcess()
-														.executable()
-													.startEvent()
-														.name("StartEvent");
-
-			for(Action action: f_analyzer.getWorld().getActions()){
-				process = process.userTask()
-								.name(action.getName());
-			}
-
-			BpmnModelInstance modelInstance = process.done();
-			Bpmn.writeModelToFile(new File("target/new-process.bpmn"), modelInstance);
+			BPMNExporter exp = new BPMNExporter();
+			exp.exportBPMN(f_analyzer);
 
 
 			/*BPMNModelBuilder _builder = new BPMNModelBuilder(this);
