@@ -44,15 +44,9 @@ import de.dhbw.text2process.processors.textmodel.TextModelBuilder;
 import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;
 import de.dhbw.text2process.wrapper.StanfordParserFunctionality;
 import edu.stanford.nlp.trees.TypedDependency;
-import org.camunda.bpm.model.bpmn.*;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.builder.AbstractFlowNodeBuilder;
-import org.camunda.bpm.model.bpmn.builder.AbstractTaskBuilder;
-import org.camunda.bpm.model.bpmn.builder.ProcessBuilder;
-import org.camunda.bpm.model.bpmn.builder.UserTaskBuilder;
-import org.camunda.bpm.model.bpmn.instance.BpmnModelElementInstance;
-import org.camunda.bpm.model.bpmn.instance.bpmndi.BpmnLabelStyle;
 
 /**
  * wraps all of the functionality to create processes from text. Load and
@@ -115,7 +109,6 @@ public class TextToProcess {
 		return f_analyzer.getWorld();
 
 	}
-
 	public void analyzeText(boolean rebuildTextModel, boolean bpmn, File outputFile) {
 		boolean f_bpmn = bpmn;
 		f_analyzer.analyze(processText);
@@ -126,18 +119,21 @@ public class TextToProcess {
 		}
 		if (f_bpmn) {
 
-			BpmnModelInstance modelInstance;
+			AbstractFlowNodeBuilder process = Bpmn.createProcess()
+														.executable()
+													.startEvent()
+														.name("StartEvent");
 
-			AbstractFlowNodeBuilder process = Bpmn.createProcess().name("Test").executable()
-			.startEvent().name("StartEvent");
-
-			for(Action a: f_analyzer.getWorld().getActions()){
-				process = process.userTask().name(a.getName());
+			for(Action action: f_analyzer.getWorld().getActions()){
+				process = process.userTask()
+								.name(action.getName());
 			}
-			modelInstance = process.done();
+
+			BpmnModelInstance modelInstance = process.done();
 			Bpmn.writeModelToFile(new File("target/new-process.bpmn"), modelInstance);
 
-	/*		BPMNModelBuilder _builder = new BPMNModelBuilder(this);
+
+			/*BPMNModelBuilder _builder = new BPMNModelBuilder(this);
 			f_generatedModelBPMN = (BPMNModel) _builder.createProcessModel(f_analyzer.getWorld());
 			BPMNExporter exp = new BPMNExporter(f_generatedModelBPMN);
 			for (Cluster c : new ArrayList<Cluster>(f_generatedModelBPMN.getClusters())) {
@@ -153,7 +149,7 @@ public class TextToProcess {
 			extractBPMNFlowObjects(f_generatedModelBPMN);
 			extractBPMNFlows(f_generatedModelBPMN);
 			f_generatedModelBPMN.extractGateways();
-        	exp.addLanes(f_lanes);
+//        	exp.addLanes(f_lanes);
 			exp.addFlowObjects(f_tasks);
 			exp.addGateways(f_generatedModelBPMN.getComplexGateways(), f_generatedModelBPMN.getEventBasedGateways(),
 					f_generatedModelBPMN.getExclusiveGateways(), f_generatedModelBPMN.getInclusiveGateways(),
