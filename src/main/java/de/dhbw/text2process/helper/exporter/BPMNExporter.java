@@ -25,7 +25,7 @@ import org.camunda.bpm.model.bpmn.builder.AbstractFlowNodeBuilder;
 
 public class BPMNExporter extends Exporter{
 
-	public boolean exportBPMN(TextAnalyzer analyzer) {
+	public boolean exportBPMN(TextAnalyzer analyzer, File outputFile) {
 
 		//Create Start Node
 		AbstractFlowNodeBuilder process = Bpmn.createProcess()
@@ -46,7 +46,7 @@ public class BPMNExporter extends Exporter{
 
 		//Try to create File and return true on success
 		try{
-			Bpmn.writeModelToFile(new File("target/new-process.bpmn"), modelInstance);
+			Bpmn.writeModelToFile(outputFile, modelInstance);
 			return true;
 		}catch(Exception e){
 			return false;
