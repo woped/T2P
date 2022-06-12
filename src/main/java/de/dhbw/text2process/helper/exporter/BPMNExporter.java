@@ -37,9 +37,11 @@ public class BPMNExporter extends Exporter{
 		for (Action action : analyzer.getWorld().getActions()) {
 			if(action.getName() != "Dummy Node") {
 				process = process.userTask()
-						.name(action.getName() + " " + action.getObject());
+						.name(action.getFinalLabel());
 			}
 		}
+		process = process.endEvent()
+					.name("EndEvent");
 
 		BpmnModelInstance modelInstance = process.done();
 
