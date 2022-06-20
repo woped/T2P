@@ -41,7 +41,7 @@ public class BPMNExporter extends Exporter{
 
 	}
 
-	public boolean	createBPMN(){
+	public boolean	createBPMN(File outputFile){
 		BpmnModelInstance modelInstance = process.done();
 
 		//Try to create File and return true on success
@@ -139,10 +139,14 @@ public class BPMNExporter extends Exporter{
 				process = process.exclusiveGateway().name("split"+flowIndex)
 				.id("split"+flowIndex);
 				for (int i = 0; i < allFlows.get(flowIndex).getMultipleObjects().size(); i++) {
+
 					process = process.userTask()
 							.name(allFlows.get(flowIndex).getMultipleObjects().get(i).getFinalLabel())
-							.id(allFlows.get(flowIndex).getMultipleObjects().get(i).getFinalLabel())
-							.moveToLastGateway();;
+							.id(allFlows.get(flowIndex).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+",""));
+
+					if(i < allFlows.get(flowIndex).getMultipleObjects().size()-1 ){
+						process = process.moveToLastGateway();
+					}
 
 				}
 				if(allFlows.size() > flowIndex){
@@ -152,7 +156,7 @@ public class BPMNExporter extends Exporter{
 				process = process.exclusiveGateway().name("join"+flowIndex)
 				.id("join"+flowIndex);
 				for (int i = 0; i < allFlows.get(flowIndex).getMultipleObjects().size(); i++) {
-					process = process.moveToNode(allFlows.get(flowIndex-1).getMultipleObjects().get(i).getFinalLabel())
+					process = process.moveToNode(allFlows.get(flowIndex-1).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+",""))
 							.connectTo("join"+flowIndex);
 				}
 				if(allFlows.size() > flowIndex){

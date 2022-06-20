@@ -122,7 +122,7 @@ public class TextToProcess {
 			BPMNExporter exp = new BPMNExporter();
 			exp.setTextAnalyzer(f_analyzer);
 			exp.goTrough(0);
-			exp.createBPMN();
+			exp.createBPMN(outputFile);
 
 
 			/*BPMNModelBuilder _builder = new BPMNModelBuilder(this);
