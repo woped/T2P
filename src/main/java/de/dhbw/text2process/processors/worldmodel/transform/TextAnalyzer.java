@@ -171,7 +171,7 @@ public class TextAnalyzer {
                         }
                     }
                 }
-                if (islinkable(action1, action2)) {
+                else if (islinkable(action1, action2)) {
                     action1.setLink(action2);
                     action1.setLinkType(determineLinkType(action1, action2));
                     if (Constants.DEBUG_FINAL_ACTIONS_RESULT)
