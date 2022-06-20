@@ -13,7 +13,7 @@ angular.module('myApp').component('t2pForm', {
         var helper = "";
         var helperTwo ="";
         $scope.pnml = this.pnml;
-        $scope.bpmn = this.bpmn;
+        //$scope.bpmn = this.bpmn;
         $scope.loading = this.loading;
         $scope.isBPMN = this.isBPMN;
         $scope.previousText = null;
@@ -67,6 +67,7 @@ angular.module('myApp').component('t2pForm', {
 				} else if (radioService.getIsBPMN2()){
 					downloadLink.attr('download', 'processmodel.bpmn');
 				}
+                console.log("from.component.js")
                 downloadLink[0].click();
         };
 
@@ -134,9 +135,11 @@ angular.module('myApp').component('t2pForm', {
 
                 $http(req).then(function (response) {
                     var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(response.data, "text/xml");
                     helperTwo = parser.parseFromString(response.data, "text/xml");
                     downloadService.setContentBPMN(s.serializeToString(helperTwo));
                     downloadService.setDownloadableTrue();
+                    //$scope.bpmn = xmlDoc;
                 });
         }
         $scope.getValue = function (){

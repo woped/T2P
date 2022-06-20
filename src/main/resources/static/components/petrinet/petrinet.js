@@ -1,5 +1,5 @@
 'use strict';
-import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js';
+//import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js';
 
 var test = true;
 
@@ -426,11 +426,14 @@ component('bpmn', {
 
 angular.module('myApp').
 component('bpmn2', {
-    template: '<div id="mynetwork" style="height:100%;width:100%; margin-bottom: 50%"></div>',
+    template: '<div #ref class="diagram-container" id="test" style="height:100%;width:100%; margin-bottom: 50%"></div>',
     bindings: {
-        pnml: '<'
+        pnml: '<',
+        bpmn: '<'
     },
+    
     controller: function petrinetController(radioService, downloadService) {
+        
 
         radioService.setBPMN2();
 
@@ -482,13 +485,13 @@ component('bpmn2', {
           });
           
           try {
-            const { warnings } = await viewer.importXML(downloadService.getContentBPMN());
+            const { warnings } = viewer.importXML(downloadService.getContentBPMN());
           
             console.log('rendered');
           } catch (err) {
             console.log('error rendering', err);
           }
-          viewer.attachTo('#bpmn2')
+          viewer.attachTo('#test')
         };
 
         this.$onChanges = function (changes) {

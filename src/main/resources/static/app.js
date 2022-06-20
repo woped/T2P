@@ -18,7 +18,6 @@ myApp.controller('T2PController', function T2PController($scope, downloadService
   $scope.callback = function(pnml){
     $scope.displayInfo=false;
   $scope.pnml = pnml;
-  $scope.bpmn = bpmn;
 }
 
 $scope.loadingCallback = function(loading){
@@ -55,6 +54,7 @@ $scope.isDownloadableMain = function (){
     } else if (radioService.getIsBPMN2()){
         downloadLink.attr('download', 'processmodel.bpmn');
     }
+    console.log("app.js")
 
     downloadLink[0].click();
   };
