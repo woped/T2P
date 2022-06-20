@@ -59,7 +59,7 @@
   <![endif]-->
 
 
-<div class="flex-container fade-in">
+<div class="flex-container fade-in">2
   <div ng-show="loading" class="petrinet-container">
     <div class="spinner">
     <div class="dot1"></div>
@@ -72,6 +72,10 @@
   </div>
   <div ng-if="!loading&&!displayInfo&&selectVal==='BPMN'" class="petrinet-container">
     <bpmn pnml="pnml"></bpmn>
+  </div>
+
+  <div ng-if="!loading&&!displayInfo&&selectVal==='BPMN2'" class="petrinet-container">
+    <bpmn2 pnml="bpmn" id="bpmn2"></bpmn2>
   </div>
 
   <div ng-show="!loading&&displayInfo" class="petrinet-container">
@@ -89,6 +93,7 @@
   <div style="margin-left: 5% !important; margin-top: 2%;">
     <input type ="radio" ng-checked="true" value="PNML" ng-model="selectVal"/><span style="color:Black">PNML</span><br />
     <input type ="radio" value="BPMN" ng-model="selectVal" /><span style="color:Black">BPMN</span><br />
+    <input type ="radio" value="BPMN2" ng-model="selectVal" /><span style="color:Black">BPMN 2.0</span><br />
     <button class="btn btn-primary" style="margin-top:0.5rem;"ng-disabled="isDownloadableMain()" ng-click="saveFile()"  ng-href="{{ url }}">Download Model</button>
   </div>
   <div style="display:flex;flex-direction: column;">

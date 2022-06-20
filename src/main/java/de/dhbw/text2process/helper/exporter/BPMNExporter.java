@@ -46,7 +46,7 @@ public class BPMNExporter extends Exporter{
 
 		//Try to create File and return true on success
 		try{
-			Bpmn.writeModelToFile(new File("target/new-process.bpmn"), modelInstance);
+			Bpmn.writeModelToFile(outputFile, modelInstance);
 			return true;
 		}catch(Exception e){
 			return false;

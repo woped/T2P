@@ -41,6 +41,9 @@ $scope.isDownloadableMain = function (){
     else if (radioService.getIsBPMN()){
       newXmlStr = downloadService.getContentBPMN();
     }
+    else if(radioService.getIsBPMN2()){
+      newXmlStr = downloadService.getContentBPMN();
+    }
     var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
     var downloadLink = angular.element('<a></a>');
     downloadLink.attr('href',window.URL.createObjectURL(blob));
@@ -48,7 +51,10 @@ $scope.isDownloadableMain = function (){
       downloadLink.attr('download', 'processmodel.pnml');
     } else if (radioService.getIsBPMN()){
       downloadLink.attr('download', 'processmodel.bpmn');
+    } else if (radioService.getIsBPMN2()){
+        downloadLink.attr('download', 'processmodel.bpmn');
     }
+    console.log("app.js")
 
     downloadLink[0].click();
   };
