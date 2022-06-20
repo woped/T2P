@@ -107,8 +107,8 @@ public class TextToProcess {
 		f_analyzer.clear();
 		f_analyzer.analyze(processText);
 		return f_analyzer.getWorld();
-
 	}
+
 	public void analyzeText(boolean rebuildTextModel, boolean bpmn, File outputFile) {
 		boolean f_bpmn = bpmn;
 		f_analyzer.analyze(processText);
@@ -120,7 +120,9 @@ public class TextToProcess {
 		if (f_bpmn) {
 
 			BPMNExporter exp = new BPMNExporter();
-			exp.exportBPMN(f_analyzer);
+			exp.setTextAnalyzer(f_analyzer);
+			exp.goTrough(0);
+			exp.createBPMN();
 
 
 			/*BPMNModelBuilder _builder = new BPMNModelBuilder(this);
