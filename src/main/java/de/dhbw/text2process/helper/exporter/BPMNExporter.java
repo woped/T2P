@@ -26,7 +26,10 @@ public class BPMNExporter extends Exporter{
 	}
 
 	public boolean	createBPMN(File outputFile){
-		BpmnModelInstance modelInstance = process.done();
+		BpmnModelInstance modelInstance = process
+										.endEvent()
+										.name("EndEvent")
+										.done();
 
 		//Try to create File and return true on success
 		try{
@@ -135,7 +138,7 @@ public class BPMNExporter extends Exporter{
 					String finalLabel = allFlows.get(flowIndex).getMultipleObjects().get(multipleObjectsIndex).getFinalLabel();
 					process = process.userTask()
 							.name(finalLabel)
-							.id(finalLabel.replaceAll("\\s+",""));
+							.id(finalLabel.replaceAll("\\s+","").replaceAll("[-+.^:,]",""));
 
 					if(multipleObjectsIndex < allFlows.get(flowIndex).getMultipleObjects().size()-1 ){
 						process = process.moveToLastGateway();
@@ -151,7 +154,7 @@ public class BPMNExporter extends Exporter{
 				process = process.exclusiveGateway().name("join"+flowIndex)
 				.id("join"+flowIndex);
 				for (int i = 0; i < allFlows.get(flowIndex).getMultipleObjects().size(); i++) {
-					process = process.moveToNode(allFlows.get(flowIndex-1).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+",""))
+					process = process.moveToNode(allFlows.get(flowIndex-1).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+","").replaceAll("[-+.^:,]",""))
 							.connectTo("join"+flowIndex);
 				}
 				if(allFlows.size() - 1 > flowIndex){
