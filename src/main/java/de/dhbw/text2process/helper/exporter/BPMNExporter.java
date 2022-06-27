@@ -1,29 +1,13 @@
 package de.dhbw.text2process.helper.exporter;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.dhbw.text2process.helper.exporter.meta.Exporter;
-import de.dhbw.text2process.models.bpmn.ComplexGateway;
-import de.dhbw.text2process.models.bpmn.EventBasedGateway;
-import de.dhbw.text2process.models.bpmn.ExclusiveGateway;
-import de.dhbw.text2process.models.bpmn.InclusiveGateway;
-import de.dhbw.text2process.models.bpmn.Lane;
-import de.dhbw.text2process.models.bpmn.ParallelGateway;
-import de.dhbw.text2process.models.bpmn.Pool;
-import de.dhbw.text2process.models.bpmn.SequenceFlow;
-import de.dhbw.text2process.models.bpmn.Task;
-import de.dhbw.text2process.models.meta.BPMNModel;
-import de.dhbw.text2process.models.worldModel.Action;
 import de.dhbw.text2process.models.worldModel.Flow;
 import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.GatewayDirection;
 import org.camunda.bpm.model.bpmn.builder.AbstractFlowNodeBuilder;
 
 public class BPMNExporter extends Exporter{
@@ -124,34 +108,45 @@ public class BPMNExporter extends Exporter{
 	*/
 
 
-	public void goTrough(int flowIndex){
+	public void goThrough(int flowIndex){
+
+		// If Flow element does not contain any "Multiple Objects" end the process
 		if(allFlows.get(flowIndex).getMultipleObjects().size() == 0){
 			process.done();
 
+		// If Flow element leads to one action, add it to the process
 		}else if((allFlows.get(flowIndex).getMultipleObjects().size() == 1)){
 			process = process.userTask()
 					.name(allFlows.get(flowIndex).getMultipleObjects().get(0).getFinalLabel());
+
+			// If Flow element is not the last, rerun method with incremented index
 			if(allFlows.size()-1 > flowIndex){
-				goTrough(flowIndex+1);
+				goThrough(flowIndex+1);
 			}
+
+		// If Flow element contains multiple elements in "Multiple Objects" add Gateway
 		}else if((allFlows.get(flowIndex).getMultipleObjects().size() > 1)){
+
+			// If Gateway is a Split, procede multiple paths
 			if(allFlows.get(flowIndex).getDirection().name().equals("split")){
 				process = process.exclusiveGateway().name("split"+flowIndex)
 				.id("split"+flowIndex);
-				for (int i = 0; i < allFlows.get(flowIndex).getMultipleObjects().size(); i++) {
-
+				for (int multipleObjectsIndex = 0; multipleObjectsIndex < allFlows.get(flowIndex).getMultipleObjects().size(); multipleObjectsIndex++) {
+					String finalLabel = allFlows.get(flowIndex).getMultipleObjects().get(multipleObjectsIndex).getFinalLabel();
 					process = process.userTask()
-							.name(allFlows.get(flowIndex).getMultipleObjects().get(i).getFinalLabel())
-							.id(allFlows.get(flowIndex).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+",""));
+							.name(finalLabel)
+							.id(finalLabel.replaceAll("\\s+",""));
 
-					if(i < allFlows.get(flowIndex).getMultipleObjects().size()-1 ){
+					if(multipleObjectsIndex < allFlows.get(flowIndex).getMultipleObjects().size()-1 ){
 						process = process.moveToLastGateway();
 					}
 
 				}
 				if(allFlows.size() > flowIndex){
-					goTrough(flowIndex+1);
+					goThrough(flowIndex+1);
 				}
+
+			// If Gateway is Join, procede Join
 			}else if(allFlows.get(flowIndex).getDirection().name().equals("join")){
 				process = process.exclusiveGateway().name("join"+flowIndex)
 				.id("join"+flowIndex);
@@ -159,8 +154,8 @@ public class BPMNExporter extends Exporter{
 					process = process.moveToNode(allFlows.get(flowIndex-1).getMultipleObjects().get(i).getFinalLabel().replaceAll("\\s+",""))
 							.connectTo("join"+flowIndex);
 				}
-				if(allFlows.size() > flowIndex){
-					goTrough(flowIndex+1);
+				if(allFlows.size() - 1 > flowIndex){
+					goThrough(flowIndex+1);
 				}
 			}
 		}
