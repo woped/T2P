@@ -1,5 +1,49 @@
 'use strict';
 
+//defines the colors for Splits
+var splitColors = ['lightblue', 'red', 'blue', 'orange', 'yellow'];
+var colorNr=0;
+
+    //colorizes the matching words of the splits label in the input text
+    function wrapWords(str, label, colorNr) {
+      //substring eliminates "choice if " from the label
+      label=label.substring(10)
+
+      return str.replace(label, ($0) => {
+        return `<span style="background:${splitColors[colorNr]}; display:inline-block; padding:0.2rem 0.5rem; margin: 0 0.2rem">${$0}</span>`;
+      });
+    }
+
+    function colorizeText(node, gatewayID) {
+      const element = document.querySelector('.text-output');
+      if (node.gatewayType=='104'){
+        console.log('xorSplit label: ' + node.label);
+        console.log('Transition ID: ' + node.gatewayID);
+        console.log("xorSplit Information: ", node)
+        //matches the different splits with a specific color
+        switch(node.gatewayGroup) {
+            case "xorSplit1":
+                colorNr=0;
+                break;
+            case "xorSplit2":
+                colorNr=1;
+                break;
+            case "xorSplit3":
+                colorNr=2;
+                break;
+            case "xorSplit4":
+                colorNr=3;
+                break;
+            case "xorSplit5":
+                colorNr=4;
+                break;
+        }
+        if (element) {
+            element.innerHTML = wrapWords(element.dataset.text, node.label, colorNr);
+        }
+      }
+    }
+
 var test = true;
 
 angular.module('myApp').
@@ -40,9 +84,14 @@ angular.module('myApp').
             transitions: {color:{background:'#FFB74D',border: '#FB8C00',}, shape: 'square', borderWidth:3},
             andJoin: {color:{background:'#DCE775',border: '#9E9D24',}, shape: 'square', borderWidth:3},
             andSplit: {color:{background:'#DCE775',border: '#9E9D24',}, shape: 'square', borderWidth:3},
-            xorSplit: {color:{background:'#9575CD',border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            //xorSplit: {color:{background:'#9575CD', border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            xorSplit1: {color:{background:splitColors[0], border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            xorSplit2: {color:{background:splitColors[1], border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            xorSplit3: {color:{background:splitColors[2], border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            xorSplit4: {color:{background:splitColors[3], border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
+            xorSplit5: {color:{background:splitColors[4], border: '#512DA8',}, shape: 'square', borderWidth:3,image:"/img/and_split.svg"},
             xorJoin: {color:{background:'#9575CD',border: '#512DA8',}, shape: 'square', borderWidth:3}
-      },
+            },
       interaction:{
         zoomView:true,
         dragView:true
@@ -164,6 +213,8 @@ angular.module('myApp').
                nodes.add({id: PetriNet.places[x].id,group:"places", label: PetriNet.places[x].label});
              }
 
+            //changed
+            var counter=1
              for (var x=0;x<PetriNet.transitions.length;x++){
                if(!PetriNet.transitions[x].isGateway || generateWorkFlowNet===false){
                  nodes.add({id: PetriNet.transitions[x].id,group:"transitions", label: PetriNet.transitions[x].id,title:PetriNet.transitions[x].label});
@@ -179,7 +230,11 @@ angular.module('myApp').
                     gatewayGroup="andJoin";
                     break;
                    case "104":
-                    gatewayGroup="xorSplit";
+                    gatewayGroup="xorSplit"+String(counter);
+                    counter++;
+                    //changed
+                    //console.log("xorSplit transitions: ", PetriNet.transitions[x])
+                    colorizeText(PetriNet.transitions[x], x)
                     break;
                    case "105":
                     gatewayGroup="xorJoin";
