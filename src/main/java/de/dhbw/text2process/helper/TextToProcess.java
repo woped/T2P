@@ -109,7 +109,7 @@ public class TextToProcess {
 		return f_analyzer.getWorld();
 	}
 
-	public void analyzeText(boolean rebuildTextModel, boolean bpmn, File outputFile) {
+	public void analyzeText(boolean rebuildTextModel, boolean bpmn, File outputFile, boolean newBpmn) {
 		boolean f_bpmn = bpmn;
 		f_analyzer.analyze(processText);
 		if (rebuildTextModel) {
@@ -118,39 +118,40 @@ public class TextToProcess {
 				f_textModelControler.setModels(this, f_analyzer, f_builder, _model);
 		}
 		if (f_bpmn) {
+			if(newBpmn) {
+				BPMNExporter exp = new BPMNExporter();
+				exp.setTextAnalyzer(f_analyzer);
+				exp.goThrough(0);
+				exp.createBPMN(outputFile);
+			} else {
 
-			BPMNExporter exp = new BPMNExporter();
-			exp.setTextAnalyzer(f_analyzer);
-			exp.goThrough(0);
-			exp.createBPMN(outputFile);
-
-
-			/*BPMNModelBuilder _builder = new BPMNModelBuilder(this);
-			f_generatedModelBPMN = (BPMNModel) _builder.createProcessModel(f_analyzer.getWorld());
-			BPMNExporter exp = new BPMNExporter(f_generatedModelBPMN);
-			for (Cluster c : new ArrayList<Cluster>(f_generatedModelBPMN.getClusters())) {
-				if (c instanceof Pool) {
-					Pool pool = (Pool) c;
-					f_pools.add(pool);
-				} else if (c instanceof Lane) {
-					Lane lane = (Lane) c;
-					f_lanes.add(lane);
+				BPMNModelBuilder _builder = new BPMNModelBuilder(this);
+				f_generatedModelBPMN = (BPMNModel) _builder.createProcessModel(f_analyzer.getWorld());
+				BPMNExporter exp = new BPMNExporter(f_generatedModelBPMN);
+				for (Cluster c : new ArrayList<Cluster>(f_generatedModelBPMN.getClusters())) {
+					if (c instanceof Pool) {
+						Pool pool = (Pool) c;
+						f_pools.add(pool);
+					} else if (c instanceof Lane) {
+						Lane lane = (Lane) c;
+						f_lanes.add(lane);
+					}
 				}
-			}
-			f_generatedModelBPMN.getEvents();
-			extractBPMNFlowObjects(f_generatedModelBPMN);
-			extractBPMNFlows(f_generatedModelBPMN);
-			f_generatedModelBPMN.extractGateways();
-//        	exp.addLanes(f_lanes);
-			exp.addFlowObjects(f_tasks);
-			exp.addGateways(f_generatedModelBPMN.getComplexGateways(), f_generatedModelBPMN.getEventBasedGateways(),
-					f_generatedModelBPMN.getExclusiveGateways(), f_generatedModelBPMN.getInclusiveGateways(),
-					f_generatedModelBPMN.getParallelGateways());
-			exp.addFlows(f_bflows);
+				f_generatedModelBPMN.getEvents();
+				extractBPMNFlowObjects(f_generatedModelBPMN);
+				extractBPMNFlows(f_generatedModelBPMN);
+				f_generatedModelBPMN.extractGateways();
+				exp.addLanes(f_lanes);
+				exp.addFlowObjects(f_tasks);
+				exp.addGateways(f_generatedModelBPMN.getComplexGateways(), f_generatedModelBPMN.getEventBasedGateways(),
+						f_generatedModelBPMN.getExclusiveGateways(), f_generatedModelBPMN.getInclusiveGateways(),
+						f_generatedModelBPMN.getParallelGateways());
+				exp.addFlows(f_bflows);
 
-			exp.addPools(f_pools);
-			exp.end();
-			exp.export(outputFile);*/
+				exp.addPools(f_pools);
+				exp.end();
+				exp.export(outputFile);
+			}
 		} else {
 			// epc: new (Text2EPC)
 			EPCModelBuilder _builder = new EPCModelBuilder(this);
@@ -207,13 +208,13 @@ public class TextToProcess {
 	public void parseText(String text, boolean bpmn, File outputFile) throws IOException {
 		processText = f_stanford.createText(text);
 		f_analyzer.clear();
-		analyzeText(true, bpmn, outputFile);
+		analyzeText(true, bpmn, outputFile, false);
 	}
 
 	public void parseFile(File file, boolean bpmn, File outputFile) throws IOException {
 		processText = f_stanford.createText(file);
 		f_analyzer.clear();
-		analyzeText(true, bpmn, outputFile);
+		analyzeText(true, bpmn, outputFile, false);
 	}
 
 	/**

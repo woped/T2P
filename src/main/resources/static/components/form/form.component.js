@@ -12,6 +12,7 @@ angular.module('myApp').component('t2pForm', {
     controller: function T2pFormController($http, $scope, radioService, downloadService) {
         var helper = "";
         var helperTwo ="";
+        var helperThree = "";
         $scope.pnml = this.pnml;
         //$scope.bpmn = this.bpmn;
         $scope.loading = this.loading;
@@ -54,7 +55,7 @@ angular.module('myApp').component('t2pForm', {
                     newXmlStr = s.serializeToString(helperTwo);
                     //var newXmlStr = "test"
                 } else if (radioService.getIsBPMN2()) {
-                    newXmlStr = s.serializeToString(helperTwo);
+                    newXmlStr = s.serializeToString(helperThree);
                     //var newXmlStr = "test"
                 }
                 var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
@@ -119,6 +120,7 @@ angular.module('myApp').component('t2pForm', {
                 });
             }
             $scope.generateBPMN();
+            $scope.generateNewBPMN();
         }
 
         $scope.generateBPMN = function () {
@@ -142,6 +144,29 @@ angular.module('myApp').component('t2pForm', {
                     //$scope.bpmn = xmlDoc;
                 });
         }
+
+        $scope.generateNewBPMN = function () {
+                    var s = new XMLSerializer();
+                    var req = {
+                            method: 'POST',
+                            url: '/t2p/generateBPMNv2',
+                            transformResponse: rawResponse,
+                            headers: {
+                                'Content-Type': "application/json"
+                            },
+                            data: $scope.text
+                        }
+
+                        $http(req).then(function (response) {
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(response.data, "text/xml");
+                            helperThree = parser.parseFromString(response.data, "text/xml");
+                            downloadService.setContentBPMN2(s.serializeToString(helperThree));
+                            downloadService.setDownloadableTrue();
+                            //$scope.bpmn = xmlDoc;
+                        });
+                }
+
         $scope.getValue = function (){
             return this.isBPMN;
         }

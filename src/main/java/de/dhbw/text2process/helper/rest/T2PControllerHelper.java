@@ -99,13 +99,13 @@ public class T2PControllerHelper {
 	 * @return A file which represents the BPMN process model
 	 * @throws BpmnGenerationException, WorldModelGenerationException, IOException
 	 */
-	public File generateBpmnFileFromText(String text)
+	public File generateBpmnFileFromText(String text, boolean newBpmn)
 			throws BpmnGenerationException, WorldModelGenerationException, IOException {
 		logger.debug("Creating a file for the Export ...");
 		File bpmnFile = new File("bpmn.file");
 		if (!bpmnFile.exists())bpmnFile.createNewFile();
 
-		createBPMNFile(text, bpmnFile);
+		createBPMNFile(text, bpmnFile, newBpmn);
 		
 		return bpmnFile;
 	}
@@ -122,14 +122,14 @@ public class T2PControllerHelper {
 	 * @return A string which represents the BPMN process model
 	 * @throws BpmnGenerationException, WorldModelGenerationException, IOException
 	 */
-	public String generateBpmnFromText(String text)
+	public String generateBpmnFromText(String text, boolean newBpmn)
 			throws BpmnGenerationException, WorldModelGenerationException, IOException {
 
 		logger.debug("Creating a file for the Export ...");
 		File bpmnFile = new File("bpmn.file");
 		if (!bpmnFile.exists())bpmnFile.createNewFile();
 
-		createBPMNFile(text, bpmnFile);
+		createBPMNFile(text, bpmnFile, newBpmn);
 		
 		logger.debug("Converting BPMN model to string");
 		String bpmnString = "";
@@ -144,7 +144,9 @@ public class T2PControllerHelper {
 		return bpmnString;
 	}
 
-	private void createBPMNFile(String text, File bpmnFile) throws IOException {
+
+
+	private void createBPMNFile(String text, File bpmnFile, boolean newBpmn) throws IOException {
 		logger.debug("Instantiating the TextToProcess object ...");
 		TextToProcess textToProcess = new TextToProcess();
 		logger.debug("Instantiating the BPNMModelBuilder object with the TextToProcess object as parameter ...");
@@ -153,7 +155,7 @@ public class T2PControllerHelper {
 		logger.debug("Set Text ...");
 		textToProcess.setProcessText(text);
 		logger.debug("Starting analyzing the given text ...");
-		textToProcess.analyzeText(true, true, bpmnFile);
+		textToProcess.analyzeText(true, true, bpmnFile, newBpmn);
 	}
 
 	private String minifyResult(String result) {

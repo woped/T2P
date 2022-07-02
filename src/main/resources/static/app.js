@@ -42,7 +42,7 @@ $scope.isDownloadableMain = function (){
       newXmlStr = downloadService.getContentBPMN();
     }
     else if(radioService.getIsBPMN2()){
-      newXmlStr = downloadService.getContentBPMN();
+      newXmlStr = downloadService.getContentBPMN2();
     }
     var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
     var downloadLink = angular.element('<a></a>');
