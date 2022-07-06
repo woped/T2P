@@ -195,7 +195,7 @@ public class BPMNExporter extends Exporter{
 					process = process.exclusiveGateway().name("split" + flowIndex)
 							.id("split" + flowIndex);
 				} else {
-					process = process.inclusiveGateway().name("split" + flowIndex)
+					process = process.parallelGateway().name("split" + flowIndex)
 							.id("split" + flowIndex);
 				}
 				for (int multipleObjectsIndex = 0; multipleObjectsIndex < allFlows.get(flowIndex).getMultipleObjects().size(); multipleObjectsIndex++) {
@@ -219,7 +219,7 @@ public class BPMNExporter extends Exporter{
 					process = process.exclusiveGateway().name("join" + flowIndex)
 							.id("join" + flowIndex);
 				} else {
-					process = process.inclusiveGateway().name("join" + flowIndex)
+					process = process.parallelGateway().name("join" + flowIndex)
 							.id("join" + flowIndex);
 				}
 				for (int i = 0; i < allFlows.get(flowIndex).getMultipleObjects().size(); i++) {
