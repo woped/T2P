@@ -61,6 +61,7 @@
 		<google.ejml.version>0.25</google.ejml.version>
 		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
 		<jwnl.version>1.4.1</jwnl.version>
+		<camunda.bpm.model.version>7.10.0</camunda.bpm.model.version>
 	</properties>
 	
 	<dependencies>
@@ -82,7 +83,7 @@
 		<dependency>
 			<groupId>org.camunda.bpm.model</groupId>
 			<artifactId>camunda-bpmn-model</artifactId>
-			<version>7.10.0</version>
+			<version>${camunda.bpm.model.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
