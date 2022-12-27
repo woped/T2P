@@ -54,7 +54,7 @@
 		<pullparser.version>2.1.10</pullparser.version>
 		<msv.version>2013.6.1</msv.version>
 		<junit.version>4.13.1</junit.version>
-		<gson.version>2.8.6</gson.version>
+		<gson.version>2.8.9</gson.version>
 		<apache.commons.version>3.10</apache.commons.version>
 		<stanford.parser.version>3.9.2</stanford.parser.version>
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
