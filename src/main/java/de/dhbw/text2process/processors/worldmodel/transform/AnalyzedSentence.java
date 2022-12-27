@@ -289,8 +289,8 @@ public class AnalyzedSentence {
 	 */
 	private void extractElements(Tree sentence,Collection<TypedDependency> dependencies) {
 		WordNetFunctionality wnf = new WordNetFunctionality();
-		if(Constants.DEBUG_EXTRACTION) System.out.println("-----------------------------------");
-		if(Constants.DEBUG_EXTRACTION) System.out.println("extracting from:" +PrintUtils.toString(sentence.getLeaves()));
+		logger.debug("-----------------------------------");
+		logger.debug("extracting from:" +PrintUtils.toString(sentence.getLeaves()));
 		boolean _active = isActive(sentence,dependencies);
 		List<Actor> _actors = determineSubjects(sentence,dependencies,_active);
 		checkPersonalPronoun(_actors);
@@ -406,21 +406,20 @@ public class AnalyzedSentence {
 		for(SpecifiedElement a:_toCheck) {
 			for(Specifier sp :_specToCheck) {
 				if(sp.getWordIndex() == a.getWordIndex()/*checkContainment(sp.getPhrase(),a.getName())*/){
-					if(Constants.DEBUG_EXTRACTION) System.out.println("removing specifier: "+sp);
+					logger.debug("removing specifier: "+sp);
 					verb.removeSpecifier(sp);
 
 				}
 			}
 			if(verb.getCop() != null && verb.getCop().equals(a.getName())) {
-				if(Constants.DEBUG_EXTRACTION) System.out.println("removing cop: "+verb.getCop());
+				logger.debug("removing cop: "+verb.getCop());
 				verb.setCop(null,-1);
 				//also remove all specifiers which actually belong to the cop object
 				for(Specifier _objSpec : a.getSpecifiers(SpecifierType.PP)) {
 					for(Specifier sp :_specToCheck) {
 						if(sp.getPhrase().equalsIgnoreCase(_objSpec.getPhrase())) {
 							verb.removeSpecifier(sp);
-							if(Constants.DEBUG_EXTRACTION) System.out.println("removing cop-specifier: "+sp.getPhrase());
-
+							logger.debug("removing cop-specifier: "+sp.getPhrase());
 						}
 					}
 				}
@@ -441,11 +440,7 @@ public class AnalyzedSentence {
 			}
 		}
 
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Filtered Verb: "+verb);
-
-
-
-
+		logger.debug("Filtered Verb: "+verb);
 	}
 
 
@@ -492,7 +487,7 @@ public class AnalyzedSentence {
 		if(_nsubjpass.size() > 0) {
 			return false;
 		}
-		if(Constants.DEBUG_EXTRACTION) System.out.println("It is not clear wether this sentence is active or passive!");
+		logger.debug("It is not clear wether this sentence is active or passive!");
 		return false; // return passive by default
 	}
 
@@ -513,10 +508,10 @@ public class AnalyzedSentence {
 			List<TypedDependency> _nsubj = SearchUtils.findDependency("nsubj",dependencies);
 			excludeRelativeClauses(sentence,_nsubj);
 			if(_nsubj.size() == 0) {
-				if(Constants.DEBUG_EXTRACTION) System.out.println("No active subject was found!");
+				logger.debug("No active subject was found!");
 			}else {
 				if(_nsubj.size() > 1) {
-					System.out.println("Sentence has more then one subject");
+					logger.info("Sentence has more then one subject");
 					if(Constants.DEBUG_EXTRACTION) printToConsole(_nsubj);
 				}else {
 					_mainActor = _nsubj.get(0).dep();
@@ -527,10 +522,10 @@ public class AnalyzedSentence {
 			List<TypedDependency> _agent = SearchUtils.findDependency("agent",dependencies);
 			excludeRelativeClauses(sentence,_agent);
 			if(_agent.size() == 0) {
-				if(Constants.DEBUG_EXTRACTION) System.out.println("Sentence contains no subject!");
+				logger.debug("Sentence contains no subject!");
 			}else {
 				if(_agent.size() > 1) {
-					System.out.println("Sentence has more then one agent:");
+					logger.info("Sentence has more then one agent:");
 					if(Constants.DEBUG_EXTRACTION) printToConsole(_agent);
 				}else {
 					_mainActor = _agent.get(0).dep();
@@ -655,7 +650,7 @@ public class AnalyzedSentence {
 					_mainPredicate = _dobj.get(0).gov(); //here several are possible "leave the house and close the window" -> conj will find the rest
 				}
 			}else if(_nsubj.size() > 1) {
-				System.out.println("Sentence has more than one active predicate");
+				logger.info("Sentence has more than one active predicate");
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_nsubj);
 			}else if(_nsubj.size() == 1) {
 				_mainPredicate = _nsubj.get(0).gov();
@@ -676,7 +671,7 @@ public class AnalyzedSentence {
 			List<TypedDependency> _nsubjpass = SearchUtils.findDependency("nsubjpass",dependencies);
 			excludeRelativeClauses(sentence,_nsubjpass);
 			if(_nsubjpass.size() > 1) {
-				System.out.println("Sentence has more than one passive predicate:");
+				logger.info("Sentence has more than one passive predicate:");
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_nsubjpass);
 				_mainPredicate = _nsubjpass.get(0).gov();
 			}else if(_nsubjpass.size() == 1) {
@@ -687,9 +682,9 @@ public class AnalyzedSentence {
 			//determine through syntax tree only - less accurate
 			List<Tree> _verbs = SearchUtils.find("VP",sentence,ListUtils.getList("SBAR","S"));
 			if(_verbs.size() == 0) {
-				System.out.println("Sentence contains no action?!?");
+				logger.info("Sentence contains no action?!?");
 			}else if(_verbs.size() > 1) {
-				System.out.println("Sentence has more than one verb phrase!");
+				logger.info("Sentence has more than one verb phrase!");
 			}else {
 				Tree _vp = _verbs.get(0);
 				Action _a = ElementsBuilder.createActionSyntax(f_sentence, f_fullSentence, _vp, active);
@@ -777,7 +772,7 @@ public class AnalyzedSentence {
 				//use dobj if available instead
 				determineObjectFromDOBJ(verb, dependencies, _result);
 			}else if(_nsubjpass.size() > 1) {
-				System.out.println("Passive sentence with more than one subject!?!?");
+				logger.info("Passive sentence with more than one subject!?!?");
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_nsubjpass);
 				TreeGraphNode _object = _nsubjpass.get(0).dep();
 				ExtractedObject _obj = ElementsBuilder.createObject(f_sentence, f_fullSentence, _object,dependencies);
@@ -838,9 +833,9 @@ public class AnalyzedSentence {
 				//maybe we have a copular sentence?!?
 				List<TypedDependency> _cop = SearchUtils.findDependency("cop", dependencies);
 				if(_cop.size() == 0) {
-					if(Constants.DEBUG_EXTRACTION) System.out.println("No Object found!");
+					logger.debug("No Object found!");
 				}else if(_cop.size() > 1) {
-					System.out.println("Sentence with more than one copluar object!?!?");
+					logger.info("Sentence with more than one copluar object!?!?");
 					if(Constants.DEBUG_EXTRACTION) printToConsole(_cop);
 				}else {
 					TreeGraphNode _object = _cop.get(0).gov();
@@ -849,11 +844,11 @@ public class AnalyzedSentence {
 						_result.add(_obj);
 						checkNPForSubsentence(_object,dependencies,_obj);
 					}else {
-						if(Constants.DEBUG_EXTRACTION) System.out.println("No Object found!");
+						logger.debug("No Object found!");
 					}
 				}
 			}else if(_myPrep.size() > 1) {
-				System.out.println("Sentence with more than one prepositional object!?!?");
+				logger.info("Sentence with more than one prepositional object!?!?");
 				if(Constants.DEBUG_EXTRACTION) printToConsole(_myPrep);
 			}else {
 				//this is our relation
@@ -863,7 +858,7 @@ public class AnalyzedSentence {
 					_result.add(_obj);
 					checkNPForSubsentence(_object,dependencies,_obj);
 				}else {
-					if(Constants.DEBUG_EXTRACTION) System.out.println("No Object found!");
+					logger.debug("No Object found!");
 				}
 			}
 
@@ -890,7 +885,7 @@ public class AnalyzedSentence {
 					}
 			}		*/
 //		}else if(_myDobj.size() > 1) {
-//			System.out.println("Sentence with more than one direct object!?!?");
+//			logger.info("Sentence with more than one direct object!?!?");
 //			if(Constants.DEBUG_EXTRACTION) printToConsole(_myDobj);
 		}else {
 			TreeGraphNode _object = _myDobj.get(0).dep();
@@ -963,7 +958,7 @@ public class AnalyzedSentence {
 	 */
 	private void printToConsole(List<TypedDependency> list) {
 		for(TypedDependency td:list) {
-			System.out.println(td+" - "+SearchUtils.getFullNounPhrase(td.dep()));
+			logger.debug(td+" - "+SearchUtils.getFullNounPhrase(td.dep()));
 		}
 	}
 

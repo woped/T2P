@@ -97,7 +97,7 @@ public class WordNetWrapper {
 					readJwnlConfig(newFilePropertiesString);
 					
 				} catch (IOException e1) {
-					System.out.println("ERROR loading WordNet!");
+					logger.error("ERROR loading WordNet!");
 					e1.printStackTrace();
 				}
 			} else {
@@ -133,7 +133,7 @@ public class WordNetWrapper {
 		} catch (JWNLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Loaded WordNet in " + (System.currentTimeMillis() - _start) + "ms.");
+		logger.info("Loaded WordNet in " + (System.currentTimeMillis() - _start) + "ms.");
 	}
 
 	/**
@@ -177,9 +177,9 @@ public class WordNetWrapper {
 		try {
 			logger.debug("Trying to read " + filePropertiesString);
 			JWNL.initialize(new FileInputStream(filePropertiesString));
-			System.out.println("used new config");
+			logger.info("used new config");
 		} catch (JWNLException e1) {
-			System.out.println(
+			logger.error(
 					"ERROR in config file: Try to delete the jwnl.configuration file and run again!");
 			e1.printStackTrace();
 		}
@@ -294,7 +294,6 @@ public class WordNetWrapper {
 
 	private static boolean checkHypernymTree(IndexWord idw, List<String> wordsToCHeck) throws JWNLException {
 		if (idw != null) {
-			// System.out.println("checking senses of: "+_idw.getLemma());
 			for (Synset s : idw.getSenses()) {
 				// ignore instances!!!
 				if (s.getPointers(PointerType.INSTANCE_HYPERNYM).length != 0) {
@@ -380,7 +379,7 @@ public class WordNetWrapper {
 	@SuppressWarnings("unused")
 	private static void print(PointerTargetTree _tt) {
 		if (_tt.getRootNode() != null) {
-			System.out.println(_tt.getRootNode());
+			logger.info(_tt.getRootNode().toString());
 			_tt.getRootNode().getChildTreeList().print();
 		}
 	}

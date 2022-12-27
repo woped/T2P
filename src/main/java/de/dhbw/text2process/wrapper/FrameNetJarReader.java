@@ -1,11 +1,17 @@
 package de.dhbw.text2process.wrapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
 public class FrameNetJarReader {
+
+    Logger logger = LoggerFactory.getLogger(FrameNetJarReader.class);
+
     public void getFrame() throws IOException {
 
        //Tryout for Reading Compressed Framenet Files
@@ -15,7 +21,7 @@ public class FrameNetJarReader {
             fileReader = new InputStreamReader(is);
             char [] x= new char [500];
             int s = fileReader.read(x);
-            System.out.println(new String(x));
+            logger.info(new String(x));
         }
     }
 }

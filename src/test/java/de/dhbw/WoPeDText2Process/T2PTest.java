@@ -1,9 +1,14 @@
 package de.dhbw.WoPeDText2Process;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 public abstract class T2PTest {
+
+    Logger logger = LoggerFactory.getLogger(T2PTest.class);
 
     /*
     Some Basic Utils for all T2P Tests
@@ -13,22 +18,22 @@ public abstract class T2PTest {
         boolean equals=true;
         String a= sanitizeText(exspected);
         String b= sanitizeText(actual);
-        diff_match_patch dmp = new diff_match_patch();
-        LinkedList<diff_match_patch.Diff> x = dmp.diff_main(exspected, actual);
-        Iterator<diff_match_patch.Diff> i = x.iterator();
+        DiffMatchPath dmp = new DiffMatchPath();
+        LinkedList<DiffMatchPath.Diff> x = dmp.diff_main(exspected, actual);
+        Iterator<DiffMatchPath.Diff> i = x.iterator();
         while(i.hasNext()){
-            diff_match_patch.Diff diff = i.next();
-            if(!diff.operation.equals(diff_match_patch.Operation.EQUAL))
+            DiffMatchPath.Diff diff = i.next();
+            if(!diff.operation.equals(DiffMatchPath.Operation.EQUAL))
                 equals=false;
         }
         if(!equals){
-            System.out.println("Actual and exscpect differ. The  following characters need to be fixed: ");
-            LinkedList<diff_match_patch.Patch> pl = dmp.patch_make(actual, exspected);
-            Iterator<diff_match_patch.Patch> k = pl.iterator();
+            logger.info("Actual and exscpect differ. The  following characters need to be fixed: ");
+            LinkedList<DiffMatchPath.Patch> pl = dmp.patch_make(actual, exspected);
+            Iterator<DiffMatchPath.Patch> k = pl.iterator();
             while(k.hasNext()){
-                diff_match_patch.Patch patch = k.next();
-                System.out.println("Mismatch at "+patch.start1+": ");
-                System.out.println(patch.diffs.toString());
+                DiffMatchPath.Patch patch = k.next();
+                logger.info("Mismatch at "+patch.start1+": ");
+                logger.info(patch.diffs.toString());
             }
         }
         return equals;

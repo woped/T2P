@@ -114,7 +114,7 @@ public class StanfordParserFunctionality {
 				if(w instanceof Word){
 					_list.add((Word) w);
 				}else{
-					System.out.println("Error occured while creating a Word!");
+					logger.error("Error occurred while creating a Word!");
 				}
 			}
 			T2PSentence _s = createSentence(_list);

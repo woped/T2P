@@ -57,11 +57,10 @@ public class T2PControllerHelper {
 		List<Flow> elements = worldModel.getFlows();
 		List<Resource> resources = worldModel.getResources();
 
-		System.out.println(actions.toString());
-		System.out.println(actors.toString());
-		System.out.println(elements.toString());
-		System.out.println(resources.toString());
-		System.out.println();
+		logger.info(actions.toString());
+		logger.info(actors.toString());
+		logger.info(elements.toString());
+		logger.info(resources.toString());
 		return worldModel;
 	}
 

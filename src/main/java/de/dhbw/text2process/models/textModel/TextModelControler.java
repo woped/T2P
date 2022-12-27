@@ -25,9 +25,12 @@ import de.dhbw.text2process.processors.textmodel.TextModelBuilder;
 import de.dhbw.text2process.processors.worldmodel.transform.AnalyzedSentence;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.TextAnalyzer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextModelControler extends ProcessUtils {
 
+	Logger logger = LoggerFactory.getLogger(TextModelControler.class);
 	
 	private TextAnalyzer f_analyzer;
 	private TextModel f_model;
@@ -153,12 +156,12 @@ public class TextModelControler extends ProcessUtils {
 			_hglt.removeAll(a.getSpecifiers(SpecifierType.SBAR)); //do not highlight those
 			for(Specifier sp:_hglt) {
 				if(sp.getWordIndex() >= _sn.getProcessNodes().size()) {
-					System.out.println("error");
+					logger.error("error");
 				}
 				for(String str:sp.getName().split(" ")) {
 					_pn = getElement(_sn,str,sp.getWordIndex()-1);
 					if(_pn == null) {
-						System.err.println("error! Could not find node for: "+str);
+						logger.error("error! Could not find node for: "+str);
 					}else {
 						f_highlightCache.add(_pn);
 					}

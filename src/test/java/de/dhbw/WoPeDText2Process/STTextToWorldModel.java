@@ -6,6 +6,8 @@ import de.dhbw.text2process.models.worldModel.Actor;
 import de.dhbw.text2process.models.worldModel.SpecifiedElement;
 import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.*;
 
 import javax.xml.xpath.XPath;
@@ -16,6 +18,8 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 
 public class STTextToWorldModel extends T2PScenarioTest {
+
+    Logger logger = LoggerFactory.getLogger(STTextToWorldModel.class);
 
     private static String [] TestExamples = {"ST_Resource_01_Bike_Manufacturing.xml", "ST_Resource_02_Lemon_Chicken_Recipe.xml", "ST_Resource_Bike_Manufacturing.xml","ST_Resource_03_Computer_Repair.xml"};
     private final static double acceptanceThreshold=0.4;
@@ -38,7 +42,7 @@ public class STTextToWorldModel extends T2PScenarioTest {
             WorldModel wm = WMbuilder.buildWorldModel(false);
             double performance = endPerformanceTrace();
 
-            System.out.println("WorldModel for Testexample "+(i+1)+" "+TestExamples[i]+" was generated in "+(int) performance+" milliseconds.");
+            logger.info("WorldModel for Testexample "+(i+1)+" "+TestExamples[i]+" was generated in "+(int) performance+" milliseconds.");
             Double score=compareResults(wm,i);
             assertEquals("Generated WorldModel for Testexample "+(i+1)+" "+TestExamples[i]+" fails the Requirements based on its Metadata.",true,score>acceptanceThreshold);
         }
@@ -80,16 +84,16 @@ public class STTextToWorldModel extends T2PScenarioTest {
         HashMap<String, Double> elementDeltaScores = new HashMap<String, Double>();
 
         elementDeltaScores.put("actionDelta",(double)calculateActionDelta(wm));
-        System.out.println("\n--------- Actions ---------");
+        logger.info("\n--------- Actions ---------");
         printComparison(wm.getActions(),getWorldModelElementList(ELEMENT_TYPE_ACTIONS));
         printScore("Similarity Score for Actions ",elementDeltaScores.get("actionDelta"));
 
-        System.out.println("\n--------- Actors ---------");
+        logger.info("\n--------- Actors ---------");
         printComparison(wm.getActors(),getWorldModelElementList(ELEMENT_TYPE_ACTORS));
         elementDeltaScores.put("actorDelta",(double)calculateActorDelta(wm));
         printScore("Similarity Score for Actors ",elementDeltaScores.get("actorDelta"));
 
-        System.out.println("\n--------- Resources ---------");
+        logger.info("\n--------- Resources ---------");
         printComparison(wm.getResources(),getWorldModelElementList(ELEMENT_TYPE_RESOURCES));
         elementDeltaScores.put("ResourceDelta",(double)calculateResourceDelta(wm));
         printScore("Similarity Score for resources ",elementDeltaScores.get("ResourceDelta"));

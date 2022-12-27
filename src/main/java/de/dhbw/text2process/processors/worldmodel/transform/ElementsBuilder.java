@@ -58,7 +58,7 @@ public class ElementsBuilder {
 		}else {
 			_a = createActorInternal(origin, fullSentence, node,dependencies);
 		}
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified actor: "+_a);
+		logger.debug("Identified actor: "+_a);
 		return _a;
 	}
 
@@ -128,7 +128,7 @@ public class ElementsBuilder {
 		extractSBARSpecifier(origin, fullSentence, _result, _vpHead,node);
 		extractPPSpecifier(origin, fullSentence, _result, node,dependencies);
 		extractRCMODSpecifier(origin, _result, node,dependencies);
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
+		logger.debug("Identified Action: "+_result);
 
 		checkIsTimeTriggered(node, dependencies, _result);
 
@@ -312,7 +312,7 @@ public class ElementsBuilder {
 		extractSBARSpecifier(origin, fullSentence, _result, vpHead,null);
 		//determineLinkedActions
 		extractPPSpecifierSyntax(origin, fullSentence, _result, vpHead);
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified Action: "+_result);
+		logger.debug("Identified Action: "+_result);
 		return _result;
 	}
 
@@ -360,14 +360,14 @@ public class ElementsBuilder {
 		if(wnf.canBePersonOrSystem(_fullNoun, node.value().toLowerCase()) || ProcessingUtils.canBePersonPronoun(node.value())) {
 			Actor _a = createActorInternal(origin, fullSentence, node, dependencies);
 			_a.setSubjectRole(false);
-			if(Constants.DEBUG_EXTRACTION) System.out.println("Identified object: "+_a);
+			logger.debug("Identified object: "+_a);
 			return _a;
 		}
 		Resource _r = new Resource(origin,node.index(),node.value().toLowerCase());
 		_r.setSubjectRole(false);
 		determineNounSpecifiers(origin, fullSentence, node, dependencies, _r);
 
-		if(Constants.DEBUG_EXTRACTION) System.out.println("Identified object: "+_r);
+		logger.debug("Identified object: "+_r);
 		return _r;
 	}
 

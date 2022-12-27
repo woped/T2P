@@ -3,10 +3,15 @@ package de.dhbw.WoPeDText2Process.UTWorldModelToPetriNet;
 import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class PetrinetBuilderTest {
+
+    static Logger logger = LoggerFactory.getLogger(PetrinetBuilderTest.class);
+
     /*
     For module testing during implementation phase
     */
@@ -23,7 +28,7 @@ public class PetrinetBuilderTest {
         PetrinetBuilder PNBuilder = new PetrinetBuilder(WMBuilder.buildWorldModel(true));
 
         String processPNML=PNBuilder.buildPNML();
-        System.out.println("Build Results:");
-        System.out.println(processPNML);
+        logger.info("Build Results:");
+        logger.info(processPNML);
     }
 }

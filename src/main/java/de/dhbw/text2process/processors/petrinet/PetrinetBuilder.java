@@ -81,7 +81,7 @@ public class PetrinetBuilder {
         logger.debug("Removing the DummyNodes from the xml petrinet representation");
         removeDummyNodes();
         logger.debug("Transforming the PetriNet to a WorkflowNet ...");
-        System.out.println(petriNet.getPNML());
+        logger.debug(petriNet.getPNML());
         petriNet.transformToWorkflowNet();
 
     }

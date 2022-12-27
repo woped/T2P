@@ -8,6 +8,8 @@ import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.processors.petrinet.PetrinetBuilder;
 import de.dhbw.text2process.models.worldModel.WorldModel;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPath;
@@ -21,6 +23,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class STTextToProcess extends T2PScenarioTest {
+
+    Logger logger = LoggerFactory.getLogger(STTextToProcess.class);
 
     private static String [] TestExamples ={"ST_Resource_01_Bike_Manufacturing.xml","ST_Resource_03_Computer_Repair.xml","ST_Resource_02_Lemon_Chicken_Recipe.xml"};
     private final static double acceptanceThreshold = 0.4;
@@ -56,7 +60,7 @@ public class STTextToProcess extends T2PScenarioTest {
 
             double performance = endPerformanceTrace();
 
-            System.out.println("Petrinet for Testexample " + (i + 1) + " " + TestExamples[i] + " was generated in " + (int) performance + " milliseconds.");
+            logger.info("Petrinet for Testexample " + (i + 1) + " " + TestExamples[i] + " was generated in " + (int) performance + " milliseconds.");
             Double score = compareResults(petriNet, i);
             assertEquals("Generated Petrinet for Testexample " + (i + 1) + " " + TestExamples[i] + " fails the Requirements based on its Metadata.", true, score > acceptanceThreshold);
         }
@@ -68,17 +72,17 @@ public class STTextToProcess extends T2PScenarioTest {
 
 
         elementDeltaScores.put("placeDelta", calculatePlaceDelta(petriNet));
-        System.out.println("\n--------- Places ---------");
+        logger.info("\n--------- Places ---------");
         printComparison(petriNet.getPlaceList(), getPetriNetElementList(ELEMENT_TYPE_PLACE));
         printScore("Similarity Score for Places ", elementDeltaScores.get("placeDelta"));
 
         elementDeltaScores.put("transitionDelta", calculateTransitionDelta(petriNet));
-        System.out.println("\n--------- Transitions ---------");
+        logger.info("\n--------- Transitions ---------");
         printComparison(petriNet.getTransitionList(), getPetriNetElementList(ELEMENT_TYPE_TRANSITION));
         printScore("Similarity Score for Transitions ", elementDeltaScores.get("transitionDelta"));
 
         elementDeltaScores.put("arcDelta", calculateArcDelta(petriNet));
-        System.out.println("\n--------- Arc ---------");
+        logger.info("\n--------- Arc ---------");
         printComparison(petriNet.getTransitionList(), getPetriNetElementList(ELEMENT_TYPE_ARC));
         printScore("Similarity Score for Arc ", elementDeltaScores.get("arcDelta"));
 
@@ -268,7 +272,7 @@ public class STTextToProcess extends T2PScenarioTest {
             PNMLS[i] = controllers[i].getPNML();
         }
         long performanc = endPerformanceTrace();
-        System.out.println(threadCount+" concurrent Threads finished in "+performanc+" ms");
+        logger.info(threadCount+" concurrent Threads finished in "+performanc+" ms");
 
         return PNMLS;
     }s

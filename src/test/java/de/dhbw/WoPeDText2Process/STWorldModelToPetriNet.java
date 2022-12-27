@@ -95,10 +95,8 @@ public class STWorldModelToPetriNet extends T2PScenarioTest {
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(new ByteArrayInputStream(PetriNetPNML.getBytes(StandardCharsets.UTF_8))));
         } catch (IOException e) {
-            //System.out.println("Exception: "+e.getMessage());
             return false;
         } catch (org.xml.sax.SAXException e) {
-            //e.printStackTrace();
             return false;
         }
         return true;

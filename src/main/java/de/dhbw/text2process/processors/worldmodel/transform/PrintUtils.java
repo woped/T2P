@@ -9,6 +9,8 @@ import java.util.List;
 import de.dhbw.text2process.models.worldModel.Action;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.trees.Tree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -16,6 +18,8 @@ import edu.stanford.nlp.trees.Tree;
  *
  */
 public class PrintUtils {
+
+	static Logger logger = LoggerFactory.getLogger(PrintUtils.class);
 	
 	/**
 	 * @param nodes
@@ -39,12 +43,12 @@ public class PrintUtils {
 	 * @param analyzedSentence
 	 */
 	public static void printExtractedActions(AnalyzedSentence analyzedSentence) {
-		System.out.println("finally identifed actions in ("+PrintUtils.toString(analyzedSentence.getBaseSentence().getTree())+")");
+		logger.info("finally identifed actions in ("+PrintUtils.toString(analyzedSentence.getBaseSentence().getTree())+")");
 		for(Action ac:analyzedSentence.getExtractedActions()) {
-			System.out.println("----------------");
-			System.out.println(ac.toFullString());
+			logger.info("----------------");
+			logger.info(ac.toFullString());
 		}
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++");
+		logger.info("+++++++++++++++++++++++++++++++++++++++++++++++");
 	}
 
 }

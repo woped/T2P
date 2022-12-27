@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import de.dhbw.text2process.models.bpmn.nodes.AttachedNode;
 import de.dhbw.text2process.models.bpmn.nodes.Cluster;
@@ -18,8 +16,12 @@ import de.dhbw.text2process.models.bpmn.nodes.ProcessEdge;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 import de.dhbw.text2process.models.bpmn.nodes.ProcessObject;
 import de.dhbw.text2process.processors.meta.ProcessUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ProcessModel implements Cloneable, Serializable {
+
+    Logger logger = LoggerFactory.getLogger(ProcessModel.class);
 
     /**
      * Serialization properties
@@ -262,7 +264,7 @@ public abstract class ProcessModel implements Cloneable, Serializable {
             ProcessNode src = nodeMap.get(newSourceId);
             ProcessNode tgt = nodeMap.get(newTargetId);
             if (src == null || tgt == null) {
-            System.out.println("Warning!");
+            logger.warn("Warning!");
             }
             newEdge.setSource(src);
             newEdge.setTarget(tgt);
@@ -305,7 +307,7 @@ public abstract class ProcessModel implements Cloneable, Serializable {
 
             return newModel;
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(ProcessModel.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex.getLocalizedMessage());
         }
         return null;
 
@@ -606,9 +608,9 @@ public abstract class ProcessModel implements Cloneable, Serializable {
                     result.add(nodeC);
                 }
             } catch (InstantiationException ex) {
-                Logger.getLogger(ProcessModel.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error(ex.getLocalizedMessage());
             } catch (IllegalAccessException ex) {
-                Logger.getLogger(ProcessModel.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error(ex.getLocalizedMessage());
             }
         }
         return result;

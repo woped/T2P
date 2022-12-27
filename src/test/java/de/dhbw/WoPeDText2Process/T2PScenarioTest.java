@@ -1,6 +1,8 @@
 package de.dhbw.WoPeDText2Process;
 
 import de.dhbw.text2process.models.worldModel.SpecifiedElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class T2PScenarioTest extends T2PTest {
+
+    static Logger logger = LoggerFactory.getLogger(T2PScenarioTest.class);
 
     /*
     Some Basic Utils specifically for T2P Scenario Tests
@@ -44,9 +48,9 @@ public abstract class T2PScenarioTest extends T2PTest {
     }
 
     protected static void printInfo(int currentTestcaseNumber, String currentTestcase ){
-        System.out.println("--------------------------------------------------------------");
-        System.out.println("    Test "+(currentTestcaseNumber+1)+": "+currentTestcase);
-        System.out.println("--------------------------------------------------------------");
+        logger.info("--------------------------------------------------------------");
+        logger.info("    Test "+(currentTestcaseNumber+1)+": "+currentTestcase);
+        logger.info("--------------------------------------------------------------");
     }
 
     protected static void prinComparisonTable(String [][] comparison){
@@ -68,23 +72,23 @@ public abstract class T2PScenarioTest extends T2PTest {
             format+="%-"+(colMax+offset)+"s";
         }
         String line = new String(new char[width]).replace("\0", "-");
-        System.out.println(""+line);
+        logger.info(""+line);
         for(int i=0;i<maxElements;i++){
             String [] row = new String[comparison.length];
             for(int j=0;j<comparison.length;j++){
                 row[j]= comparison[j][i];
             }
-            System.out.print("| ");
-            System.out.format(format,row);
-            System.out.print(" |\n");
+            logger.info("| ");
+            logger.info(String.format(format,row));
+            logger.info(" |\n");
             if(i==0)
-                System.out.print(line+"\n");
+                logger.info(line+"\n");
         }
-        System.out.print(line+"\n");
+        logger.info(line+"\n");
     }
 
     protected static void printScore(String message, double score){
-        System.out.printf(message+" in Percent: %.2f%%%n", score*100);
+        logger.info(message+" in Percent: %.2f%%%n", score*100);
     }
 
     protected static List<? extends SpecifiedElement> getDisjointList(List<? extends SpecifiedElement> elements){

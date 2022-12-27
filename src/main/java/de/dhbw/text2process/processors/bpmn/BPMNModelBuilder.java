@@ -51,9 +51,13 @@ import de.dhbw.text2process.processors.worldmodel.transform.Configuration;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.SearchUtils;
 import de.dhbw.text2process.wrapper.WordNetWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class BPMNModelBuilder extends ProcessModelBuilder {
+
+	Logger logger = LoggerFactory.getLogger(BPMNModelBuilder.class);
 	
 	private Configuration f_config = Configuration.getInstance();
 	
@@ -723,7 +727,7 @@ private void finishDanglingEnds() {
 				f_elementsMap2.put(_t, a);
 				return _t;
 			}
-			System.out.println("error no flowobject found!");
+			logger.error("error no flowobject found!");
 		}
 		return _obj;
 	}

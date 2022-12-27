@@ -220,7 +220,7 @@ public class WordNetFunctionality {
     //helpers
     private  boolean checkHypernymTree(IIndexWord idw, List<String> wordsToCHeck) {
         if (idw != null) {
-            //System.out.println("checking senses of: "+ idw.getLemma());
+            logger.debug("checking senses of: "+ idw.getLemma());
 
             List<IWordID> wordIDs = idw.getWordIDs();
             for (IWordID wi : wordIDs) {

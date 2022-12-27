@@ -9,12 +9,16 @@ import de.dhbw.text2process.models.worldModel.Specifier;
 import de.saar.coli.salsa.reiter.framenet.*;
 import de.saar.coli.salsa.reiter.framenet.fncorpus.*;
 import edu.mit.jwi.item.POS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class FrameNetFunctionality {
+
+    static Logger logger = LoggerFactory.getLogger(FrameNetFunctionality.class);
 
     private static FrameNet f_frameNet;
     private static AnnotationCorpus f_corpus;
@@ -33,21 +37,21 @@ public class FrameNetFunctionality {
         for (Frame frame : f_frameNet.getFrames()) {
 
             // Print out the name of each frame
-            System.out.println(frame.getName());
+            logger.info(frame.getName());
 
             // Iterate over all frame elements of the frame
             for (FrameElement fe : frame.frameElements()) {
 
                 // Print out the name and semantic types of the frame element
-                System.out.println("  " + fe.getName() + " / " + Arrays.toString(fe.getSemanticTypes()));
+                logger.info("  " + fe.getName() + " / " + Arrays.toString(fe.getSemanticTypes()));
             }
-            System.out.println(" This frame uses the frames: ");
+            logger.info(" This frame uses the frames: ");
 
             // Iterate over all frames that are used by this frame
             for (Frame uses : frame.uses()) {
 
                 // Print out their names
-                System.out.println("  " + uses.getName());
+                logger.info("  " + uses.getName());
             }
         }
     }
@@ -92,11 +96,11 @@ public class FrameNetFunctionality {
                 spec.setFrameElement(_best);
             }
             if(Constants.DEBUG_FRAME_ASSIGNMENT) {
-                System.out.println("Valence Units for: "+_baseForm+" ("+_testedLUs+") - "+spec.getPhrase());
+                logger.info("Valence Units for: "+_baseForm+" ("+_testedLUs+") - "+spec.getPhrase());
                 for(FrameElement fe:_countMap.keySet()) {
-                    System.out.println("\t\t "+_countMap.get(fe)+" "+fe+" "+fe.getCoreTypeString());
+                    logger.info("\t\t "+_countMap.get(fe)+" "+fe+" "+fe.getCoreTypeString());
                 }
-                System.out.println("\t+ Best: "+_best);
+                logger.info("\t+ Best: "+_best);
             }
 
         }

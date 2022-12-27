@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-public class diff_match_patch {
+public class DiffMatchPath {
     // Defaults.
     // Set these on your diff_match_patch instance to override the defaults.
 
@@ -755,7 +755,6 @@ public class diff_match_patch {
                         <= Math.max(length_insertions1, length_deletions1))
                         && (lastEquality.length()
                         <= Math.max(length_insertions2, length_deletions2))) {
-                    //System.out.println("Splitting: '" + lastEquality + "'");
                     // Walk back to offending equality.
                     while (thisDiff != equalities.peek()) {
                         thisDiff = pointer.previous();
@@ -1061,7 +1060,6 @@ public class diff_match_patch {
                         || ((lastEquality.length() < Diff_EditCost / 2)
                         && ((pre_ins ? 1 : 0) + (pre_del ? 1 : 0)
                         + (post_ins ? 1 : 0) + (post_del ? 1 : 0)) == 3))) {
-                    //System.out.println("Splitting: '" + lastEquality + "'");
                     // Walk back to offending equality.
                     while (thisDiff != equalities.peek()) {
                         thisDiff = pointer.previous();

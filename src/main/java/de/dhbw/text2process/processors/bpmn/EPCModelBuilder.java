@@ -42,10 +42,14 @@ import de.dhbw.text2process.processors.worldmodel.transform.Configuration;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.SearchUtils;
 import de.dhbw.text2process.wrapper.WordNetWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EPCModelBuilder extends ProcessModelBuilder {
+
+	Logger logger = LoggerFactory.getLogger(EPCModelBuilder.class);
 	
-private Configuration f_config = Configuration.getInstance();
+	private Configuration f_config = Configuration.getInstance();
 	
 	//Nodes
 	private final boolean EVENTS_TO_LABELS = true;
@@ -482,7 +486,7 @@ private Configuration f_config = Configuration.getInstance();
 				f_elementsMap2.put(_t, a);
 				return _t;
 			}
-			System.out.println("error no FlowObject found!");
+			logger.error("error no FlowObject found!");
 		}
 		return _obj;
 	}

@@ -12,12 +12,16 @@ import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 
 public class TestWordNetDictionary {
+
+    Logger logger = LoggerFactory.getLogger(TestWordNetDictionary.class);
 
     static URL url = null;
     @BeforeClass
@@ -38,9 +42,9 @@ public class TestWordNetDictionary {
                 IIndexWord idxWord = dict.getIndexWord("dog", POS.NOUN );
                 IWordID wordID = idxWord.getWordIDs().get (0) ;
                 IWord word = dict.getWord( wordID );
-                System.out.println("Id = " + wordID );
-                System.out.println("Lemma = " + word.getLemma());
-                System.out.println("Gloss = " + word.getSynset().getGloss ());
+                logger.info("Id = " + wordID );
+                logger.info("Lemma = " + word.getLemma());
+                logger.info("Gloss = " + word.getSynset().getGloss ());
             } finally {
                 dict.close();
             }
@@ -59,10 +63,10 @@ public class TestWordNetDictionary {
         trek(dict);
 
         // now load into memory
-        System.out.print("\nLoading Wordnet into memory ... ");
+        logger.info("\nLoading Wordnet into memory ... ");
         long t = System.currentTimeMillis ();
         dict.load(true);
-        System.out.printf("done(%1d msec)\n", System.currentTimeMillis()-t);
+        logger.info(String.format("done(%1d msec)\n", System.currentTimeMillis()-t));
 
         // try it again , this time in memory
         trek(dict);
@@ -73,19 +77,19 @@ public class TestWordNetDictionary {
         int tickNext = 0;
         int tickSize = 20000;
         int seen = 0;
-        System.out.print ("Treking across Wordnet");
+        logger.info("Treking across Wordnet");
         long t = System.currentTimeMillis ();
         for(POS pos : POS.values())
             for(Iterator<IIndexWord> i = dict.getIndexWordIterator(pos); i.hasNext();)
                 for( IWordID wid : i.next().getWordIDs ()){
                     seen += dict.getWord (wid ).getSynset().getWords().size();
                     if( seen > tickNext ){
-                        System.out.print ('.');
+                        logger.info(".");
                         tickNext = seen + tickSize;
                     }
                 }
-        System.out.printf ("done (%1d msec )\n", System.currentTimeMillis()-t);
-        System.out.println ("In my trek I saw " + seen + " words ");
+        logger.info(String.format("done (%1d msec )\n", System.currentTimeMillis()-t));
+        logger.info("In my trek I saw " + seen + " words ");
     }
 
 }
