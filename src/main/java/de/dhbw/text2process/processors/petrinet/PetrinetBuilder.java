@@ -261,7 +261,9 @@ public class PetrinetBuilder {
         }
         return false;
     }
-
+    /**
+    This method creates and labels splits
+     */
     private void createSplit(Flow f){
         Place p1= getSourcePlaceForSplitFlow(f);
         List<Action> splitList = f.getMultipleObjects();

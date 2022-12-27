@@ -1,7 +1,13 @@
+<div class="form-container" style="display: {{text ? 'block' : 'none'}}">
+  <h2 style="margin-bottom:1rem;color:#ffffff;">Your process:</h2>
+  <div class="text-output" data-text="{{text}}" style="background:white"></div>
+</div>
 <div class="form-container">
   <h2 style="margin-bottom:1rem;color:#ffffff;">Describe Your Business Process:</h2>
-  <textarea placeholder="Use keyphrases like &quot;if... otherwise&quot; or &quot;and&quot; to express the flow logic of the business process." title="give me some cookies" class="t2p-inputArea" rows="4" cols="50" ng-model="text">{{text}}</textarea>
-
+  <textarea placeholder="Use keyphrases to express the flow logic of the business process.
+For exclusive gateways i.e. &quot;if... otherwise&quot;, &quot;in the case of... else&quot; or
+&quot;whether... or&quot;. For parallel gateways use i.e. &quot;while... in the meantime&quot;, &quot;in parallel...&quot;
+or &quot;synchronously/simultaneously/at the same time&quot;. For continuation of a branch i.e.: &quot;then/after/subsequently&quot;." title="give me some cookies" class="t2p-inputArea" rows="4" cols="50" ng-model="text">{{text}}</textarea>
   <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isGeneratable()" ng-click="generate()">Generate</button>
   <button class="btn btn-primary" style="margin-top:0.5rem;" ng-disabled="isClearable()" ng-click="clearText()">Clear Input</button>
   <div class="dropdown" style="display:inline;">

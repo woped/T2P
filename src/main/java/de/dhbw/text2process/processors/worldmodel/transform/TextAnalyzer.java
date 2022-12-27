@@ -34,14 +34,18 @@ import de.dhbw.text2process.models.worldModel.WorldModel;
 import de.dhbw.text2process.processors.petrinet.IDHandler;
 import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.ProcessLabelGenerator;
+import de.dhbw.text2process.processors.worldmodel.WorldModelBuilder;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.text2process.wrapper.WordNetFunctionality;
 import edu.mit.jwi.item.POS;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TextAnalyzer {
 
+    Logger logger = LoggerFactory.getLogger(TextAnalyzer.class);
 
     private static final int SUBJECT_ROLE_SCORE = 10;
     private static final int OBJECT_ROLE_SCORE = 10; //for cop sentences
@@ -53,8 +57,6 @@ public class TextAnalyzer {
         INANIMATE,
         BOTH
     }
-
-    ;
 
     private IDHandler dummyIDHandler;
     private Text f_text;
@@ -97,7 +99,7 @@ public class TextAnalyzer {
                     PrintUtils.printExtractedActions(s);
                 }
                 for (Flow f : f_world.getFlows()) {
-                    System.out.println(f);
+                    logger.debug(f.toString());
                 }
             }
         } catch (Exception ex) {
@@ -130,7 +132,7 @@ public class TextAnalyzer {
                     _a1.setLink(_a2);
                     _a1.setLinkType(determineLinkType(_a1, _a2));
                     if (Constants.DEBUG_FINAL_ACTIONS_RESULT)
-                        System.out.println("Linkable: " + _a1 + " --- " + _a2);
+                        logger.debug("Linkable: " + _a1 + " --- " + _a2);
                 }
             }
         }
@@ -366,7 +368,7 @@ public class TextAnalyzer {
             //This means that a flow is created from every action, which is then assembled one after the other.
             for (Action a : _actions) {
                 if (a.getLink() != null && a.getLinkType().equals(ActionLinkType.JUMP)) {
-                    System.out.println("!!!!!!!! BUILDING JUMP !!!!!!!!!!!");
+                    logger.debug("!!!!!!!! BUILDING JUMP !!!!!!!!!!!");
                     _cameFrom.clear();
                     _cameFrom.add(a.getLink());
                     clearSplit(_openSplit);
@@ -636,7 +638,7 @@ public class TextAnalyzer {
             if (!hasIncomingLink(a, ActionLinkType.JUMP)) {
                 cameFrom.add(a);
             } else {
-                System.out.println("Left out action, due to JUMP link!");
+                logger.debug("Left out action, due to JUMP link!");
             }
         }
         //it could happen that we cleaned all branches!
@@ -751,7 +753,7 @@ public class TextAnalyzer {
             if (!hasIncomingLink(a, ActionLinkType.JUMP)) {
                 _result.addAll(getEnd(a));
             } else {
-                System.out.println("Left out action, due to JUMP link!");
+                logger.debug("Left out action, due to JUMP link!");
             }
         }
         return _result;
@@ -945,7 +947,7 @@ public class TextAnalyzer {
         _toCheck.addAll(f_world.getResources());
         for (ExtractedObject a : _toCheck) {
             if (a.needsResolve()) {
-                if (Constants.DEBUG_REFERENCE_RESOLUTION) System.out.println("resolving:" + a);
+                if (Constants.DEBUG_REFERENCE_RESOLUTION) logger.debug("resolving:" + a);
                 //check manual resolutions
                 SentenceWordID _swid = new SentenceWordID(a);
                 if (f_referenceMap.containsKey(_swid)) {
@@ -953,7 +955,7 @@ public class TextAnalyzer {
                     SentenceWordID _target = f_referenceMap.get(_swid);
                     SpecifiedElement _t = toElement(_target);
                     a.setReference(_t);
-                    if (Constants.DEBUG_REFERENCE_RESOLUTION) System.out.println("manual resolution: " + _t);
+                    if (Constants.DEBUG_REFERENCE_RESOLUTION) logger.debug("manual resolution: " + _t);
                 } else {
                     //an actor can point to another actor (PRP) or a whole action (DT)
                     int _id = a.getOrigin().getID();
@@ -961,14 +963,14 @@ public class TextAnalyzer {
                         if (ProcessingUtils.isActionResolutionDeterminer(a.getName())) {
                             Action _act = findAction(_id, a);
                             a.setReference(_act);
-                            if (Constants.DEBUG_REFERENCE_RESOLUTION) System.out.println("resolution result: " + _act);
+                            if (Constants.DEBUG_REFERENCE_RESOLUTION) logger.debug("resolution result: " + _act);
                         } else {
                             AnimateType _animate = determineAnimateType(a);
                             Action _containingAction = SearchUtils.getAction(a, f_world.getActions(a.getOrigin()));
                             boolean _invertRoleMatch = _containingAction.getCop() != null || ProcessingUtils.isRCPronoun(a.getName());
                             ExtractedObject _ref = findReference(_id, a, _animate, _invertRoleMatch);
                             a.setReference(_ref);
-                            if (Constants.DEBUG_REFERENCE_RESOLUTION) System.out.println("resolution result: " + _ref);
+                            if (Constants.DEBUG_REFERENCE_RESOLUTION) logger.debug("resolution result: " + _ref);
                         }
                     }
                 }
@@ -1041,11 +1043,11 @@ public class TextAnalyzer {
             }
             if (_refAction != null) {
                 if (canBeMerged(_refAction, a, false)) {
-                    if (Constants.DEBUG_MARKING) System.out.println("merging: -" + _refAction + "- and -" + a + "-");
+                    if (Constants.DEBUG_MARKING) logger.debug("merging: -" + _refAction + "- and -" + a + "-");
                     merge(_refAction, a, false);
                 } else if (canBeMerged(_refAction, a, true)) {
                     if (Constants.DEBUG_MARKING)
-                        System.out.println("copying attributes: -" + _refAction + "- to -" + a + "-");
+                        logger.debug("copying attributes: -" + _refAction + "- to -" + a + "-");
                     copy(_refAction, a);
                 }
             }
@@ -1156,7 +1158,7 @@ public class TextAnalyzer {
                 if (_a != null) {
                     String _val = td.dep().value().toLowerCase();
                     if (Constants.DEBUG_MARKING) {
-                        System.out.println("marking: " + _a + " with (marker)" + _val);
+                        logger.debug("marking: " + _a + " with (marker)" + _val);
                     }
                     _a.setMarker(_val);
                 }
@@ -1170,12 +1172,12 @@ public class TextAnalyzer {
                     try {
                         _a.setMarker("while");
                     } catch (NullPointerException e){
-                        System.out.println("NullPointerException");
+                        logger.debug("NullPointerException");
                     }
                 } else {
                     if (!_val.equals("also")) { // make exclusion list?
                         if (Constants.DEBUG_MARKING)
-                            System.out.println("marking: " + _a + " with (advmod) " + _val);
+                            logger.debug("marking: " + _a + " with (advmod) " + _val);
                         _a.setPreAdvMod(_val, td.dep().index());
                     }
                 }
@@ -1186,7 +1188,7 @@ public class TextAnalyzer {
                 Action _a = findAction(_lookFor, sentence.getExtractedActions(), _deps);
                 if (_a != null) {
                     if (Constants.DEBUG_MARKING)
-                        System.out.println("marking: " + _a + " with (prepc) " + td.reln().getSpecific().toLowerCase());
+                        logger.debug("marking: " + _a + " with (prepc) " + td.reln().getSpecific().toLowerCase());
                     _a.setPrepc(td.reln().getSpecific().toLowerCase());
                 }
             }
@@ -1201,7 +1203,7 @@ public class TextAnalyzer {
                             _val = "if-complm";
                         }
                         if (Constants.DEBUG_MARKING)
-                            System.out.println("marking: " + _a + " with (marker-complm) " + _val);
+                            logger.debug("marking: " + _a + " with (marker-complm) " + _val);
                         _a.setMarker(_val);
                     }
                 }
@@ -1220,7 +1222,7 @@ public class TextAnalyzer {
                     if (SearchUtils.startsWithAny(spec.getPhrase(), Constants.f_conditionIndicators)) {
                         if (a.getMarker() == null) {
                             if (Constants.DEBUG_MARKING)
-                                System.out.println("marking: " + a + " with (marker) " + spec.getPhrase() + "(if)");
+                                logger.debug("marking: " + a + " with (marker) " + spec.getPhrase() + "(if)");
                             a.setMarker("if");
                             if (!Constants.f_conditionIndicators.contains(spec.getPhrase())) {
                                 //the indicator is just part of the whole phrase (and not the whole phrase itself)
@@ -1238,7 +1240,7 @@ public class TextAnalyzer {
                     if (Constants.f_parallelIndicators.contains(spec.getPhrase())) {
                         if (a.getMarker() == null) {
                             if (Constants.DEBUG_MARKING)
-                                System.out.println("marking: " + a + " with (marker) " + spec.getPhrase() + "(while)");
+                                logger.debug("marking: " + a + " with (marker) " + spec.getPhrase() + "(while)");
                             a.setMarker("while");
                         }
                     }
@@ -1257,7 +1259,7 @@ public class TextAnalyzer {
                     if (a.getPreAdvMod() == null) {
                         a.setPreAdvMod(_nextMark, -1);
                         if (Constants.DEBUG_MARKING)
-                            System.out.println("marking: " + a + " with implicit (advmod) " + _nextMark);
+                            logger.debug("marking: " + a + " with implicit (advmod) " + _nextMark);
                     }
                 }
                 if (!_linked.contains(a)) {
