@@ -81,4 +81,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: svenjung/t2p:${{ env.DOCKER_VERSION }}
+          tags: woped/text2process:${{ env.DOCKER_VERSION }}
