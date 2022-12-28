@@ -1,5 +1,7 @@
 FROM adoptopenjdk/openjdk11:jre-11.0.16.1_1-ubuntu
 
+EXPOSE 80
+
 RUN apt-get update &&\ 
     apt-get install -y wget &&\
     apt-get install -y tar;
