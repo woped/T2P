@@ -62,6 +62,8 @@
 		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
 		<jwnl.version>1.4.1</jwnl.version>
 		<camunda.bpm.model.version>7.10.0</camunda.bpm.model.version>
+		<sonar.organization>woped</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	
 	<dependencies>
