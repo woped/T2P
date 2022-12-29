@@ -12,7 +12,9 @@ angular.module('myApp').component('t2pForm', {
     controller: function T2pFormController($http, $scope, radioService, downloadService) {
         var helper = "";
         var helperTwo ="";
+        var helperThree = "";
         $scope.pnml = this.pnml;
+        //$scope.bpmn = this.bpmn;
         $scope.loading = this.loading;
         $scope.isBPMN = this.isBPMN;
         $scope.previousText = null;
@@ -52,6 +54,9 @@ angular.module('myApp').component('t2pForm', {
                 } else if (radioService.getIsBPMN()) {
                     newXmlStr = s.serializeToString(helperTwo);
                     //var newXmlStr = "test"
+                } else if (radioService.getIsBPMN2()) {
+                    newXmlStr = s.serializeToString(helperThree);
+                    //var newXmlStr = "test"
                 }
                 var blob = new Blob([newXmlStr], { type:"application/json;charset=utf-8;" });
                 var downloadLink = angular.element('<a></a>');
@@ -60,7 +65,10 @@ angular.module('myApp').component('t2pForm', {
 					downloadLink.attr('download', 'processmodel.pnml');
 				} else if (radioService.getIsBPMN()){
 					downloadLink.attr('download', 'processmodel.bpmn');
+				} else if (radioService.getIsBPMN2()){
+					downloadLink.attr('download', 'processmodel.bpmn');
 				}
+                console.log("from.component.js")
                 downloadLink[0].click();
         };
 
@@ -112,6 +120,7 @@ angular.module('myApp').component('t2pForm', {
                 });
             }
             $scope.generateBPMN();
+            $scope.generateNewBPMN();
         }
 
         $scope.generateBPMN = function () {
@@ -128,11 +137,36 @@ angular.module('myApp').component('t2pForm', {
 
                 $http(req).then(function (response) {
                     var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(response.data, "text/xml");
                     helperTwo = parser.parseFromString(response.data, "text/xml");
                     downloadService.setContentBPMN(s.serializeToString(helperTwo));
                     downloadService.setDownloadableTrue();
+                    //$scope.bpmn = xmlDoc;
                 });
         }
+
+        $scope.generateNewBPMN = function () {
+                    var s = new XMLSerializer();
+                    var req = {
+                            method: 'POST',
+                            url: '/t2p/generateBPMNv2',
+                            transformResponse: rawResponse,
+                            headers: {
+                                'Content-Type': "application/json"
+                            },
+                            data: $scope.text
+                        }
+
+                        $http(req).then(function (response) {
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(response.data, "text/xml");
+                            helperThree = parser.parseFromString(response.data, "text/xml");
+                            downloadService.setContentBPMN2(s.serializeToString(helperThree));
+                            downloadService.setDownloadableTrue();
+                            //$scope.bpmn = xmlDoc;
+                        });
+                }
+
         $scope.getValue = function (){
             return this.isBPMN;
         }

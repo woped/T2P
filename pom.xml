@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>de.dhbw.woped</groupId>
 	<artifactId>WoPeD-Text2Process</artifactId>
-	<version>3.7.2-SNAPSHOT</version>
+	<version>3.7.3-SNAPSHOT</version>
 	<name>WoPeD-Text2Process</name>
 	<description>project to perform nlp text to process translation</description>
 
@@ -61,29 +61,30 @@
 		<google.ejml.version>0.25</google.ejml.version>
 		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
 		<jwnl.version>1.4.1</jwnl.version>
+		<camunda.bpm.model.version>7.10.0</camunda.bpm.model.version>
 	</properties>
-
+	
 	<dependencies>
 		<!-- SpringBoot-DEPENDENCIES -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<!-- STANFORD DEPENDENCIES -->
-		<!--
 		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-corenlp</artifactId>
-			<version>${stanford.version}</version>
-			<classifier>models-german</classifier>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- necessary dependencies -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>edu.stanford.nlp</groupId>
-			<artifactId>stanford-parser</artifactId>
-			<version>${stanford.parser.version}</version>
+			<groupId>org.camunda.bpm.model</groupId>
+			<artifactId>camunda-bpmn-model</artifactId>
+			<version>${camunda.bpm.model.version}</version>
 		</dependency>
-		-->
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>old-stanford-parser</artifactId>
@@ -94,13 +95,16 @@
 			<artifactId>ejml</artifactId>
 			<version>${google.ejml.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+	
 		<!-- WordNet -->
 		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
 		<dependency>
@@ -176,7 +180,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -226,28 +230,6 @@
 			<version>20030807</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
