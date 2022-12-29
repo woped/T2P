@@ -1,4 +1,4 @@
-package de.dhbw.text2process.swagger;
+package de.dhbw.text2process.config;
 
 import java.util.Collections;
 import org.springframework.context.annotation.Bean;

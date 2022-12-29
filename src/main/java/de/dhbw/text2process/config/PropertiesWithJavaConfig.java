@@ -1,4 +1,4 @@
-package de.dhbw.text2process.configuration;
+package de.dhbw.text2process.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

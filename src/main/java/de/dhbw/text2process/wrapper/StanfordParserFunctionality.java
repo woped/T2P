@@ -1,6 +1,6 @@
 package de.dhbw.text2process.wrapper;
 
-import de.dhbw.text2process.configuration.PropertiesWithJavaConfig;
+import de.dhbw.text2process.config.PropertiesWithJavaConfig;
 import de.dhbw.text2process.models.worldModel.T2PSentence;
 import de.dhbw.text2process.models.worldModel.Text;
 import de.dhbw.text2process.processors.worldmodel.processing.ITextParsingStatusListener;
