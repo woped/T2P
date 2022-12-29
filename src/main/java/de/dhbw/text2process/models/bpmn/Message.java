@@ -2,36 +2,36 @@ package de.dhbw.text2process.models.bpmn;
 
 import de.dhbw.text2process.models.bpmn.nodes.FlowObject;
 
-public class Message extends FlowObject{
+public class Message extends FlowObject {
 
-	public static final String PROP_INITIATE = "initiate";
+  public static final String PROP_INITIATE = "initiate";
 
-	public static final String INITIATE_TRUE = "1";
-	public static final String INITIATE_FALSE = "0";
-	
-    public Message() {
-        super();
-        initializeProperties();
-    }
-    
-    public Message(int x, int y, String label) {
-        super();
-        setText(label);
-        initializeProperties();
-    }
+  public static final String INITIATE_TRUE = "1";
+  public static final String INITIATE_FALSE = "0";
 
-    protected void initializeProperties() {
-        setProperty(PROP_INITIATE, INITIATE_TRUE);
-        //setPropertyEditor(PROP_INITIATE, new BooleanPropertyEditor());
-    }
+  public Message() {
+    super();
+    initializeProperties();
+  }
 
-	@Override
-	public void setIncoming(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
+  public Message(int x, int y, String label) {
+    super();
+    setText(label);
+    initializeProperties();
+  }
 
-	@Override
-	public void setOutgoing(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
+  protected void initializeProperties() {
+    setProperty(PROP_INITIATE, INITIATE_TRUE);
+    // setPropertyEditor(PROP_INITIATE, new BooleanPropertyEditor());
+  }
+
+  @Override
+  public void setIncoming(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
+
+  @Override
+  public void setOutgoing(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
 }

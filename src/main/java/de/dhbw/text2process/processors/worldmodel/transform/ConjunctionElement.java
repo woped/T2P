@@ -1,6 +1,4 @@
-/**
- * modified taken from https://github.com/FabianFriedrich/Text2Process
- */
+/** modified taken from https://github.com/FabianFriedrich/Text2Process */
 package de.dhbw.text2process.processors.worldmodel.transform;
 
 import de.dhbw.text2process.enums.ConjunctionType;
@@ -8,59 +6,57 @@ import de.dhbw.text2process.models.worldModel.SpecifiedElement;
 
 public class ConjunctionElement {
 
-	private SpecifiedElement f_to;
-	private SpecifiedElement f_from;
-	private ConjunctionType f_type;;
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof ConjunctionElement) {
-			ConjunctionElement _link = (ConjunctionElement)obj;
-			if(_link.getFrom().getWordIndex() == this.getFrom().getWordIndex() 
-				&& _link.getTo().getWordIndex() == this.getTo().getWordIndex() &&
-				_link.getType().equals(this.getType())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * 
-	 */
-	public ConjunctionElement(SpecifiedElement from, SpecifiedElement to,ConjunctionType type) {
-		setFrom(from);
-		setTo(to);
-		setType(type);
-	}
+  private SpecifiedElement f_to;
+  private SpecifiedElement f_from;
+  private ConjunctionType f_type;
+  ;
 
-	public void setTo(SpecifiedElement f_to) {
-		this.f_to = f_to;
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ConjunctionElement) {
+      ConjunctionElement _link = (ConjunctionElement) obj;
+      if (_link.getFrom().getWordIndex() == this.getFrom().getWordIndex()
+          && _link.getTo().getWordIndex() == this.getTo().getWordIndex()
+          && _link.getType().equals(this.getType())) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-	public SpecifiedElement getTo() {
-		return f_to;
-	}
+  /** */
+  public ConjunctionElement(SpecifiedElement from, SpecifiedElement to, ConjunctionType type) {
+    setFrom(from);
+    setTo(to);
+    setType(type);
+  }
 
-	public void setFrom(SpecifiedElement f_from) {
-		this.f_from = f_from;
-	}
+  public void setTo(SpecifiedElement f_to) {
+    this.f_to = f_to;
+  }
 
-	public SpecifiedElement getFrom() {
-		return f_from;
-	}
+  public SpecifiedElement getTo() {
+    return f_to;
+  }
 
-	public void setType(ConjunctionType f_type) {
-		this.f_type = f_type;
-	}
+  public void setFrom(SpecifiedElement f_from) {
+    this.f_from = f_from;
+  }
 
-	public ConjunctionType getType() {
-		return f_type;
-	}
-	
-	@Override
-	public String toString() {
-		return f_to.toString() +"-"+f_type+"-"+f_from.toString();
-	}
+  public SpecifiedElement getFrom() {
+    return f_from;
+  }
 
+  public void setType(ConjunctionType f_type) {
+    this.f_type = f_type;
+  }
+
+  public ConjunctionType getType() {
+    return f_type;
+  }
+
+  @Override
+  public String toString() {
+    return f_to.toString() + "-" + f_type + "-" + f_from.toString();
+  }
 }

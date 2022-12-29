@@ -1,92 +1,91 @@
 package de.dhbw.text2process.models.bpmn;
 
+import de.dhbw.text2process.models.bpmn.nodes.Cluster;
+import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.dhbw.text2process.models.bpmn.nodes.Cluster;
-import de.dhbw.text2process.models.bpmn.nodes.ProcessNode;
-
 public class ChoreographySubProcess extends Cluster {
 
-	/** The property for the name of the upper participant */
-    public final static String PROP_UPPER_PARTICIPANTS = "upper_participants";
-    /** The property for the name of the lower participant */
-    public final static String PROP_LOWER_PARTICIPANTS = "lower_participants";
-    /** The property for the active participant */
-    public final static String PROP_ACTIVE_PARTICIPANTS = "active_participants";
-    /** The property for the loop type: "NONE, STANDARD, MULTIINSTANCE" */
-    public static final String PROP_LOOP_TYPE = "loop_type";
-    /** The property for upper multi instance participants (=FALSE,1=TRUE)*/
-    public final static String PROP_UPPER_PARTICIPANTS_MULTI = "upper_mi";
-    /** The property for lower multi instance participants (=FALSE,1=TRUE) */
-    public final static String PROP_LOWER_PARTICIPANTS_MULTI = "lower_mi";
-    public static final String LOOP_NONE = "NONE";
-    public static final String LOOP_STANDARD = "STANDARD";
-    public static final String LOOP_MULTI_INSTANCE = "MULTIINSTANCE";
+  /** The property for the name of the upper participant */
+  public static final String PROP_UPPER_PARTICIPANTS = "upper_participants";
+  /** The property for the name of the lower participant */
+  public static final String PROP_LOWER_PARTICIPANTS = "lower_participants";
+  /** The property for the active participant */
+  public static final String PROP_ACTIVE_PARTICIPANTS = "active_participants";
+  /** The property for the loop type: "NONE, STANDARD, MULTIINSTANCE" */
+  public static final String PROP_LOOP_TYPE = "loop_type";
+  /** The property for upper multi instance participants (=FALSE,1=TRUE) */
+  public static final String PROP_UPPER_PARTICIPANTS_MULTI = "upper_mi";
+  /** The property for lower multi instance participants (=FALSE,1=TRUE) */
+  public static final String PROP_LOWER_PARTICIPANTS_MULTI = "lower_mi";
 
-    public ChoreographySubProcess() {
-        super();
-        initializeProps();
-    }
+  public static final String LOOP_NONE = "NONE";
+  public static final String LOOP_STANDARD = "STANDARD";
+  public static final String LOOP_MULTI_INSTANCE = "MULTIINSTANCE";
 
-    public ChoreographySubProcess(int x, int y, String label) {
-        super();
-        initializeProps();
-        setText(label);
-    }
+  public ChoreographySubProcess() {
+    super();
+    initializeProps();
+  }
 
-    private void initializeProps() {
-        setProperty(PROP_UPPER_PARTICIPANTS, "Participant A");
-        setProperty(PROP_LOWER_PARTICIPANTS, "Participant B");
-        setProperty(PROP_ACTIVE_PARTICIPANTS, "Participant A");
-        setProperty(PROP_LOOP_TYPE, LOOP_NONE);
- //       String[] loop = { LOOP_NONE , LOOP_STANDARD, LOOP_MULTI_INSTANCE };
+  public ChoreographySubProcess(int x, int y, String label) {
+    super();
+    initializeProps();
+    setText(label);
+  }
 
-        setProperty(PROP_UPPER_PARTICIPANTS_MULTI, "0");
-        setProperty(PROP_LOWER_PARTICIPANTS_MULTI, "0");
+  private void initializeProps() {
+    setProperty(PROP_UPPER_PARTICIPANTS, "Participant A");
+    setProperty(PROP_LOWER_PARTICIPANTS, "Participant B");
+    setProperty(PROP_ACTIVE_PARTICIPANTS, "Participant A");
+    setProperty(PROP_LOOP_TYPE, LOOP_NONE);
+    //       String[] loop = { LOOP_NONE , LOOP_STANDARD, LOOP_MULTI_INSTANCE };
 
-    }
-    
-    public List<String> getUpperParticipants(){
-    	return Arrays.asList(getProperty(PROP_UPPER_PARTICIPANTS).split(";"));
-    }
-    
-    public List<String> getLowerParticipants(){
-    	return Arrays.asList(getProperty(PROP_LOWER_PARTICIPANTS).split(";"));
-    }
-    
-    /**
-     * Code replicated from ChoreographyActivity, since ChoreographySubProcess
-     * does not inherit ChoreographyActivity.
-     * @return
-     */
-    @Override
-    public List<Class<? extends ProcessNode>> getVariants() {
-        List<Class<? extends ProcessNode>> result = new LinkedList<Class<? extends ProcessNode>>();
-        result.add(ChoreographyTask.class);
-        result.add(ChoreographySubProcess.class);
-        return result;
-    }
+    setProperty(PROP_UPPER_PARTICIPANTS_MULTI, "0");
+    setProperty(PROP_LOWER_PARTICIPANTS_MULTI, "0");
+  }
 
-    @Override
-    public boolean isCollapsed() {
-        return getProperty(PROP_COLLAPSED).equalsIgnoreCase("TRUE");
-    }
+  public List<String> getUpperParticipants() {
+    return Arrays.asList(getProperty(PROP_UPPER_PARTICIPANTS).split(";"));
+  }
 
-    @Override
-    public String toString() {
-        return "BPMN Choreography Sub Process";
-    }
+  public List<String> getLowerParticipants() {
+    return Arrays.asList(getProperty(PROP_LOWER_PARTICIPANTS).split(";"));
+  }
 
-	@Override
-	public void setIncoming(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
+  /**
+   * Code replicated from ChoreographyActivity, since ChoreographySubProcess does not inherit
+   * ChoreographyActivity.
+   *
+   * @return
+   */
+  @Override
+  public List<Class<? extends ProcessNode>> getVariants() {
+    List<Class<? extends ProcessNode>> result = new LinkedList<Class<? extends ProcessNode>>();
+    result.add(ChoreographyTask.class);
+    result.add(ChoreographySubProcess.class);
+    return result;
+  }
 
-	@Override
-	public void setOutgoing(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
-	
+  @Override
+  public boolean isCollapsed() {
+    return getProperty(PROP_COLLAPSED).equalsIgnoreCase("TRUE");
+  }
+
+  @Override
+  public String toString() {
+    return "BPMN Choreography Sub Process";
+  }
+
+  @Override
+  public void setIncoming(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
+
+  @Override
+  public void setOutgoing(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
 }

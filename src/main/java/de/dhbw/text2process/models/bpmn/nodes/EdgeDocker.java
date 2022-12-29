@@ -4,46 +4,44 @@ import de.dhbw.text2process.models.bpmn.SequenceFlow;
 
 public class EdgeDocker extends ProcessNode {
 
-    public final static String PROP_DOCKED_EDGE = "#docked_edge";
+  public static final String PROP_DOCKED_EDGE = "#docked_edge";
 
-    private ProcessEdge dockedEdge;
+  private ProcessEdge dockedEdge;
 
-    public EdgeDocker() {
-        initializeProperties();
-    }
+  public EdgeDocker() {
+    initializeProperties();
+  }
 
-    public EdgeDocker(ProcessEdge edge) {
-        initializeProperties();
-        setDockedEdge(edge);
-    }
+  public EdgeDocker(ProcessEdge edge) {
+    initializeProperties();
+    setDockedEdge(edge);
+  }
 
-    private void initializeProperties() {
-        this.setProperty(PROP_DOCKED_EDGE, "null");
-    }
+  private void initializeProperties() {
+    this.setProperty(PROP_DOCKED_EDGE, "null");
+  }
 
-    public void setDockedEdge(ProcessEdge edge) {
-        dockedEdge = edge;
-        if(dockedEdge != null)
-        this.setProperty(PROP_DOCKED_EDGE, dockedEdge.getProperty(PROP_ID));
-    }
+  public void setDockedEdge(ProcessEdge edge) {
+    dockedEdge = edge;
+    if (dockedEdge != null) this.setProperty(PROP_DOCKED_EDGE, dockedEdge.getProperty(PROP_ID));
+  }
 
-    public ProcessEdge getDockedEdge() {
-        return dockedEdge;
-    }
-    
-    @Override
-    public String toString() {
-    	return "EdgeDocker ("+dockedEdge+")";
-    }
+  public ProcessEdge getDockedEdge() {
+    return dockedEdge;
+  }
 
-	@Override
-	public void setIncoming(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
+  @Override
+  public String toString() {
+    return "EdgeDocker (" + dockedEdge + ")";
+  }
 
-	@Override
-	public void setOutgoing(SequenceFlow flow) {
-		throw new IllegalArgumentException("not implemented yet!");
-	}
+  @Override
+  public void setIncoming(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
 
+  @Override
+  public void setOutgoing(SequenceFlow flow) {
+    throw new IllegalArgumentException("not implemented yet!");
+  }
 }

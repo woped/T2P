@@ -1,61 +1,51 @@
-/**
- * modified taken from https://github.com/FabianFriedrich/Text2Process
- */
+/** modified taken from https://github.com/FabianFriedrich/Text2Process */
 package de.dhbw.text2process.models.worldModel;
 
-public class Actor extends ExtractedObject{
-	
-	
-	private boolean f_unreal = false;
-	private boolean f_metaActor = false;
-	private boolean f_passive = false;;
+public class Actor extends ExtractedObject {
 
-	/**
-	 * 
-	 */
-	public Actor(T2PSentence origin,int wordInSentence, String name) {
-		super(origin,wordInSentence,name);
-	}
-	
-	@Override
-	public String toString() {
-		return (f_metaActor ? "Meta-":(f_unreal ? "Unreal-":""))+ "Actor - "+super.toString();
-	}
-	
+  private boolean f_unreal = false;
+  private boolean f_metaActor = false;
+  private boolean f_passive = false;
+  ;
 
-	/**
-	 * @param value
-	 */
-	public void setUnreal(boolean value) {
-		f_unreal  = value;
-	}
-	
-	public boolean isUnreal() {
-		return f_unreal;
-	}
+  /** */
+  public Actor(T2PSentence origin, int wordInSentence, String name) {
+    super(origin, wordInSentence, name);
+  }
 
-	public void setMetaActor(boolean metaActor) {
-		this.f_metaActor = metaActor;
-	}
+  @Override
+  public String toString() {
+    return (f_metaActor ? "Meta-" : (f_unreal ? "Unreal-" : "")) + "Actor - " + super.toString();
+  }
 
-	public boolean isMetaActor() {
-		return f_metaActor;
-	}
+  /** @param value */
+  public void setUnreal(boolean value) {
+    f_unreal = value;
+  }
 
-	/**
-	 * @param value
-	 */
-	public void setPassive(boolean value) {
-		f_passive  = value;
-	}
-	
-	/**
-	 * tells whether this Actor was found in a
-	 * passive or active sentence
-	 * @return
-	 */
-	public boolean getPassive() {
-		return f_passive;
-	}
+  public boolean isUnreal() {
+    return f_unreal;
+  }
 
+  public void setMetaActor(boolean metaActor) {
+    this.f_metaActor = metaActor;
+  }
+
+  public boolean isMetaActor() {
+    return f_metaActor;
+  }
+
+  /** @param value */
+  public void setPassive(boolean value) {
+    f_passive = value;
+  }
+
+  /**
+   * tells whether this Actor was found in a passive or active sentence
+   *
+   * @return
+   */
+  public boolean getPassive() {
+    return f_passive;
+  }
 }

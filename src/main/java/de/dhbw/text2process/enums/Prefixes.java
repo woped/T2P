@@ -1,17 +1,15 @@
 package de.dhbw.text2process.enums;
 
 public enum Prefixes {
+  DUMMY("DUMMY");
 
-	DUMMY("DUMMY");
-	
-	String prefix;
-	
-	private Prefixes(String prefix) {
-		setPrefix(prefix);
-	}
+  String prefix;
 
-	private void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-	
+  private Prefixes(String prefix) {
+    setPrefix(prefix);
+  }
+
+  private void setPrefix(String prefix) {
+    this.prefix = prefix;
+  }
 }

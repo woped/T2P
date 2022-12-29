@@ -1,17 +1,16 @@
 package de.dhbw.text2process.models.bpmn;
 
 public class TextAnnotation extends Artifact {
-	
-	 /** The font size */
-    public final static String PROP_FONTSIZE = "font_size";
 
-    public TextAnnotation() {
-        super();
-        initializeProperties();
-    }
+  /** The font size */
+  public static final String PROP_FONTSIZE = "font_size";
 
-    private void initializeProperties() {
-        setProperty(PROP_FONTSIZE, "10");
-    }
+  public TextAnnotation() {
+    super();
+    initializeProperties();
+  }
 
+  private void initializeProperties() {
+    setProperty(PROP_FONTSIZE, "10");
+  }
 }

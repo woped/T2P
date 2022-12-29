@@ -1,322 +1,303 @@
-/**
- * modified taken from https://github.com/FabianFriedrich/Text2Process
- */
+/** modified taken from https://github.com/FabianFriedrich/Text2Process */
 package de.dhbw.text2process.models.worldModel;
 
 import de.dhbw.text2process.enums.ActionLinkType;
 import de.dhbw.text2process.enums.TriggerType;
-import org.springframework.scheduling.Trigger;
 
-public class Action extends SpecifiedElement{
-	
-	private String f_baseForm;
-	
-	private Actor f_actorFrom = null;
-	private ExtractedObject f_object = null;
-	
-	private Action f_xcomp = null;
-	
+public class Action extends SpecifiedElement {
 
-	private String f_prt = null;
-	private String f_cop = null;
-	private int f_copIndex = -1;
-	private String f_aux = null;
-		
-	private String f_mod = null; //modifier e.g. leave alone
-	private int f_modPos = -1;
-	
-	private String f_marker = null;
-	private boolean f_markerFromPP = false;;
-	private String f_preAdvMod = null;
-	private int f_preAdvModPos = -1;
-	private String f_prepc = null;
-	private boolean f_negated;
-	
-	private Action f_link = null;
-	private ActionLinkType f_linkType = null;
-	private boolean f_transient;
-	private TriggerType triggerType = TriggerType.TRIGGER_TYPE_NOT_TRIGGERED;
+  private String f_baseForm;
 
-	private String finalLabel;
+  private Actor f_actorFrom = null;
+  private ExtractedObject f_object = null;
 
-	public TriggerType getTriggerType() {
-		return triggerType;
-	}
+  private Action f_xcomp = null;
 
-	public void setTriggerType(TriggerType triggerType) {
-		this.triggerType = triggerType;
-	}
+  private String f_prt = null;
+  private String f_cop = null;
+  private int f_copIndex = -1;
+  private String f_aux = null;
 
-	/**
-	 * 
-	 */
-	public Action(T2PSentence origin, int wordInSentence, String verb) {
-		super(origin,wordInSentence,verb);
-	}
+  private String f_mod = null; // modifier e.g. leave alone
+  private int f_modPos = -1;
 
-	public Action(T2PSentence origin, String verb) {
-		super(origin,verb);
-	}
+  private String f_marker = null;
+  private boolean f_markerFromPP = false;
+  ;
+  private String f_preAdvMod = null;
+  private int f_preAdvModPos = -1;
+  private String f_prepc = null;
+  private boolean f_negated;
 
+  private Action f_link = null;
+  private ActionLinkType f_linkType = null;
+  private boolean f_transient;
+  private TriggerType triggerType = TriggerType.TRIGGER_TYPE_NOT_TRIGGERED;
 
-	public void setBaseForm(String verbBaseForm){
-		f_baseForm = verbBaseForm;
-	}
+  private String finalLabel;
 
-	public Action clone() {
-		Action _clone = new Action(getOrigin(),getWordIndex(),getName());
-		_clone.f_baseForm = f_baseForm;
-		_clone.f_actorFrom = f_actorFrom;
-		_clone.f_object = f_object;
+  public TriggerType getTriggerType() {
+    return triggerType;
+  }
 
-		_clone.f_prt = f_prt;
-		_clone.f_cop = f_cop;
-		_clone.f_copIndex = f_copIndex;
-		_clone.f_aux = f_aux;
-		_clone.f_xcomp = f_xcomp;
-		
-		_clone.f_mod = f_mod;
-		_clone.f_modPos = f_modPos;
-		
-		_clone.f_preAdvMod = f_preAdvMod;
-		_clone.f_preAdvModPos = f_preAdvModPos;
-		_clone.f_marker = f_marker;
-		_clone.f_markerFromPP = f_markerFromPP;
-		_clone.f_negated = f_negated;
-		_clone.f_link = f_link;
+  public void setTriggerType(TriggerType triggerType) {
+    this.triggerType = triggerType;
+  }
 
-		_clone.triggerType = triggerType;
+  /** */
+  public Action(T2PSentence origin, int wordInSentence, String verb) {
+    super(origin, wordInSentence, verb);
+  }
 
-		for(Specifier s:this.getSpecifiers()) {
-			_clone.addSpecifiers(s);
-		}		
-		return _clone;
-	}
-	
-	/**
-	 * @return the f_actorFrom
-	 */
-	public Actor getActorFrom() {
-		return f_actorFrom;
-	}
+  public Action(T2PSentence origin, String verb) {
+    super(origin, verb);
+  }
 
-	/**
-	 * @return the f_actorTo
-	 */
-	public ExtractedObject getObject() {
-		return f_object;
-	}
+  public void setBaseForm(String verbBaseForm) {
+    f_baseForm = verbBaseForm;
+  }
 
-	/**
-	 * returns the root form of the verb
-	 * @return the f_verb
-	 */
-	public String getVerb() {
-		return f_baseForm;
-	}
+  public Action clone() {
+    Action _clone = new Action(getOrigin(), getWordIndex(), getName());
+    _clone.f_baseForm = f_baseForm;
+    _clone.f_actorFrom = f_actorFrom;
+    _clone.f_object = f_object;
 
-	/**
-	 * @param from the f_actorFrom to set
-	 */
-	public void setActorFrom(Actor from) {
-		f_actorFrom = from;
-	}
+    _clone.f_prt = f_prt;
+    _clone.f_cop = f_cop;
+    _clone.f_copIndex = f_copIndex;
+    _clone.f_aux = f_aux;
+    _clone.f_xcomp = f_xcomp;
 
-	/**
-	 * @param to the f_actorTo to set
-	 */
-	public void setObject(ExtractedObject to) {
-		f_object = to;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder _b = new StringBuilder();
-		if(f_aux != null) {
-			_b.append("("+f_aux+")");
-			_b.append(" ");
-		}
-		if(f_negated) {
-			_b.append("!");
-		}
-		_b.append(getName());
-		if(f_prt != null) {
-			_b.append(" ");
-			_b.append("["+f_prt+"]");
-		}
-		if(f_cop != null) {
-			_b.append(" ");
-			_b.append("["+f_cop+"]");
-		}
-		if(f_mod != null) {
-			_b.append(" ");
-			_b.append("["+f_mod+"]");
-		}
-		if(f_marker != null) {
-			_b.append("---marker:"+f_marker+"-"+f_preAdvMod+"-"+f_prepc+"---");
-		}
-		return "Action - "+super.toString(null,_b.toString());
-	}
-	
-	private String toFullString(String prefix) {
-		StringBuffer _b = new StringBuffer();
-		_b.append(prefix+toString());_b.append("\n");
-		if(getXcomp() != null) {
-			_b.append(prefix+getXcomp().toFullString("\t"));_b.append("\n");
-		}
-		_b.append(prefix+"FROM: "+f_actorFrom); _b.append("\n");
-		_b.append(prefix+"TO: "+f_object); 
-		return _b.toString();
-	}
-	
-	public String toFullString() {
-		return toFullString("");
-	}
+    _clone.f_mod = f_mod;
+    _clone.f_modPos = f_modPos;
 
-	public void setXcomp(Action xcomp) {
-		this.f_xcomp = xcomp;
-	}
+    _clone.f_preAdvMod = f_preAdvMod;
+    _clone.f_preAdvModPos = f_preAdvModPos;
+    _clone.f_marker = f_marker;
+    _clone.f_markerFromPP = f_markerFromPP;
+    _clone.f_negated = f_negated;
+    _clone.f_link = f_link;
 
-	public Action getXcomp() {
-		return f_xcomp;
-	}
+    _clone.triggerType = triggerType;
 
-	public void setAux(String f_aux) {
-		this.f_aux = f_aux;
-	}
+    for (Specifier s : this.getSpecifiers()) {
+      _clone.addSpecifiers(s);
+    }
+    return _clone;
+  }
 
-	public String getAux() {
-		return f_aux;
-	}
-	
-	/**
-	 * @param marker
-	 */
-	public void setMarker(String marker) {
-		f_marker = marker;
-	}
+  /** @return the f_actorFrom */
+  public Actor getActorFrom() {
+    return f_actorFrom;
+  }
 
-	public String getMarker() {
-		return f_marker;
-	}
-	
-	public void setMod(String f_mod) {
-		this.f_mod = f_mod;
-	}
+  /** @return the f_actorTo */
+  public ExtractedObject getObject() {
+    return f_object;
+  }
 
-	public String getMod() {
-		return f_mod;
-	}
+  /**
+   * returns the root form of the verb
+   *
+   * @return the f_verb
+   */
+  public String getVerb() {
+    return f_baseForm;
+  }
 
-	/**
-	 * @param negated
-	 */
-	public void setNegated(boolean negated) {
-		f_negated = negated;
-	}
-	
-	public boolean isNegated() {
-		return f_negated;
-	}
+  /** @param from the f_actorFrom to set */
+  public void setActorFrom(Actor from) {
+    f_actorFrom = from;
+  }
 
-	public void setLink(Action link) {
-		this.f_link = link;
-	}
+  /** @param to the f_actorTo to set */
+  public void setObject(ExtractedObject to) {
+    f_object = to;
+  }
 
-	public Action getLink() {
-		return f_link;
-	}
+  @Override
+  public String toString() {
+    StringBuilder _b = new StringBuilder();
+    if (f_aux != null) {
+      _b.append("(" + f_aux + ")");
+      _b.append(" ");
+    }
+    if (f_negated) {
+      _b.append("!");
+    }
+    _b.append(getName());
+    if (f_prt != null) {
+      _b.append(" ");
+      _b.append("[" + f_prt + "]");
+    }
+    if (f_cop != null) {
+      _b.append(" ");
+      _b.append("[" + f_cop + "]");
+    }
+    if (f_mod != null) {
+      _b.append(" ");
+      _b.append("[" + f_mod + "]");
+    }
+    if (f_marker != null) {
+      _b.append("---marker:" + f_marker + "-" + f_preAdvMod + "-" + f_prepc + "---");
+    }
+    return "Action - " + super.toString(null, _b.toString());
+  }
 
-	public void setCop(String cop,int copIndex) {
-		this.f_cop = cop;
-		this.f_copIndex = copIndex;
-	}
+  private String toFullString(String prefix) {
+    StringBuffer _b = new StringBuffer();
+    _b.append(prefix + toString());
+    _b.append("\n");
+    if (getXcomp() != null) {
+      _b.append(prefix + getXcomp().toFullString("\t"));
+      _b.append("\n");
+    }
+    _b.append(prefix + "FROM: " + f_actorFrom);
+    _b.append("\n");
+    _b.append(prefix + "TO: " + f_object);
+    return _b.toString();
+  }
 
-	public String getCop() {
-		return f_cop;
-	}
-	
-	public int getCopIndex() {
-		return f_copIndex;
-	}
+  public String toFullString() {
+    return toFullString("");
+  }
 
-	public void setPreAdvMod(String preAdvMod,int posInSentence) {
-		if(f_preAdvMod == null || f_preAdvModPos > posInSentence) {
-			this.f_preAdvMod = preAdvMod;
-			f_preAdvModPos = posInSentence;
-		}
-	}
+  public void setXcomp(Action xcomp) {
+    this.f_xcomp = xcomp;
+  }
 
-	public String getPreAdvMod() {
-		return f_preAdvMod;
-	}
+  public Action getXcomp() {
+    return f_xcomp;
+  }
 
-	public void setPrepc(String prepc) {
-		this.f_prepc = prepc;
-	}
+  public void setAux(String f_aux) {
+    this.f_aux = f_aux;
+  }
 
-	public String getPrepc() {
-		return f_prepc;
-	}
+  public String getAux() {
+    return f_aux;
+  }
 
-	public void setModPos(int modPos) {
-		this.f_modPos = modPos;
-	}
+  /** @param marker */
+  public void setMarker(String marker) {
+    f_marker = marker;
+  }
 
-	public int getModPos() {
-		return f_modPos;
-	}
+  public String getMarker() {
+    return f_marker;
+  }
 
-	public void setPrt(String prt) {
-		this.f_prt = prt;
-	}
+  public void setMod(String f_mod) {
+    this.f_mod = f_mod;
+  }
 
-	public String getPrt() {
-		return f_prt;
-	}
+  public String getMod() {
+    return f_mod;
+  }
 
-	/**
-	 * @param value
-	 */
-	public void setMarkerFromPP(boolean value) {
-		f_markerFromPP = value;
-	}
-	
-	public boolean isMarkerFromPP() {
-		return f_markerFromPP;
-	}
+  /** @param negated */
+  public void setNegated(boolean negated) {
+    f_negated = negated;
+  }
 
-	public void setLinkType(ActionLinkType linkType) {
-		this.f_linkType = linkType;
-	}
+  public boolean isNegated() {
+    return f_negated;
+  }
 
-	public ActionLinkType getLinkType() {
-		return f_linkType;
-	}
+  public void setLink(Action link) {
+    this.f_link = link;
+  }
 
-	/**
-	 * @param value
-	 */
-	public void setTransient(boolean value) {
-		f_transient = value;
-	}
-	
-	/**
-	 * tells e.g. the ProcessModelBuilder, that this node
-	 * is not directly used in the flow creation (e.g. in case of a JUMP)
-	 * and no corresponding ProcessNode is needed.
-	 * @return
-	 */
-	public boolean getTransient() {
-		return f_transient;
-	}
+  public Action getLink() {
+    return f_link;
+  }
 
-	public String getFinalLabel() {
-		return finalLabel;
-	}
+  public void setCop(String cop, int copIndex) {
+    this.f_cop = cop;
+    this.f_copIndex = copIndex;
+  }
 
-	public void setFinalLabel(String finalLabel) {
-		this.finalLabel = finalLabel;
-	}
-	
+  public String getCop() {
+    return f_cop;
+  }
+
+  public int getCopIndex() {
+    return f_copIndex;
+  }
+
+  public void setPreAdvMod(String preAdvMod, int posInSentence) {
+    if (f_preAdvMod == null || f_preAdvModPos > posInSentence) {
+      this.f_preAdvMod = preAdvMod;
+      f_preAdvModPos = posInSentence;
+    }
+  }
+
+  public String getPreAdvMod() {
+    return f_preAdvMod;
+  }
+
+  public void setPrepc(String prepc) {
+    this.f_prepc = prepc;
+  }
+
+  public String getPrepc() {
+    return f_prepc;
+  }
+
+  public void setModPos(int modPos) {
+    this.f_modPos = modPos;
+  }
+
+  public int getModPos() {
+    return f_modPos;
+  }
+
+  public void setPrt(String prt) {
+    this.f_prt = prt;
+  }
+
+  public String getPrt() {
+    return f_prt;
+  }
+
+  /** @param value */
+  public void setMarkerFromPP(boolean value) {
+    f_markerFromPP = value;
+  }
+
+  public boolean isMarkerFromPP() {
+    return f_markerFromPP;
+  }
+
+  public void setLinkType(ActionLinkType linkType) {
+    this.f_linkType = linkType;
+  }
+
+  public ActionLinkType getLinkType() {
+    return f_linkType;
+  }
+
+  /** @param value */
+  public void setTransient(boolean value) {
+    f_transient = value;
+  }
+
+  /**
+   * tells e.g. the ProcessModelBuilder, that this node is not directly used in the flow creation
+   * (e.g. in case of a JUMP) and no corresponding ProcessNode is needed.
+   *
+   * @return
+   */
+  public boolean getTransient() {
+    return f_transient;
+  }
+
+  public String getFinalLabel() {
+    return finalLabel;
+  }
+
+  public void setFinalLabel(String finalLabel) {
+    this.finalLabel = finalLabel;
+  }
 }

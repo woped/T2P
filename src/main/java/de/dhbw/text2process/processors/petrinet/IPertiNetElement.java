@@ -1,6 +1,3 @@
 package de.dhbw.text2process.processors.petrinet;
 
-public interface IPertiNetElement {
-
-
-}
+public interface IPertiNetElement {}

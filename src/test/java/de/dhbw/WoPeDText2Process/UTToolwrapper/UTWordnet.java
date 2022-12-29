@@ -1,35 +1,56 @@
 package de.dhbw.WoPeDText2Process.UTToolwrapper;
 
+import static org.junit.Assert.assertEquals;
+
 import de.dhbw.text2process.wrapper.WordNetFunctionality;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
-import org.junit.Test;
-
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class UTWordnet {
 
-    @Test
-    public void evaluateWordnetInvocation() throws IOException {
+  @Test
+  public void evaluateWordnetInvocation() throws IOException {
 
-        /***check Initialiaztion***/
-        WordNetInitializer wni= WordNetInitializer.getInstance();
-        assertEquals("WorNet Initialization Issue: Not initialized.",true, wni!=null);
+    /***check Initialiaztion***/
+    WordNetInitializer wni = WordNetInitializer.getInstance();
+    assertEquals("WorNet Initialization Issue: Not initialized.", true, wni != null);
 
-        /***check Functionality***/
-        WordNetFunctionality wnf = new WordNetFunctionality();
+    /***check Functionality***/
+    WordNetFunctionality wnf = new WordNetFunctionality();
 
-        assertEquals("WorNet Functionality Issue: wnf can not be received.",true, wnf!=null);
-        assertEquals( "WordNet Functionality Issue: Problem with 'isAnimate()'." , true , wnf.isAnimate("woman") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'canBePersonOrSystem()'." , true , wnf.canBePersonOrSystem("Lisa", "she") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'canBeGroupAction()'." , true , wnf.canBeGroupAction("exchange") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'isTimePeriod()'." , true , wnf.isTimePeriod("day") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'deriveVerb()'." , "speak" , wnf.deriveVerb("speaker"));
-        assertEquals( "WordNet Functionality Issue: Problem with 'isWeakVerb()'." , true , wnf.isWeakVerb("be") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'isVerbOfType()'." , true , wnf.isVerbOfType("run", "move") == true);
-        assertEquals( "WordNet Functionality Issue: Problem with 'canBeDataObject()'." , true , wnf.canBeDataObject("email", "text") == true);
-
-    }
-
+    assertEquals("WorNet Functionality Issue: wnf can not be received.", true, wnf != null);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'isAnimate()'.",
+        true,
+        wnf.isAnimate("woman") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'canBePersonOrSystem()'.",
+        true,
+        wnf.canBePersonOrSystem("Lisa", "she") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'canBeGroupAction()'.",
+        true,
+        wnf.canBeGroupAction("exchange") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'isTimePeriod()'.",
+        true,
+        wnf.isTimePeriod("day") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'deriveVerb()'.",
+        "speak",
+        wnf.deriveVerb("speaker"));
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'isWeakVerb()'.",
+        true,
+        wnf.isWeakVerb("be") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'isVerbOfType()'.",
+        true,
+        wnf.isVerbOfType("run", "move") == true);
+    assertEquals(
+        "WordNet Functionality Issue: Problem with 'canBeDataObject()'.",
+        true,
+        wnf.canBeDataObject("email", "text") == true);
+  }
 }

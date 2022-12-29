@@ -1,20 +1,17 @@
 package de.dhbw.text2process.models.bpmn;
 
 public class DataStore extends Artifact {
-    
-	
-    public DataStore() {
-        super();
-    }
 
-    public DataStore(int xPos, int yPos, String text) {
-        super();
-        setText(text);
-    }
+  public DataStore() {
+    super();
+  }
 
-    public String toString() {
-        return "BPMN data store";
-    }
+  public DataStore(int xPos, int yPos, String text) {
+    super();
+    setText(text);
+  }
 
+  public String toString() {
+    return "BPMN data store";
+  }
 }
-
