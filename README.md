@@ -56,6 +56,14 @@ This application is tailored to handle all requests from WoPeD to generate a PNM
 1. Build your own docker image with the Dockerfile.
 2. Run this image on your server.
 
+# Dependencies
+This repository uses jars that are unavailable on Maven central. Hence, these jar files are stored in this repository in
+the folder `lib`. The chosen procedure was described in this [SO answer](https://stackoverflow.com/a/51647143/11711692).
+
+# Formatting
+To check the formatting of all Java files, run `mvn spotless:check`. <br>
+If formatting are identified, run `mvn spotless:apply` to automatically reformat that affected files.
+
 # Configuration guide
 _It is recommended to use IntelliJ IDE._
 <h3>Resolving all the dependencies</h3>

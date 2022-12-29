@@ -20,7 +20,12 @@
 			<id>central</id>
 			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
-		<!-- For old-stanford-parser -->
+		<!-- Workspace Dependencies -->
+		<repository>
+			<id>local-maven-repository</id>
+			<url>file:///${project.basedir}/lib</url>
+		</repository>
+		<!-- Old Stanford Parser -->
 		<repository>
 			<id>Cogcomp</id>
 			<url>http://cogcomp.org/m2repo/</url>
@@ -31,17 +36,6 @@
 			<url>https://dev.bibsonomy.org/maven2/</url>
 		</repository>
 	</repositories>
-
-	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<url>http://vesta.dh-karlsruhe.de/nexusdocker/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://vesta.dh-karlsruhe.de/nexusdocker/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<properties>
 		<java.version>11</java.version>
@@ -59,7 +53,6 @@
 		<stanford.parser.version>3.9.2</stanford.parser.version>
 		<old-stanford.parser.version>2010-08-16</old-stanford.parser.version>
 		<google.ejml.version>0.25</google.ejml.version>
-		<!-- <activiti.org.bpmn.version>7.1.0.M6</activiti.org.bpmn.version> -->
 		<jwnl.version>1.4.1</jwnl.version>
 		<camunda.bpm.model.version>7.10.0</camunda.bpm.model.version>
 		<sonar.organization>woped</sonar.organization>
@@ -67,7 +60,6 @@
 	</properties>
 	
 	<dependencies>
-		<!-- SpringBoot-DEPENDENCIES -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -76,7 +68,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<!-- necessary dependencies -->
 		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
@@ -106,7 +97,6 @@
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
 		</dependency>
-	
 		<!-- WordNet -->
 		<!-- https://mvnrepository.com/artifact/net.didion/jwnl -->
 		<dependency>
@@ -114,8 +104,7 @@
 			<artifactId>jwnl</artifactId>
 			<version>${jwnl.version}</version>
 		</dependency>
-
-		<!-- XML-FRAMEWORKS -->
+		<!-- XML-Frameworks -->
 		<dependency>
 			<groupId>org.dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -141,18 +130,6 @@
 			<artifactId>pull-parser</artifactId>
 			<version>${pullparser.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>net.java.dev.msv</groupId>
-			<artifactId>msv-core</artifactId>
-			<version>${msv.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.msv</groupId>
-			<artifactId>xsdlib</artifactId>
-			<version>${msv.version}</version>
-		</dependency>
-		-->
 		<!-- JSON -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -169,8 +146,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
-		<!-- TEST DEPENDENCIES -->
+		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -182,56 +158,42 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 			Workspace Dependencies 				-->
+		<!-- Workspace Dependencies -->
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
-			<artifactId>edu.mit.jwi</artifactId>
+			<groupId>org.woped.t2p.edu.mit</groupId>
+			<artifactId>jwi</artifactId>
 			<version>2.4.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/edu.mit.jwi_2.4.0.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
+			<groupId>org.woped.t2p</groupId>
 			<artifactId>FrameNetReader</artifactId>
 			<version>0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/FrameNetReader.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
+			<groupId>org.woped.t2p</groupId>
 			<artifactId>jsr173</artifactId>
 			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/jsr173_1.0_api.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
+			<groupId>org.woped.t2p</groupId>
 			<artifactId>msv</artifactId>
 			<version>200030807</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/msv-20030807.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
+			<groupId>org.woped.t2p</groupId>
 			<artifactId>relaxngDatatype</artifactId>
 			<version>20030807</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/relaxngDatatype-20030807.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>PLATZHALTER</groupId>
+			<groupId>org.woped.t2p</groupId>
 			<artifactId>xsdlib</artifactId>
 			<version>20030807</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/xsdlib-20030807.jar</systemPath>
 		</dependency>
 	</dependencies>
 
