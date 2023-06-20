@@ -1,6 +1,11 @@
 /** modified taken from https://github.com/FabianFriedrich/Text2Process */
 package de.dhbw.text2process.wrapper;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import de.dhbw.text2process.config.PropertiesWithJavaConfig;
+import com.google.gson.Gson;
 import de.dhbw.text2process.models.worldModel.Action;
 import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
@@ -11,12 +16,14 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.*;
+
 import net.didion.jwnl.JWNL;
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
@@ -34,6 +41,9 @@ import org.slf4j.LoggerFactory;
 public class WordNetWrapper {
   static Logger logger = LoggerFactory.getLogger(WordNetWrapper.class);
 
+
+  private static HttpClient httpClient;
+  private static Gson gson;
   private static ArrayList<String> f_acceptedAMODList = new ArrayList<String>();
   private static ArrayList<String> acceptedForwardLinkList = new ArrayList<String>();
 
@@ -45,93 +55,29 @@ public class WordNetWrapper {
     Locale.setDefault(Locale.US);
     long _start = System.currentTimeMillis();
 
-    // get the path where the jar file is located
-    logger.info("Searching for file_properties.xml on ClassPath");
-    String wordNetProperties = "jwnl.configuration";
-    String wordNetDictionaryPath = "NLPTools/WordNet";
-    logger.info(
-        "Collected infos:\n\t\t WordNetPropertiesFile: "
-            + wordNetProperties
-            + "\n\t\t WordNetDictionaryPath: "
-            + wordNetDictionaryPath);
-    try {
-      wordNetProperties = URLDecoder.decode(wordNetProperties, "UTF-8");
-    } catch (UnsupportedEncodingException e2) {
-      e2.printStackTrace();
-    }
+    //Setup for microservice connection
 
-    try {
-      JWNL.initialize(new File(wordNetProperties).toURL().openStream());
-      logger.info("used standard config");
-    } catch (Exception e) {
-      logger.debug(e.getMessage());
-      logger.info("Start creating a individual config file");
-      logger.debug("Inhalt der Systemvariable JAVA_HOME: " + System.getenv("JAVA_HOME"));
-      logger.debug("Inhalt der Systemvariable WORDNET_HOME: " + System.getenv("WORDNET_HOME"));
-
-      if (!System.getenv("WORDNET_HOME").isEmpty() && !System.getenv("WORDNET_HOME").isBlank()) {
-        logger.debug("We got: " + System.getenv("WORDNET_HOME").trim());
-        wordNetDictionaryPath = System.getenv("WORDNET_HOME").trim() + File.separator + "dict";
-        logger.debug(wordNetDictionaryPath.replace("\\", "\\\\"));
-        try {
-          logger.info("Manipulating file_properties.xml to match the environment.");
-          String newFilePropertiesString =
-              wordNetProperties.replace(".configuration", "_env_spec.configuration");
-          logger.debug("Lets have a look on the new file:\t\t" + newFilePropertiesString);
-
-          logger.debug("Creating a fileProperties-Object from " + newFilePropertiesString);
-          File fileProperties = new File(newFilePropertiesString);
-
-          File oldFileProperties = new File(wordNetProperties);
-          if (!oldFileProperties.exists()) {
-            oldFileProperties =
-                new File(
-                    WordNetWrapper.class
-                        .getClassLoader()
-                        .getResource(wordNetProperties)
-                        .getFile()
-                        .replace("%20", " "));
-          }
-
-          logger.debug("Creating a scanner using " + oldFileProperties.getPath());
-          Scanner scannerOldFile = new Scanner(oldFileProperties);
-          StringBuffer bufferNewFileProperties = new StringBuffer();
-
-          writeNewPropertiesFile(
-              wordNetDictionaryPath, fileProperties, scannerOldFile, bufferNewFileProperties);
-
-          readJwnlConfig(newFilePropertiesString);
-
-        } catch (IOException e1) {
-          logger.error("ERROR loading WordNet!");
-          e1.printStackTrace();
-        }
-      } else {
-        throw new JWNLException(
-            "Could not find WordNet on the given Path and WORDNET_HOME was not set correctly!");
-      }
-    }
-
-    dictionary = Dictionary.getInstance();
+    httpClient = HttpClient.newHttpClient();
+    gson = new Gson();
 
     try {
       for (String s : Constants.f_acceptedAMODforLoops) {
-        IndexWord _iw = dictionary.lookupIndexWord(POS.ADJECTIVE, s);
+        IndexWord _iw = lookupIndexWordRemote(POS.ADJECTIVE, s);
         if (_iw != null) {
           addAllLemmas(_iw, f_acceptedAMODList);
         }
-        _iw = dictionary.lookupIndexWord(POS.ADVERB, s);
+        _iw = lookupIndexWordRemote(POS.ADVERB, s);
         if (_iw != null) {
           addAllLemmas(_iw, f_acceptedAMODList);
         }
       }
 
       for (String s : Constants.f_acceptedForForwardLink) {
-        IndexWord _iw = dictionary.lookupIndexWord(POS.ADJECTIVE, s);
+        IndexWord _iw = lookupIndexWordRemote(POS.ADJECTIVE, s);
         if (_iw != null) {
           addAllLemmas(_iw, acceptedForwardLinkList);
         }
-        _iw = dictionary.lookupIndexWord(POS.ADVERB, s);
+        _iw = lookupIndexWordRemote(POS.ADVERB, s);
         if (_iw != null) {
           addAllLemmas(_iw, acceptedForwardLinkList);
         }
@@ -143,57 +89,44 @@ public class WordNetWrapper {
     logger.info("Loaded WordNet in " + (System.currentTimeMillis() - _start) + "ms.");
   }
 
-  /**
-   * @param wordNetDictionaryPath
-   * @param fileProperties
-   * @param scannerOldFile
-   * @param bufferNewFileProperties
-   * @throws IOException
-   */
-  private static void writeNewPropertiesFile(
-      String wordNetDictionaryPath,
-      File fileProperties,
-      Scanner scannerOldFile,
-      StringBuffer bufferNewFileProperties)
-      throws IOException {
-    logger.info("Reading the Lines:");
-    while (scannerOldFile.hasNextLine()) {
-      String line = scannerOldFile.nextLine();
-      if (line.contains("<param name=\"dictionary_path\" value=\"")) {
-        line = "			<param name=\"dictionary_path\" value=\"" + wordNetDictionaryPath + "\"/>";
-        logger.info("The modified line ... ");
-      }
-      logger.debug(line);
-      bufferNewFileProperties.append(line + System.lineSeparator());
+
+  private static IndexWord lookupIndexWordRemote(POS pos, String word) {
+
+    Map<String, String> data = new HashMap<>() {{
+      put("word", word);
+      put("pos", pos.getKey());
+    }};
+
+    Type typeObject = new TypeToken<HashMap>() {}.getType();
+    String jsonObject = gson.toJson(data, typeObject);
+    String uriString = PropertiesWithJavaConfig.wordnetHost;
+    if (PropertiesWithJavaConfig.wordnetPort.length() > 0) {
+      uriString += ":" + PropertiesWithJavaConfig.wordnetPort;
     }
+    uriString += "/" + PropertiesWithJavaConfig.worndnetUri;
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(uriString))
+            .POST(HttpRequest.BodyPublishers.ofString(jsonObject))
+            .header("Content-Type", "application/json")
+            .build();
 
-    logger.debug(
-        "Let have a look on what the buffer contains:\n" + bufferNewFileProperties.toString());
-
-    String newFileContent = bufferNewFileProperties.toString();
-    logger.debug("The new file content looks like:\n" + newFileContent);
-
-    scannerOldFile.close();
-
-    FileWriter newFilePropertiesFileWriter = new FileWriter(fileProperties);
-    newFilePropertiesFileWriter.append(newFileContent);
-    newFilePropertiesFileWriter.flush();
-  }
-
-  /**
-   * @param filePropertiesString
-   * @throws FileNotFoundException
-   */
-  private static void readJwnlConfig(String filePropertiesString) throws FileNotFoundException {
     try {
-      logger.debug("Trying to read " + filePropertiesString);
-      JWNL.initialize(new FileInputStream(filePropertiesString));
-      logger.info("used new config");
-    } catch (JWNLException e1) {
-      logger.error(
-          "ERROR in config file: Try to delete the jwnl.configuration file and run again!");
-      e1.printStackTrace();
+      HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+      Type type = new TypeToken<Map<String, String>>(){}.getType();
+      Map<String, String> responseMap = gson.fromJson(response.body(), type);
+
+      String responseWord = responseMap.get("word");
+
+      logger.warn("Got response: " + responseWord);
+
+      IndexWord _idw = new IndexWord(responseWord, pos, new long[0]);
+      return _idw;
+
+    } catch (IOException | InterruptedException e) {
+      return null;
     }
+
   }
 
   /** @return the acceptedForwardLinkList */
@@ -226,9 +159,11 @@ public class WordNetWrapper {
     }
   }
 
+  //private static void addLemmasService()
+
   public static boolean isAnimate(String noun) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, noun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, noun);
       return checkHypernymTree(_idw, ListUtils.getList("animate_thing"));
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -244,9 +179,9 @@ public class WordNetWrapper {
       if (ProcessingUtils.isPersonalPronoun(mainNoun)) {
         return true;
       }
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, fullNoun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, fullNoun);
       if (_idw == null || (!_idw.getLemma().contains(mainNoun)))
-        _idw = dictionary.lookupIndexWord(POS.NOUN, mainNoun);
+        _idw = lookupIndexWordRemote(POS.NOUN, mainNoun);
       return checkHypernymTree(_idw, Constants.f_realActorDeterminers);
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -256,7 +191,7 @@ public class WordNetWrapper {
 
   public static boolean canBeGroupAction(String mainNoun) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, mainNoun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, mainNoun);
       return checkHypernymTree(_idw, ListUtils.getList("group_action"));
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -266,7 +201,7 @@ public class WordNetWrapper {
 
   public static boolean isTimePeriod(String mainNoun) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, mainNoun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, mainNoun);
       return checkHypernymTree(_idw, ListUtils.getList("time_period"));
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -283,13 +218,13 @@ public class WordNetWrapper {
       try {
         IndexWord _idw = null;
         if (a.getMod() != null && ((a.getModPos() - a.getWordIndex()) < 2)) {
-          _idw = dictionary.lookupIndexWord(POS.VERB, _verb + " " + a.getMod());
+          _idw = lookupIndexWordRemote(POS.VERB, _verb + " " + a.getMod());
         }
         if (_idw == null) {
-          _idw = dictionary.lookupIndexWord(POS.VERB, _verb + " " + a.getPrt());
+          _idw = lookupIndexWordRemote(POS.VERB, _verb + " " + a.getPrt());
         }
         if (_idw == null) {
-          _idw = dictionary.lookupIndexWord(POS.VERB, _verb);
+          _idw = lookupIndexWordRemote(POS.VERB, _verb);
         }
         if (_idw != null) {
           return checkHypernymTree(_idw, Constants.f_interactionVerbs);
@@ -343,7 +278,7 @@ public class WordNetWrapper {
 
   public static String deriveVerb(String noun) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, noun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, noun);
       if (_idw == null) {
         System.err.println("Could not find IndexWord for: " + noun);
         return null;
@@ -401,8 +336,10 @@ public class WordNetWrapper {
    * @return
    */
   public static String getBaseForm(String verb) {
+
     return getBaseForm(verb, true, POS.VERB);
   }
+
 
   /**
    * tries to lookup the word in wordnet and if found return the lemma (base form) of the verb. if
@@ -414,21 +351,18 @@ public class WordNetWrapper {
   public static String getBaseForm(String verb, boolean keepAuxiliaries, POS pos) {
     String[] _parts = verb.split(" "); // verb can contain auxiliary verbs
     // (to acquire)
-    try {
-      IndexWord word = dictionary.lookupIndexWord(pos, _parts[_parts.length - 1]);
-      if (word != null) {
-        _parts[_parts.length - 1] = word.getLemma();
-        StringBuilder _b = new StringBuilder();
-        for (int i = keepAuxiliaries ? 0 : _parts.length - 1; i < _parts.length; i++) {
-          String _s = _parts[i];
-          _b.append(_s);
-          _b.append(' ');
-        }
-        _b.deleteCharAt(_b.length() - 1);
-        return _b.toString();
+    IndexWord word = lookupIndexWordRemote(pos, _parts[_parts.length - 1]);
+    //IndexWord word = lookupIndexWordRemote(pos, _parts[_parts.length - 1]);
+    if (word != null) {
+      _parts[_parts.length - 1] = word.getLemma();
+      StringBuilder _b = new StringBuilder();
+      for (int i = keepAuxiliaries ? 0 : _parts.length - 1; i < _parts.length; i++) {
+        String _s = _parts[i];
+        _b.append(_s);
+        _b.append(' ');
       }
-    } catch (JWNLException e) {
-      e.printStackTrace();
+      _b.deleteCharAt(_b.length() - 1);
+      return _b.toString();
     }
     return verb;
   }
@@ -440,9 +374,9 @@ public class WordNetWrapper {
   public static boolean isMetaActor(String fullNoun, String noun) {
     if (!Constants.f_personCorrectorList.contains(fullNoun)) {
       try {
-        IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, fullNoun);
+        IndexWord _idw = lookupIndexWordRemote(POS.NOUN, fullNoun);
         if (_idw == null || (!_idw.getLemma().contains(noun)))
-          _idw = dictionary.lookupIndexWord(POS.NOUN, noun);
+          _idw = lookupIndexWordRemote(POS.NOUN, noun);
         return checkHypernymTree(_idw, Constants.f_metaActorsDeterminers);
       } catch (JWNLException e) {
         e.printStackTrace();
@@ -461,7 +395,7 @@ public class WordNetWrapper {
    */
   public static boolean isVerbOfType(String verb, String type) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.VERB, verb);
+      IndexWord _idw = lookupIndexWordRemote(POS.VERB, verb);
       return checkHypernymTree(_idw, ListUtils.getList(type));
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -475,9 +409,9 @@ public class WordNetWrapper {
    */
   public static boolean canBeDataObject(String fullNoun, String noun) {
     try {
-      IndexWord _idw = dictionary.lookupIndexWord(POS.NOUN, fullNoun);
+      IndexWord _idw = lookupIndexWordRemote(POS.NOUN, fullNoun);
       if (_idw == null || (!_idw.getLemma().contains(noun)))
-        _idw = dictionary.lookupIndexWord(POS.NOUN, noun);
+        _idw = lookupIndexWordRemote(POS.NOUN, noun);
       return checkHypernymTree(_idw, Constants.f_dataObjectDeterminers);
     } catch (JWNLException e) {
       e.printStackTrace();
@@ -485,14 +419,4 @@ public class WordNetWrapper {
     return false;
   }
 
-  public static Dictionary getDictionary() {
-    if (dictionary == null) {
-      initDictionary();
-    }
-    return dictionary;
-  }
-
-  public static void initDictionary() {
-    WordNetWrapper.dictionary = Dictionary.getInstance();
-  }
 }

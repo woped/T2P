@@ -158,6 +158,7 @@ public class ElementsBuilder {
         SearchUtils.findDependency(ListUtils.getList("tmod"), dependencies);
     for (TypedDependency td : _toCheck) {
       if (td.gov().equals(node)) {
+        // Check if time related
         action.setTriggerType(TriggerType.TRIGGER_TYPE_TIME);
       }
     }
