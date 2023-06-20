@@ -155,7 +155,7 @@ public class ElementsBuilder {
       TreeGraphNode node, Collection<TypedDependency> dependencies, Action action) {
     logger.info("Check for time trigger.");
     List<TypedDependency> _toCheck =
-        SearchUtils.findDependency(ListUtils.getList("prep_at", "prep_on"), dependencies);
+        SearchUtils.findDependency(ListUtils.getList("tmod"), dependencies);
     for (TypedDependency td : _toCheck) {
       if (td.gov().equals(node)) {
         // Check if time related
