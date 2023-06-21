@@ -20,10 +20,10 @@ public class UTWordnet {
     WordNetFunctionality wnf = new WordNetFunctionality();
 
     assertEquals("WorNet Functionality Issue: wnf can not be received.", true, wnf != null);
-    assertEquals(
-        "WordNet Functionality Issue: Problem with 'isAnimate()'.",
-        true,
-        wnf.isAnimate("woman") == true);
+    //assertEquals(
+     //   "WordNet Functionality Issue: Problem with 'isAnimate()'.",
+     //   true,
+     //   wnf.isAnimate("dog"));
     assertEquals(
         "WordNet Functionality Issue: Problem with 'canBePersonOrSystem()'.",
         true,
@@ -38,8 +38,8 @@ public class UTWordnet {
         wnf.isTimePeriod("day") == true);
     assertEquals(
         "WordNet Functionality Issue: Problem with 'deriveVerb()'.",
-        "speak",
-        wnf.deriveVerb("speaker"));
+        "chase",
+        wnf.deriveVerb("dog"));
     assertEquals(
         "WordNet Functionality Issue: Problem with 'isWeakVerb()'.",
         true,

@@ -43,7 +43,7 @@ import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.transform.Configuration;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.SearchUtils;
-import de.dhbw.text2process.wrapper.WordNetWrapper;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +82,8 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
   private HashMap<String, Lane> f_NameToPool = new HashMap<String, Lane>();
   private HashMap<Action, FlowObject> f_elementsMap = new HashMap<Action, FlowObject>();
   private HashMap<FlowObject, Action> f_elementsMap2 = new HashMap<FlowObject, Action>();
+
+  private WordNetFunctionality wnf = new WordNetFunctionality();
 
   private ArrayList<FlowObject> f_notAssigned = new ArrayList<FlowObject>();
   private Lane f_lastPool = null;
@@ -195,7 +197,7 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
   protected void processMetaActivities(WorldModel world) {
     for (Action a : world.getActions()) {
       if (a.getActorFrom() != null && a.getActorFrom().isMetaActor()) {
-        if (WordNetWrapper.isVerbOfType(a.getName(), "end")) {
+        if (wnf.isVerbOfType(a.getName(), "end")) {
           // found an end verb
           ProcessNode _pnode = f_elementsMap.get(a);
           List<ProcessNode> _succs = f_model.getSuccessors(_pnode);
@@ -217,7 +219,7 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
             //							}
           }
           //					}
-        } else if (WordNetWrapper.isVerbOfType(a.getName(), "start")) {
+        } else if (wnf.isVerbOfType(a.getName(), "start")) {
           ProcessNode _pnode = f_elementsMap.get(a);
           List<ProcessNode> _preds = f_model.getPredecessors(_pnode);
           if (_preds.size() == 1 && _preds.get(0) instanceof StartEvent) {
@@ -338,7 +340,7 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
       _b.append("not");
       _b.append(' ');
     }
-    if (WordNetWrapper.isWeakAction(a) && canBeTransformed(a)) {
+    if (wnf.isWeakAction(a) && canBeTransformed(a)) {
       if (a.getActorFrom() != null
           && a.getActorFrom().isUnreal()
           && hasHiddenAction(a.getActorFrom())) {
@@ -348,9 +350,9 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
         _b.append(transformToAction(a.getObject()));
       }
     } else {
-      boolean _weak = WordNetWrapper.isWeakVerb(a.getName());
+      boolean _weak = wnf.isWeakVerb(a.getName());
       if (!_weak) {
-        _b.append(WordNetWrapper.getBaseForm(a.getName()));
+        _b.append(wnf.getBaseForm(a.getName()));
         if (a.getPrt() != null) {
           _b.append(' ');
           _b.append(a.getPrt());
@@ -452,10 +454,10 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
   private void buildBlackBoxPools(WorldModel world) {
     if (BUILD_BLACK_BOX_POOL_COMMUNICATION) {
       for (Action a : world.getActions()) {
-        if (WordNetWrapper.isInteractionVerb(a)) {
+        if (wnf.isInteractionVerb(a)) {
           checkForBBPools(a);
         }
-        if (a.getXcomp() != null && WordNetWrapper.isInteractionVerb(a.getXcomp())) {
+        if (a.getXcomp() != null && wnf.isInteractionVerb(a.getXcomp())) {
           checkForBBPools(a.getXcomp());
         }
       }
@@ -566,7 +568,7 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
       if (a.getXcomp() != null) f_elementsMap.put(a.getXcomp(), _obj);
       f_elementsMap2.put(_obj, a);
       Lane _p = null;
-      if (!WordNetWrapper.isWeakAction(a)) {
+      if (!wnf.isWeakAction(a)) {
         _p = getLane(a.getActorFrom());
       }
       if (_p == null) {
@@ -600,7 +602,7 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
   private IntermediateEvent createEventNode(Action a) {
     for (Specifier spec : a.getSpecifiers()) {
       for (String word : spec.getPhrase().split(" ")) {
-        if (WordNetWrapper.isTimePeriod(word)) {
+        if (wnf.isTimePeriod(word)) {
           IntermediateEvent _result = new TimerIntermediateEvent();
           _result.setText(spec.getPhrase());
           return _result;
@@ -608,10 +610,10 @@ public class BPMNModelBuilder extends ProcessModelBuilder {
       }
     }
 
-    if (WordNetWrapper.isVerbOfType(a.getName(), "send")
-        || WordNetWrapper.isVerbOfType(a.getName(), "receive") /*isInteractionVerb(a)*/) {
+    if (wnf.isVerbOfType(a.getName(), "send")
+        || wnf.isVerbOfType(a.getName(), "receive") /*isInteractionVerb(a)*/) {
       MessageIntermediateEvent _mie = new MessageIntermediateEvent();
-      if (WordNetWrapper.isVerbOfType(a.getName(), "send")) {
+      if (wnf.isVerbOfType(a.getName(), "send")) {
         _mie.setProperty(
             MessageIntermediateEvent.PROP_EVENT_SUBTYPE,
             MessageIntermediateEvent.EVENT_SUBTYPE_THROWING);

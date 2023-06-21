@@ -22,7 +22,6 @@ import de.dhbw.text2process.helper.rest.T2PControllerHelper;
 import de.dhbw.text2process.wrapper.FrameNetInitializer;
 import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
-import de.dhbw.text2process.wrapper.WordNetWrapper;
 import io.swagger.annotations.ApiOperation;
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +49,6 @@ public class T2PController {
   public T2PController() throws JWNLException {
     StanfordParserInitializer.getInstance();
     WordNetInitializer.getInstance();
-    WordNetWrapper.init();
     FrameNetInitializer.getInstance();
   }
 

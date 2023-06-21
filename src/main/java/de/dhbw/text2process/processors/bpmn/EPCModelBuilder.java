@@ -35,7 +35,7 @@ import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.transform.Configuration;
 import de.dhbw.text2process.processors.worldmodel.transform.DummyAction;
 import de.dhbw.text2process.processors.worldmodel.transform.SearchUtils;
-import de.dhbw.text2process.wrapper.WordNetWrapper;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +65,8 @@ public class EPCModelBuilder extends ProcessModelBuilder {
       "1".equals(f_config.getProperty(Constants.CONF_GENERATE_DATA_OBJECTS));
 
   private TextToProcess f_parent;
+
+  private WordNetFunctionality wnf = new WordNetFunctionality();
 
   private EPCModel f_model = new EPCModel("generated Model");
 
@@ -243,7 +245,7 @@ public class EPCModelBuilder extends ProcessModelBuilder {
   protected void processMetaActivities(WorldModel world) {
     for (Action a : world.getActions()) {
       if (a.getActorFrom() != null && a.getActorFrom().isMetaActor()) {
-        if (WordNetWrapper.isVerbOfType(a.getName(), "end")) {
+        if (wnf.isVerbOfType(a.getName(), "end")) {
           // found an end verb
           ProcessNode _pnode = f_elementsMap.get(a);
           List<ProcessNode> _succs = f_model.getSuccessors(_pnode);
@@ -260,7 +262,7 @@ public class EPCModelBuilder extends ProcessModelBuilder {
             Event _ee = (Event) _succs.get(0);
           }
           //					}
-        } else if (WordNetWrapper.isVerbOfType(a.getName(), "start")) {
+        } else if (wnf.isVerbOfType(a.getName(), "start")) {
           ProcessNode _pnode = f_elementsMap.get(a);
         }
       }
@@ -373,7 +375,7 @@ public class EPCModelBuilder extends ProcessModelBuilder {
       _b.append("not");
       _b.append(' ');
     }
-    if (WordNetWrapper.isWeakAction(a) && canBeTransformed(a)) {
+    if (wnf.isWeakAction(a) && canBeTransformed(a)) {
       if (a.getActorFrom() != null
           && a.getActorFrom().isUnreal()
           && hasHiddenAction(a.getActorFrom())) {
@@ -383,9 +385,9 @@ public class EPCModelBuilder extends ProcessModelBuilder {
         _b.append(transformToAction(a.getObject()));
       }
     } else {
-      boolean _weak = WordNetWrapper.isWeakVerb(a.getName());
+      boolean _weak = wnf.isWeakVerb(a.getName());
       if (!_weak) {
-        _b.append(WordNetWrapper.getBaseForm(a.getName()));
+        _b.append(wnf.getBaseForm(a.getName()));
         if (a.getPrt() != null) {
           _b.append(' ');
           _b.append(a.getPrt());
@@ -520,7 +522,7 @@ public class EPCModelBuilder extends ProcessModelBuilder {
       if (a.getXcomp() != null) f_elementsMap.put(a.getXcomp(), _obj);
       f_elementsMap2.put(_obj, a);
       Organisation _p = null;
-      if (!WordNetWrapper.isWeakAction(a)) {
+      if (!wnf.isWeakAction(a)) {
         _p = getOrg(a.getActorFrom());
       }
       if (_p == null) {
@@ -590,7 +592,7 @@ public class EPCModelBuilder extends ProcessModelBuilder {
   private Event createEventNode(Action a) {
     for (Specifier spec : a.getSpecifiers()) {
       for (String word : spec.getPhrase().split(" ")) {
-        if (WordNetWrapper.isTimePeriod(word)) {
+        if (wnf.isTimePeriod(word)) {
           Event _result = new Event();
           _result.setText(spec.getPhrase());
           return _result;
@@ -598,10 +600,10 @@ public class EPCModelBuilder extends ProcessModelBuilder {
       }
     }
 
-    if (WordNetWrapper.isVerbOfType(a.getName(), "send")
-        || WordNetWrapper.isVerbOfType(a.getName(), "receive") /*isInteractionVerb(a)*/) {
+    if (wnf.isVerbOfType(a.getName(), "send")
+        || wnf.isVerbOfType(a.getName(), "receive") /*isInteractionVerb(a)*/) {
       Event _mie = new Event();
-      if (WordNetWrapper.isVerbOfType(a.getName(), "send")) {
+      if (wnf.isVerbOfType(a.getName(), "send")) {
         // _mie.setProperty(MessageIntermediateEvent.PROP_EVENT_SUBTYPE,
         // MessageIntermediateEvent.EVENT_SUBTYPE_THROWING);
       }

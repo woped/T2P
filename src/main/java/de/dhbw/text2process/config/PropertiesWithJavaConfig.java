@@ -16,5 +16,4 @@ public class PropertiesWithJavaConfig {
 
   public static String wordnetPort = "5000";
 
-  public static String worndnetUri = "baseform";
 }
