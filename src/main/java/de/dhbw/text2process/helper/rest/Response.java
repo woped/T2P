@@ -1,5 +1,6 @@
 package de.dhbw.text2process.helper.rest;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 public class Response<E> {
@@ -9,6 +10,13 @@ public class Response<E> {
   private Throwable exception;
   private String message;
   private StackTraceElement[] stackTrace;
+
+  public static final int NO_ERROR_CONTINUE = 100;
+  public static final int NO_ERROR = 200;
+  public static final int CONVERTION_ERROR = 450;
+  public static final int RPST_FAILURE = 451;
+  public static final int STRUCTURE_FAILURE = 452;
+  public static final int PARSING_ERROR = 453;
 
   public Response(E response) {
     this.response = response;
@@ -21,6 +29,31 @@ public class Response<E> {
     this.exception = exception;
     this.message = message;
     this.stackTrace = stackTrace;
+  }
+
+  public enum ErrorCodes{
+    NOEXCEPTION,
+    INVALIDREQUEST,
+    INVALIDCHARACTER,
+    ALGORYTHMEXCEPTION,
+    SERVEREXCEPTION
+  }
+
+  public static class ErrorCodeHolder{
+    public ErrorCodes code;
+  }
+
+  public static int getErrorCodeFromEnum(ErrorCodes code){
+    switch(code){
+      case NOEXCEPTION:
+              return NO_ERROR;
+      case INVALIDREQUEST:
+        return CONVERTION_ERROR;
+      case INVALIDCHARACTER:
+              return RPST_FAILURE;
+      default:
+        return NO_ERROR_CONTINUE;
+    }
   }
 
   public E getResponse() {

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource({"classpath:application.properties", "classpath:appParameter.properties"})
 public class PropertiesWithJavaConfig {
   public static String stanfordHost = "https://woped.dhbw-karlsruhe.de";
 

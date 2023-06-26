@@ -89,6 +89,7 @@ public class T2PController {
           "The given parameter ist not a valid one. Please check the String and pass a correct"
               + " one. More details on the error is stored in the response json");
       logger.error(e.getMessage());
+
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       bpmnResponse = new Response<File>(true, e.getCause(), e.getMessage(), e.getStackTrace());
     } catch (InvalidInputException e) {
@@ -285,11 +286,21 @@ public class T2PController {
       @RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
 
     Response<String> pnmlResponse;
+    Response.ErrorCodeHolder responseCode = new Response.ErrorCodeHolder();
+    responseCode.code = Response.ErrorCodes.NOEXCEPTION;
 
     logger.info("Trying to generate a PetriNet with the given String parameter");
     try {
+
       logger.info("Validating the String information, scanning for incompatible characters");
-      t2PControllerHelper.checkInputValidity(param);
+      //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+      String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
+      if(!validationResponse.isEmpty()) {
+        response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
+        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        return validationResponse;
+      }
+
       logger.info("Starting generating PNML-String ...");
       pnmlResponse = new Response<String>(t2PControllerHelper.generatePetrinetFromText(param));
       logger.info("Finished generating PNML-String");
