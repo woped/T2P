@@ -14,6 +14,7 @@ import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.text2process.wrapper.FrameNetFunctionality;
 import de.dhbw.text2process.wrapper.WordNetFunctionality;
+import de.dhbw.text2process.wrapper.WordNetWrapper;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeGraphNode;
 import edu.stanford.nlp.trees.TypedDependency;
@@ -151,17 +152,43 @@ public class ElementsBuilder {
    * @param action
    * @return
    */
+//  private static void checkIsTimeTriggered(
+//      TreeGraphNode node, Collection<TypedDependency> dependencies, Action action) {
+//    logger.info("Check for time trigger.");
+//    List<TypedDependency> _toCheck =
+//        SearchUtils.findDependency(ListUtils.getList("tmod"), dependencies);
+//    for (TypedDependency td : _toCheck) {
+//      if (td.gov().equals(node)) {
+//        action.setTriggerType(TriggerType.TRIGGER_TYPE_TIME);
+//      }
+//    }
+//  }
   private static void checkIsTimeTriggered(
-      TreeGraphNode node, Collection<TypedDependency> dependencies, Action action) {
+          TreeGraphNode node, Collection<TypedDependency> dependencies, Action action) {
     logger.info("Check for time trigger.");
-    List<TypedDependency> _toCheck =
-        SearchUtils.findDependency(ListUtils.getList("tmod"), dependencies);
-    for (TypedDependency td : _toCheck) {
-      if (td.gov().equals(node)) {
-        action.setTriggerType(TriggerType.TRIGGER_TYPE_TIME);
+    Boolean timeRelated = false;
+    String specifier = action.getSpecifiers().toString();
+    String[] words = specifier.split(" ");
+    String word;
+    for (int i = 0; i < words.length; i++) {
+        word = words[i];
+        if (WordNetWrapper.isTimePeriod(word)) {
+            timeRelated = true;
+       break;
+        }
+      if ((word.contains("pm")) || (word.contains("am"))){
+        timeRelated = true;
+        break;
       }
     }
-  }
+    if (timeRelated) {
+        action.setTriggerType(TriggerType.TRIGGER_TYPE_TIME);
+    }
+
+}
+
+
+
 
   /**
    * This method is not implemented yet. TriggerType enum with attribute "TRIGGER_TYPE_MESSAGE" and
