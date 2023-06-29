@@ -3,6 +3,11 @@ package de.dhbw.text2process.helper;
 import java.io.*;
 import java.util.Properties;
 
+/**
+    * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+    * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
+ */
+
 public class appParameterHelper {
 
     public static Properties GetConfigFile(){

@@ -10,6 +10,8 @@
  * nodes.
  *
  * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin Kanzler</a>
+ * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+ * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
  */
 package de.dhbw.text2process.controller;
 
@@ -80,6 +82,7 @@ public class T2PController {
     try {
       logger.info("Validating the String information, scanning for incompatible characters");
       t2PControllerHelper.checkInputValidity(param);
+
       logger.info("Starting generating BPMN -String ...");
       bpmnResponse = new Response<File>(t2PControllerHelper.generateBpmnFileFromText(param, false));
       logger.info("Finished generating PNML-String");
@@ -134,6 +137,8 @@ public class T2PController {
    * URL to get generate the String which can be interpreted by the WoPeD-Tool.
    *
    * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin Kanzler</a>
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
    * @param param: plainText in as application/json
    * @return A generic Response Object with the PNML-String in the response attribute.
    */
@@ -146,11 +151,20 @@ public class T2PController {
       @RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
 
     Response<String> bpmnResponse;
+    Response.ErrorCodeHolder responseCode = new Response.ErrorCodeHolder();
+    responseCode.code = Response.ErrorCodes.NOEXCEPTION;
 
     logger.info("Trying to generate a BPMN with the given String parameter");
     try {
       logger.info("Validating the String information, scanning for incompatible characters");
-      t2PControllerHelper.checkInputValidity(param);
+      String validationResponse = t2PControllerHelper.checkInputValidity(param,responseCode);
+
+      if(!validationResponse.isEmpty()) {
+        //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+        response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
+        return validationResponse;
+      }
+
       logger.info("Starting generating BPMN -String ...");
       bpmnResponse = new Response<String>(t2PControllerHelper.generateBpmnFromText(param, false));
       logger.info("Finished generating PNML-String");
@@ -204,6 +218,8 @@ public class T2PController {
    * URL to get generate the String which can be interpreted by the WoPeD-Tool.
    *
    * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin Kanzler</a>
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
    * @param param: plainText in as application/json
    * @return A generic Response Object with the PNML-String in the response attribute.
    */
@@ -216,11 +232,20 @@ public class T2PController {
       @RequestBody String param, HttpServletRequest request, HttpServletResponse response) {
 
     Response<String> bpmnResponse;
+    Response.ErrorCodeHolder responseCode = new Response.ErrorCodeHolder();
+    responseCode.code = Response.ErrorCodes.NOEXCEPTION;
 
     logger.info("Trying to generate a BPMN with the given String parameter");
     try {
       logger.info("Validating the String information, scanning for incompatible characters");
-      t2PControllerHelper.checkInputValidity(param);
+      String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
+
+      //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+      if(!validationResponse.isEmpty()) {
+        response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
+        return validationResponse;
+      }
+
       logger.info("Starting generating BPMN -String ...");
       bpmnResponse = new Response<String>(t2PControllerHelper.generateBpmnFromText(param, true));
       logger.info("Finished generating PNML-String");
@@ -274,6 +299,8 @@ public class T2PController {
    * proper URL to get generate the String which can be interpreted by the WoPeD-Tool.
    *
    * @author <a href="mailto:kanzler.benjamin@student.dhbe-karlsruhe.de">Benjamin Kanzler</a>
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
    * @param param:
    * @return A generic Response Object with the PNML-String in the response attribute.
    */
@@ -291,13 +318,12 @@ public class T2PController {
 
     logger.info("Trying to generate a PetriNet with the given String parameter");
     try {
-
       logger.info("Validating the String information, scanning for incompatible characters");
+
       //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
       String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
       if(!validationResponse.isEmpty()) {
         response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
-        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return validationResponse;
       }
 

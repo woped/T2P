@@ -30,7 +30,9 @@ public class Response<E> {
     this.message = message;
     this.stackTrace = stackTrace;
   }
-
+/** @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+  * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
+ * */
   public enum ErrorCodes{
     NOEXCEPTION,
     INVALIDREQUEST,

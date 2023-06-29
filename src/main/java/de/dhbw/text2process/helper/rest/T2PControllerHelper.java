@@ -204,6 +204,8 @@ public class T2PControllerHelper {
   }
 
   /**
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
    * @param text
    * @throws InvalidInputException
    */
@@ -213,6 +215,8 @@ public class T2PControllerHelper {
   }
 
   /**
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
    * @param text
    * @throws InvalidInputException
    */
