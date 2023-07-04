@@ -224,6 +224,11 @@ public class T2PController {
     } catch (WorldModelGenerationException e) {
       // TODO Text anpassen
       logger.error(
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
           "The given parameter ist not a valid one. Please check the String and pass a correct"
               + " one. More details on the error is stored in the response json");
       logger.error(e.getMessage());
