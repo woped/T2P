@@ -292,7 +292,7 @@ public class AnalyzedSentence {
       if (_objects.size() > 0) {
         for (ExtractedObject el : _objects) {
           Action _ac = verb.clone();
-          _ac.setName(wnf.deriveVerbStem(_ac.getName()).replace("[", "").replace("]", ""));
+          _ac.setName(wnf.deriveVerb(_ac.getName()).replace("[", "").replace("]", ""));
           _ac.setObject(el);
           _actions.add(_ac);
         }

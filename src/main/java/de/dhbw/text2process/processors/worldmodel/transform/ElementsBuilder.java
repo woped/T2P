@@ -166,6 +166,7 @@ public class ElementsBuilder {
   private static void checkIsTimeTriggered(
           TreeGraphNode node, Collection<TypedDependency> dependencies, Action action) {
     logger.info("Check for time trigger.");
+
     Boolean timeRelated = false;
     String specifier = action.getSpecifiers().toString();
     String[] words = specifier.split(" ");

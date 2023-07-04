@@ -11,4 +11,9 @@ public class PropertiesWithJavaConfig {
   public static String stanfordPort;
 
   public static String stanfordUri = "/t2p-stanford";
+
+  public static String wordnetHost = "http://localhost";
+
+  public static String wordnetPort = "5000";
+
 }

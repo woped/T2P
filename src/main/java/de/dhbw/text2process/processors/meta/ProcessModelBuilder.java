@@ -13,7 +13,7 @@ import de.dhbw.text2process.models.worldModel.Specifier;
 import de.dhbw.text2process.models.worldModel.WorldModel;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.text2process.processors.worldmodel.transform.ListUtils;
-import de.dhbw.text2process.wrapper.WordNetWrapper;
+import de.dhbw.text2process.wrapper.WordNetFunctionality;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +30,8 @@ public abstract class ProcessModelBuilder {
    * @param _b
    * @param s
    */
+
+  private WordNetFunctionality wnf;
   protected void put(HashMap<Action, List<String>> os, Action a, String dataObj) {
     if (!os.containsKey(a)) {
       LinkedList<String> _list = new LinkedList<String>();
@@ -53,7 +55,7 @@ public abstract class ProcessModelBuilder {
         return _result;
       } else {
         String _name = getName((ExtractedObject) ob, false, 1, true);
-        if (WordNetWrapper.canBeDataObject(_name, ob.getName())) {
+        if (wnf.canBeDataObject(_name, ob.getName())) {
           _result.add(_name);
           return _result;
         }
@@ -62,7 +64,7 @@ public abstract class ProcessModelBuilder {
       Actor _actor = (Actor) ob;
       if (_actor.isUnreal()) {
         String _name = getName(_actor, false, 1, true);
-        if (WordNetWrapper.canBeDataObject(_name, _actor.getName())) {
+        if (wnf.canBeDataObject(_name, _actor.getName())) {
           _result.add(_name);
           return _result;
         }
@@ -137,21 +139,21 @@ public abstract class ProcessModelBuilder {
       _b.append(' ');
       _actorPlural = a.getActorFrom().getName().endsWith("s");
     }
-    if (!WordNetWrapper.isWeakVerb(a.getName())
+    if (!wnf.isWeakVerb(a.getName())
         || (a.getCop() != null
             || a.getObject() != null
             || a.getSpecifiers().size() > 0
             || a.isNegated())) {
       boolean _auxIsDo =
-          (a.getAux() != null && WordNetWrapper.getBaseForm(a.getAux()).equals("do"));
-      if (a.isNegated() && (!WordNetWrapper.isWeakVerb(a.getName()) || _auxIsDo)) {
-        if (a.getAux() != null && !WordNetWrapper.getBaseForm(a.getAux()).equals("be")) {
+          (a.getAux() != null && wnf.getBaseForm(a.getAux()).equals("do"));
+      if (a.isNegated() && (!wnf.isWeakVerb(a.getName()) || _auxIsDo)) {
+        if (a.getAux() != null && !wnf.getBaseForm(a.getAux()).equals("be")) {
           _b.append(a.getAux());
         } else {
           _b.append(_actorPlural ? "do" : ProcessingUtils.get3rdPsing("do"));
         }
         _b.append(" not ");
-        _b.append(WordNetWrapper.getBaseForm(a.getName()));
+        _b.append(wnf.getBaseForm(a.getName()));
         _b.append(' ');
       } else {
         if (a.getAux() != null) {
@@ -166,7 +168,7 @@ public abstract class ProcessModelBuilder {
         } else {
           _b.append(
               _actorPlural
-                  ? WordNetWrapper.getBaseForm(a.getName())
+                  ? wnf.getBaseForm(a.getName())
                   : ProcessingUtils.get3rdPsing(a.getName()));
         }
         if (a.isNegated()) {
@@ -209,7 +211,7 @@ public abstract class ProcessModelBuilder {
     }
     if (obj != null) {
       for (String s : obj.getName().split(" ")) {
-        if (WordNetWrapper.deriveVerb(s) != null) {
+        if (wnf.deriveVerb(s) != null) {
           return true;
         }
       }
@@ -271,7 +273,7 @@ public abstract class ProcessModelBuilder {
   protected String transformToAction(ExtractedObject obj) {
     StringBuilder _b = new StringBuilder();
     for (String s : obj.getName().split(" ")) {
-      String _der = WordNetWrapper.deriveVerb(s);
+      String _der = wnf.deriveVerb(s);
       if (_der != null) {
         _b.append(_der);
         break;
