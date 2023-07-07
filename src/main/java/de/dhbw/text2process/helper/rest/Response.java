@@ -1,6 +1,5 @@
 package de.dhbw.text2process.helper.rest;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 public class Response<E> {
@@ -30,10 +29,11 @@ public class Response<E> {
     this.message = message;
     this.stackTrace = stackTrace;
   }
-/** @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
-  * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
- * */
-  public enum ErrorCodes{
+  /**
+   * @author <a href="mailto:lamers.alexander@student.dhbw-karlsruhe.de">Alexander Lamers</a>
+   * @author <a href="mailto:wolf.moritz@student.dhbw-karlsruhe.de">Moritz Wolf</a>
+   */
+  public enum ErrorCodes {
     NOEXCEPTION,
     INVALIDREQUEST,
     INVALIDCHARACTER,
@@ -41,18 +41,18 @@ public class Response<E> {
     SERVEREXCEPTION
   }
 
-  public static class ErrorCodeHolder{
+  public static class ErrorCodeHolder {
     public ErrorCodes code;
   }
 
-  public static int getErrorCodeFromEnum(ErrorCodes code){
-    switch(code){
+  public static int getErrorCodeFromEnum(ErrorCodes code) {
+    switch (code) {
       case NOEXCEPTION:
-              return NO_ERROR;
+        return NO_ERROR;
       case INVALIDREQUEST:
         return CONVERTION_ERROR;
       case INVALIDCHARACTER:
-              return RPST_FAILURE;
+        return RPST_FAILURE;
       default:
         return NO_ERROR_CONTINUE;
     }

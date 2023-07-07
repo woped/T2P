@@ -155,10 +155,10 @@ public class T2PController {
     logger.info("Trying to generate a BPMN with the given String parameter");
     try {
       logger.info("Validating the String information, scanning for incompatible characters");
-      String validationResponse = t2PControllerHelper.checkInputValidity(param,responseCode);
+      String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
 
-      if(!validationResponse.isEmpty()) {
-        //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+      if (!validationResponse.isEmpty()) {
+        // MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
         response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
         return validationResponse;
       }
@@ -238,8 +238,8 @@ public class T2PController {
       logger.info("Validating the String information, scanning for incompatible characters");
       String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
 
-      //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
-      if(!validationResponse.isEmpty()) {
+      // MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+      if (!validationResponse.isEmpty()) {
         response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
         return validationResponse;
       }
@@ -250,11 +250,6 @@ public class T2PController {
     } catch (WorldModelGenerationException e) {
       // TODO Text anpassen
       logger.error(
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
           "The given parameter ist not a valid one. Please check the String and pass a correct"
               + " one. More details on the error is stored in the response json");
       logger.error(e.getMessage());
@@ -323,9 +318,9 @@ public class T2PController {
     try {
       logger.info("Validating the String information, scanning for incompatible characters");
 
-      //MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
+      // MW, AL: NEU - Response mit detalierter Errorausgabe für Front-End
       String validationResponse = t2PControllerHelper.checkInputValidity(param, responseCode);
-      if(!validationResponse.isEmpty()) {
+      if (!validationResponse.isEmpty()) {
         response.setStatus(Response.getErrorCodeFromEnum(responseCode.code));
         return validationResponse;
       }

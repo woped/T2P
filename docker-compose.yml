@@ -1,0 +1,14 @@
+version: "3.0"
+
+services:
+  text2process:
+    build: ./
+    #image: woped/text2process
+    ports:
+      - "8081:8081"
+
+  wordnet:
+    image: woped/word-net-microservice
+
+    ports:
+      - "5000:5000"

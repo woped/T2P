@@ -30,8 +30,8 @@ public abstract class ProcessModelBuilder {
    * @param _b
    * @param s
    */
-
   private WordNetFunctionality wnf;
+
   protected void put(HashMap<Action, List<String>> os, Action a, String dataObj) {
     if (!os.containsKey(a)) {
       LinkedList<String> _list = new LinkedList<String>();
@@ -144,8 +144,7 @@ public abstract class ProcessModelBuilder {
             || a.getObject() != null
             || a.getSpecifiers().size() > 0
             || a.isNegated())) {
-      boolean _auxIsDo =
-          (a.getAux() != null && wnf.getBaseForm(a.getAux()).equals("do"));
+      boolean _auxIsDo = (a.getAux() != null && wnf.getBaseForm(a.getAux()).equals("do"));
       if (a.isNegated() && (!wnf.isWeakVerb(a.getName()) || _auxIsDo)) {
         if (a.getAux() != null && !wnf.getBaseForm(a.getAux()).equals("be")) {
           _b.append(a.getAux());

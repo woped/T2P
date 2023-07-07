@@ -5,12 +5,8 @@ import de.dhbw.text2process.processors.worldmodel.Constants;
 import de.dhbw.text2process.processors.worldmodel.processing.ProcessingUtils;
 import de.dhbw.text2process.processors.worldmodel.transform.ListUtils;
 import edu.mit.jwi.item.*;
-import edu.mit.jwi.morph.WordnetStemmer;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -165,39 +161,40 @@ public class WordNetFunctionality {
   }
 
   // helpers
-  private boolean checkHypernymTree(String word, POS pos, List<String> wordsToCheck){
+  private boolean checkHypernymTree(String word, POS pos, List<String> wordsToCheck) {
 
-    String [] iw = {word, ""+pos.getTag()};
+    String[] iw = {word, "" + pos.getTag()};
     return checkHypernymTree(iw, wordsToCheck);
   }
+
   private boolean checkHypernymTree(String[] idw, List<String> wordsToCheck) {
     if (idw != null) {
 
-    boolean status = wni.checkHypernymTree(idw, wordsToCheck);
+      boolean status = wni.checkHypernymTree(idw, wordsToCheck);
 
-    return status;
-    /*  logger.debug("checking senses of: " + idw.getLemma());
+      return status;
+      /*  logger.debug("checking senses of: " + idw.getLemma());
 
-      List<IWordID> wordIDs = idw.getWordIDs();
-      for (IWordID wi : wordIDs) {
-        IWord word = dict.getWord(wi);
-        ISynset syn = word.getSynset();
+        List<IWordID> wordIDs = idw.getWordIDs();
+        for (IWordID wi : wordIDs) {
+          IWord word = dict.getWord(wi);
+          ISynset syn = word.getSynset();
 
-        // ignore instances
-        List<ISynsetID> _pts = syn.getRelatedSynsets(Pointer.HYPERNYM_INSTANCE);
-        if (!_pts.isEmpty()) {
-          continue;
-        }
-        try {
-          if (canBe(syn, wordsToCHeck, new LinkedList<>())) {
-            return true;
+          // ignore instances
+          List<ISynsetID> _pts = syn.getRelatedSynsets(Pointer.HYPERNYM_INSTANCE);
+          if (!_pts.isEmpty()) {
+            continue;
           }
-        } catch (Exception e) {
-          e.printStackTrace();
+          try {
+            if (canBe(syn, wordsToCHeck, new LinkedList<>())) {
+              return true;
+            }
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
-    }
-    return false;*/
+      return false;*/
 
     }
     return false;
@@ -228,7 +225,6 @@ public class WordNetFunctionality {
     }
     return false;
   }
-
 
   // ???
   public String getBaseForm(String verb) {

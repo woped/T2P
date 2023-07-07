@@ -20,10 +20,10 @@ public class UTWordnet {
     WordNetFunctionality wnf = new WordNetFunctionality();
 
     assertEquals("WorNet Functionality Issue: wnf can not be received.", true, wnf != null);
-    //assertEquals(
-     //   "WordNet Functionality Issue: Problem with 'isAnimate()'.",
-     //   true,
-     //   wnf.isAnimate("dog"));
+    // assertEquals(
+    //   "WordNet Functionality Issue: Problem with 'isAnimate()'.",
+    //   true,
+    //   wnf.isAnimate("dog"));
     assertEquals(
         "WordNet Functionality Issue: Problem with 'canBePersonOrSystem()'.",
         true,
