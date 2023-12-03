@@ -45,13 +45,23 @@ jobs:
       - name: Add SHORT_SHA env property with commit short sha
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
         
-      - name: If Version does contain SNAPSHOT add SHORT_SHA
-        if: contains(env.RELEASE_VERSION, 'SNAPSHOT')     
-        run: echo "RELEASE_NAME=${{ env.RELEASE_VERSION }}-${{ env.SHORT_SHA }}" >> $GITHUB_ENV
-        
-      - name: If Version does not contain SNAPSHOT add nothing
-        if: false == contains(env.RELEASE_VERSION, 'SNAPSHOT')
-        run: echo "RELEASE_NAME=${{ env.RELEASE_VERSION }}" >> $GITHUB_ENV
+      - uses: rishabhgupta/split-by@v1
+        id: split
+        env:
+          major_version: "${{ steps.split.outputs._0}}"
+          minor_version: "${{ steps.split.outputs._1}}"
+          patch_version: "${{ steps.split.outputs._2}}"
+        with:
+          string: '${{ env.RELEASE_NAME }}'
+          split-by: '.'
+
+      - uses: rishabhgupta/split-by@v1
+        id: split2
+        env:
+          patch_version: "${{ steps.split2.outputs._0}}"
+        with:
+          string: '${{ env.patch_version }}'
+          split-by: '-'
 
       - uses: ncipollo/release-action@v1
         with:
@@ -80,4 +90,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: woped/text2process:${{ env.RELEASE_NAME }}
+          tags: |
+            woped/text2process:latest
+            woped/text2process:${{ env.RELEASE_NAME }}
+            woped/text2process:${{ env.major_version }}
+            woped/text2process:${{ env.major_version }}.${{ env.minor_version }}
+            woped/text2process:${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}
+            woped/text2process:${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}-${{ env.SHORT_SHA }}
+
