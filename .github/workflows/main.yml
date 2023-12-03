@@ -69,7 +69,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: master
           allowUpdates: 'true'
-          tag: ${{ env.RELEASE_NAME }}
+          tag: ${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}-${{ env.SHORT_SHA }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
