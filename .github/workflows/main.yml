@@ -98,7 +98,6 @@ jobs:
           push: true
           tags: |
             woped/text2process:latest
-            woped/text2process:${{ env.RELEASE_NAME }}
             woped/text2process:${{ env.major_version }}
             woped/text2process:${{ env.major_version }}.${{ env.minor_version }}
             woped/text2process:${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}
