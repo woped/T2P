@@ -47,21 +47,23 @@ jobs:
         
       - uses: rishabhgupta/split-by@v1
         id: split
-        env:
-          major_version: "${{ steps.split.outputs._0}}"
-          minor_version: "${{ steps.split.outputs._1}}"
-          patch_version: "${{ steps.split.outputs._2}}"
         with:
           string: '${{ env.RELEASE_NAME }}'
           split-by: '.'
+      - name:
+        run: |
+          echo "major_version=${{ steps.split2.outputs._0}}" >> $GITHUB_ENV
+          echo "minor_version=${{ steps.split2.outputs._1}}" >> $GITHUB_ENV
+          echo "patch_version=${{ steps.split2.outputs._2}}" >> $GITHUB_ENV
 
       - uses: rishabhgupta/split-by@v1
         id: split2
-        env:
-          patch_version: "${{ steps.split2.outputs._0}}"
         with:
           string: '${{ env.patch_version }}'
           split-by: '-'
+      - name:
+        run: |
+          echo "patch_version=${{ steps.split2.outputs._0}}" >> $GITHUB_ENV
 
       - uses: ncipollo/release-action@v1
         with:
@@ -69,7 +71,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: master
           allowUpdates: 'true'
-          tag: ${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}-${{ env.SHORT_SHA }}
+          tag: "${{ env.major_version }}.${{ env.minor_version }}.${{ env.patch_version }}-${{ env.SHORT_SHA }}"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
