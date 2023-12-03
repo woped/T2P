@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:jre-11.0.16.1_1-ubuntu
+FROM amazoncorretto:17.0.9-alpine3.17
 
 RUN apt-get update \
     && apt-get install -y wget \

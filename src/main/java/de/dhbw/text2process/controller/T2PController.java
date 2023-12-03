@@ -13,6 +13,15 @@
  */
 package de.dhbw.text2process.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import de.dhbw.text2process.exceptions.BpmnGenerationException;
 import de.dhbw.text2process.exceptions.InvalidInputException;
 import de.dhbw.text2process.exceptions.PetrinetGenerationException;
@@ -24,16 +33,9 @@ import de.dhbw.text2process.wrapper.StanfordParserInitializer;
 import de.dhbw.text2process.wrapper.WordNetInitializer;
 import de.dhbw.text2process.wrapper.WordNetWrapper;
 import io.swagger.annotations.ApiOperation;
-import java.io.File;
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.didion.jwnl.JWNLException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 public class T2PController {
