@@ -52,9 +52,9 @@ jobs:
           split-by: '.'
       - name:
         run: |
-          echo "major_version=${{ steps.split2.outputs._0}}" >> $GITHUB_ENV
-          echo "minor_version=${{ steps.split2.outputs._1}}" >> $GITHUB_ENV
-          echo "patch_version=${{ steps.split2.outputs._2}}" >> $GITHUB_ENV
+          echo "major_version=${{ steps.split.outputs._0}}" >> $GITHUB_ENV
+          echo "minor_version=${{ steps.split.outputs._1}}" >> $GITHUB_ENV
+          echo "patch_version=${{ steps.split.outputs._2}}" >> $GITHUB_ENV
 
       - uses: rishabhgupta/split-by@v1
         id: split2
